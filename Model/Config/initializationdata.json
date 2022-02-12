@@ -1,0 +1,75 @@
+{
+  //初始化数据
+  "Initialization": {
+    "Account": [
+      {
+        "Id": "39F08CFD-8E0D-771B-A2F3-2639A62CA2FA",
+        "UserName": "admin",
+        "PassWord": "c30807e6587ade285ba7ade9f881b3d7",
+        "Type": 0,
+        "Name": "管理员",
+        "Status": 1
+      }
+    ],
+    "Depart": [
+      {
+        "Id": 1,
+        "DepartName": "2020级",
+        "DeptType": 0
+      },
+      {
+        "Id": 2,
+        "DepartName": ".net core 基础班",
+        "DeptType": 1,
+        "GradeId": 1
+      },
+      {
+        "Id": 3,
+        "DepartName": ".net core 精英班",
+        "DeptType": 1,
+        "GradeId": 1
+      },
+      {
+        "Id": 4,
+        "DepartName": "java EE 基础班",
+        "DeptType": 1,
+        "GradeId": 1
+      }
+    ],
+    "StudentInfo": [
+      {
+        "Id": 10001,
+        "Name": "小安",
+        "Gender": 1,
+        "Nation": 1,
+        "EnrollmentDT": "2020-4-23",
+        "Phone": "13902451188",
+        "Email": "xiaoan@stu.com",
+        "IdentityCard": "230210199708162251",
+        "Address": "朝阳区朝阳公园西路9号院九号",
+        "Photos": "stu_1.jpg",
+        "DepartId": 4
+      },
+      {
+        "Id": 10002,
+        "Name": "老李",
+        "Gender": 0,
+        "Nation": 0,
+        "EnrollmentDT": "2020-4-23",
+        "Phone": "13902451189",
+        "Email": "laoli@stu.com",
+        "IdentityCard": "230210199802127323",
+        "Address": "北京市朝阳区东三环中路甲10号",
+        "Photos": "stu_2.jpg",
+        "DepartId": 3
+      }
+    ],
+    "Config": [
+      {
+        "Id": 1,
+        "Code": "Auth",
+        "Value": "{\"verifyCode\": false,\"validate\": true,\"button\": true,\"singleAccount\": false,\"jwt\": {\"key\": \"hG#yJ$j3#vPc9*u&\",\"issuer\": \"http://127.0.0.1:5000\",\"audience\": \"http://127.0.0.1:5000\",\"expires\": 120,\"refreshTokenExpires\": 7}}"
+      }
+    ]
+  }
+}
