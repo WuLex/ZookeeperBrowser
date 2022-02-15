@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.ObjectModel;
 using ZookeeperBrowser.Dtos;
@@ -20,9 +19,7 @@ namespace ZookeeperBrowser.Controllers
             _configuration = configuration;
         }
 
-
-        // GET: ZooController
-        public ActionResult Index()
+        public ActionResult IndexOne()
         {
             var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
             _zookeeperService.CnnString = connList.FirstOrDefault();
@@ -30,15 +27,11 @@ namespace ZookeeperBrowser.Controllers
             return View();
         }
 
-        // GET: ZooController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult IndexTwo()
         {
-            return View();
-        }
+            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            _zookeeperService.CnnString = connList.FirstOrDefault();
 
-        // GET: ZooController/Create
-        public ActionResult Create()
-        {
             return View();
         }
 
@@ -56,7 +49,29 @@ namespace ZookeeperBrowser.Controllers
                 return View();
             }
         }
-         
+
+        [HttpGet]
+        public async Task<List<TreeDataModel>> GetTree()
+        {
+            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            _zookeeperService.CnnString = connList.FirstOrDefault();
+            var nodes = await _zookeeperService.GetChildrenAsync("/");
+            List<TreeDataModel> datalist = new List<TreeDataModel>();
+            if (nodes != null)
+            {
+                var nodelist = nodes.ToList();
+                for (int i = 0; i < nodelist.Count(); i++)
+                {
+                    datalist.Add(new TreeDataModel()
+                    {
+                        id = Convert.ToString(i),
+                        title = nodelist[i].Name,
+                        href = nodelist[i].Path,
+                    });
+                }
+            }
+            return datalist;
+        }
 
         private async Task ReloadAsync()
         {
@@ -66,15 +81,16 @@ namespace ZookeeperBrowser.Controllers
             BusyOff();
         }
 
-
         public bool IsBusy
         {
             get;
             set;
         } = false;
-        public ObservableCollection<NodeViewModel> Nodes { get;  set; }
+
+        public ObservableCollection<NodeViewModel> Nodes { get; set; }
 
         private Queue _busyQueue;
+
         private void BusyOn()
         {
             if (_busyQueue == null)
@@ -86,6 +102,7 @@ namespace ZookeeperBrowser.Controllers
 
             IsBusy = true;
         }
+
         private void BusyOff(bool cancelAll = false)
         {
             if (_busyQueue == null)
@@ -105,7 +122,6 @@ namespace ZookeeperBrowser.Controllers
 
             IsBusy = _busyQueue.Count > 0;
         }
-
 
         //public async Task<List<TreeDataModel>> GetReFunctions(int id)
         //{

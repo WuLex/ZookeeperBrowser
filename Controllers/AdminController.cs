@@ -4,6 +4,7 @@ using System.Text;
 using ZookeeperBrowser.Message;
 using ZookeeperBrowser.Message.Request;
 using ZookeeperBrowser.Message.Response;
+using ZookeeperBrowser.Services;
 using ZookeeperBrowser.Utils;
 
 namespace ZookeeperBrowser.Controllers
@@ -12,6 +13,9 @@ namespace ZookeeperBrowser.Controllers
     public class AdminController : Controller
     {
         private ZooKeeperManager _zkManager;
+        public readonly IZookeeperService _zookeeperService;
+        private readonly IConfiguration _configuration;
+
 
         public AdminController(ZooKeeperManager _zkMamager)
         {

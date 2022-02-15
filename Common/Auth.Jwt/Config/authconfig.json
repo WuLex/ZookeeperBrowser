@@ -1,0 +1,15 @@
+{
+  "AuthConfig": {
+    "verifyCode": false,
+    "validate": true,
+    "button": true,
+    "singleAccount": false,
+    "jwt": {
+      "key": "hG#yJ$j3#vPc9*u&",
+      "issuer": "http://127.0.0.1:5000",
+      "audience": "http://127.0.0.1:5000",
+      "expires": 120,
+      "refreshTokenExpires": 7
+    }
+  }
+}
