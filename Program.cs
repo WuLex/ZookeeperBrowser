@@ -25,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 // π”√Session
 builder.Services.AddSession();
 
@@ -121,9 +121,9 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZooKeeper.Admin.Api V1Docs");
-    c.RoutePrefix = string.Empty;
-    c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-    c.DefaultModelsExpandDepth(-1);
+    //c.RoutePrefix = string.Empty;
+    //c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    //c.DefaultModelsExpandDepth(-1);
 });
 
 #endregion ∆Ù”√swaggerUI

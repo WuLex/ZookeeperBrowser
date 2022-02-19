@@ -17,21 +17,16 @@ namespace ZookeeperBrowser.Controllers
         {
             _zookeeperService = zookeeperService;
             _configuration = configuration;
+         
         }
 
         public ActionResult IndexOne()
         {
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault();
-
             return View();
         }
 
         public ActionResult IndexTwo()
         {
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault();
-
             return View();
         }
 
@@ -53,28 +48,107 @@ namespace ZookeeperBrowser.Controllers
         [HttpGet]
         public async Task<List<TreeDataModel>> GetTree()
         {
+            #region 根节点
+            TreeDataModel treeDataModel = new TreeDataModel()
+            {
+
+                id = "/",
+                title = "Root",
+                disabled = true,
+            };
+            #endregion
+
             var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault();
+            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
             var nodes = await _zookeeperService.GetChildrenAsync("/");
-            List<TreeDataModel> datalist = new List<TreeDataModel>();
+             
+            List<TreeDataModel> childdatalist = new List<TreeDataModel>();
             if (nodes != null)
             {
                 var nodelist = nodes.ToList();
                 for (int i = 0; i < nodelist.Count(); i++)
                 {
-                    datalist.Add(new TreeDataModel()
+                    childdatalist.Add(new TreeDataModel()
                     {
-                        id = Convert.ToString(i),
+                        id = Convert.ToString(i + 1),
                         title = nodelist[i].Name,
                         href = nodelist[i].Path,
                     });
                 }
             }
-            return datalist;
+            treeDataModel.children = childdatalist;
+            List<TreeDataModel> treeDatalist = new List<TreeDataModel>();
+            treeDatalist.Add(treeDataModel);
+            return treeDatalist;
         }
+
+
+        //生成树的方法
+        public void GetTheTree(TreeDataModel dataModel)
+        {
+            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+            //获取
+            var nodes = _zookeeperService.GetChildrenAsync("/").Result;
+            //如果没有字节点了，那就返回空 
+            if (nodes != null)
+            {
+                var nodelist = nodes.ToList();
+
+                List<TreeDataModel> childdatalist = new List<TreeDataModel>();
+                for (int i = 0; i < nodelist.Count(); i++)
+                {
+                    var childnode = new TreeDataModel()
+                    {
+                        id = Convert.ToString(i + 1),
+                        title = nodelist[i].Name,
+                        href = nodelist[i].Path,
+                    };
+                    //递归循环
+                    GetTheTree(childnode);
+                    childdatalist.Add(childnode);
+                }
+                dataModel.children = childdatalist;
+            }
+            else
+            {
+                return;
+            }
+
+        }
+            //List<JieDian> jdList = new List<JieDian>();
+            //for (int i = 0; i < items.Length; i++)
+            //{
+            //    JieDian jiedian = new JieDian();
+            //    jiedian.Id = items[i].Id;
+            //    jiedian.Name = items[i].Name;
+            //    jiedian.ParentId = items[i].ParentId;
+            //    jiedian.ContentText = items[i].ContentText;
+               
+            //    creatTheTree(items[i].Id.ToString(), jiedian);
+            //    jdList.Add(jiedian);
+            //    }
+            //    jd.children = jdList.ToArray(); //由于对象是引用类型，因为可以改变参数的值
+            //}
+
+
+
+        //private void RecursionSaveNode(TreeDataModel tn)
+        //{
+        //    List<TreeDataModel> m_SubNode = new List<TreeDataModel>();
+
+        //    foreach (TreeDataModel tnSub in tn.children)
+        //    {
+        //        m_SubNode.Add(tnSub);
+        //        RecursionSaveNode(tnSub);
+        //    }
+        //}
+
 
         private async Task ReloadAsync()
         {
+            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
             BusyOn();
             var nodes = await _zookeeperService.GetChildrenAsync("/");
             Nodes = new ObservableCollection<NodeViewModel>(nodes);

@@ -10,6 +10,6 @@
         public bool spread { get; set; }
 
 
-        public TreeDataModel[] children { get; set; }
+        public List<TreeDataModel> children { get; set; }
     }
 }
