@@ -29,7 +29,7 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 // π”√Session
 builder.Services.AddSession();
 
-builder.Services.AddScoped<IZookeeperService, ZookeeperService>();
+builder.Services.AddSingleton<IZookeeperService, ZookeeperService>();
 //builder.Services.AddScoped<IMyDependency2, MyDependency2>();
 builder.Services.AddSingleton<ZooKeeperManager>(ZooKeeperManager.Instance);
 
