@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Net;
 using ZookeeperBrowser.Dtos;
 using ZookeeperBrowser.Services;
 using ZookeeperBrowser.ViewModel;
@@ -30,6 +31,11 @@ namespace ZookeeperBrowser.Controllers
             return View();
         }
 
+        public ActionResult IndexThree()
+        {
+            return View();
+        }
+
         // POST: ZooController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -46,40 +52,64 @@ namespace ZookeeperBrowser.Controllers
         }
 
         [HttpGet]
-        public async Task<List<TreeDataModel>> GetTree()
+        public async Task<List<TreeDataModel>> GetTree(string nodepath="/")
         {
             #region 根节点
-            TreeDataModel treeDataModel = new TreeDataModel()
-            {
+            string nodePath = WebUtility.HtmlDecode(nodepath);
 
-                id = "/",
-                title = "Root",
-                disabled = true,
-            };
+            TreeDataModel treeDataModel = null;
+              var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+                _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+            if (nodepath== "/")
+            {
+                treeDataModel = new TreeDataModel()
+                {
+                    id = "/",
+                    title = "Root",
+                    disabled = true,
+                };
+                var nodes = await _zookeeperService.GetChildrenAsync(nodePath);
+                List<TreeDataModel> childdatalist = new List<TreeDataModel>();
+                if (nodes != null)
+                {
+                    var nodelist = nodes.ToList();
+                    for (int i = 0; i < nodelist.Count(); i++)
+                    {
+                        childdatalist.Add(new TreeDataModel()
+                        {
+                            id = Convert.ToString(i + 1),
+                            title = nodelist[i].Name,
+                            href = nodelist[i].Path,
+                        });
+                    }
+                }
+                treeDataModel.children = childdatalist;
+                List<TreeDataModel> treeDatalist = new List<TreeDataModel>();
+                treeDatalist.Add(treeDataModel);
+                return treeDatalist;
+            }
+            else
+            {
+                var nodechilds = await _zookeeperService.GetChildrenAsync(nodePath);
+                List<TreeDataModel> childdatalist = new List<TreeDataModel>();
+                if (nodechilds != null)
+                {
+                    var nodechildlist = nodechilds.ToList();
+                    for (int i = 0; i < nodechildlist.Count(); i++)
+                    {
+                        childdatalist.Add(new TreeDataModel()
+                        {
+                            id = Convert.ToString(i + 1),
+                            title = nodechildlist[i].Name,
+                            href = nodechildlist[i].Path,
+                        });
+                    }
+                }
+                return childdatalist;
+            }
             #endregion
 
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
-            var nodes = await _zookeeperService.GetChildrenAsync("/");
-             
-            List<TreeDataModel> childdatalist = new List<TreeDataModel>();
-            if (nodes != null)
-            {
-                var nodelist = nodes.ToList();
-                for (int i = 0; i < nodelist.Count(); i++)
-                {
-                    childdatalist.Add(new TreeDataModel()
-                    {
-                        id = Convert.ToString(i + 1),
-                        title = nodelist[i].Name,
-                        href = nodelist[i].Path,
-                    });
-                }
-            }
-            treeDataModel.children = childdatalist;
-            List<TreeDataModel> treeDatalist = new List<TreeDataModel>();
-            treeDatalist.Add(treeDataModel);
-            return treeDatalist;
+         
         }
 
 

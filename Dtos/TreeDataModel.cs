@@ -9,7 +9,6 @@
         public bool disabled { get; set; }
         public bool spread { get; set; }
 
-
         public List<TreeDataModel> children { get; set; }
     }
 }
