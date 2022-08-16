@@ -109,7 +109,7 @@ var App = (function () {
             "body": reqBody
         };
         $.ajax({
-            url: '/Admin/' + action,
+            url: '/ZKManager/' + action,
             type: 'POST',
             contentType: 'application/json; charset=utf-8',
             traditional: true,
