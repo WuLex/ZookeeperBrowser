@@ -20,12 +20,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ZooKeeper.Admin</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ZooKeeperAdmin</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Home" asp-action="Index">主页</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="ZKManager" asp-action="Index">ZooKeeper管理页(BootStrap)</a>
+                </li>
+                   <li class="nav-item">
+                    <a asp-area="" asp-controller="Zookeeper" asp-action="IndexTwo">ZooKeeper查看(LayUI)</a>
                 </li>
             </ul>
         </div>

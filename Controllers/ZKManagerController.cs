@@ -11,17 +11,17 @@ namespace ZookeeperBrowser.Controllers
 {
     public class ZKManagerController : Controller
     {
-        private ZooKeeperManager _zkManager;
+        private readonly ZooKeeperManager _zkManager;
         public readonly IZookeeperService _zookeeperService;
         private readonly IConfiguration _configuration;
 
-        public ZKManagerController(ZooKeeperManager _zkMamager)
+        public ZKManagerController(ZooKeeperManager zkMamager)
         {
-            _zkManager = _zkMamager;
+            _zkManager = zkMamager;
         }
 
 
-        public IActionResult Index(ZooKeeperManager _zkMamager)
+        public IActionResult Index()
         {
             return View();
         }

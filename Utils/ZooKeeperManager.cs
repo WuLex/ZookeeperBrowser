@@ -1,16 +1,15 @@
 ﻿using org.apache.zookeeper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ZookeeperBrowser.Utils
 {
     public class ZooKeeperManager : IDisposable
     {
-        private ZooKeeperManager() { }
+        private ZooKeeperManager()
+        { 
+        }
+
         public static readonly ZooKeeperManager Instance = new ZooKeeperManager();
-        const int SESSION_TIMEOUT = 4000;
+        private const int SESSION_TIMEOUT = 4000;
 
         public Dictionary<String, org.apache.zookeeper.ZooKeeper> MappedZooKeepers { get; set; } = new Dictionary<string, org.apache.zookeeper.ZooKeeper>();
 
@@ -63,7 +62,10 @@ namespace ZookeeperBrowser.Utils
     public class NoneWatcher : Watcher
     {
         public static readonly NoneWatcher Instance = new NoneWatcher();
-        private NoneWatcher() { }
+
+        private NoneWatcher()
+        { }
+
         public override Task process(WatchedEvent @event)
         {
             var state = @event.getState();
