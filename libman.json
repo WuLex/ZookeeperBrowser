@@ -3,7 +3,11 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "layui@2.6.8",
+      "library": "zTree.v3@3.5.42",
+      "destination": "wwwroot/lib/zTreev3/"
+    },
+    {
+      "library": "layui@2.7.6",
       "destination": "wwwroot/lib/layui/"
     }
   ]
