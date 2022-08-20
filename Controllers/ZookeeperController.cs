@@ -18,7 +18,6 @@ namespace ZookeeperBrowser.Controllers
         {
             _zookeeperService = zookeeperService;
             _configuration = configuration;
-         
         }
 
         public ActionResult IndexOne()
@@ -51,16 +50,19 @@ namespace ZookeeperBrowser.Controllers
             }
         }
 
+        /// <summary>
+        /// 无法异步加载，弃用
+        /// </summary>
+        /// <param name="nodepath"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<List<TreeDataModel>> GetTree(string nodepath="/")
+        public async Task<List<TreeDataModel>> GetLayuiTreeData(string nodepath = "/")
         {
-            #region 根节点
             string nodePath = WebUtility.HtmlDecode(nodepath);
-
             TreeDataModel treeDataModel = null;
-              var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-                _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
-            if (nodepath== "/")
+            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+            if (nodepath == "/")
             {
                 treeDataModel = new TreeDataModel()
                 {
@@ -107,11 +109,73 @@ namespace ZookeeperBrowser.Controllers
                 }
                 return childdatalist;
             }
-            #endregion
-
-         
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="nodepath"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<ZTreeDataModel>> GetZTreeData(string Id)
+        {
+            string nodePath = WebUtility.HtmlDecode(Id);
+            ZTreeDataModel treeDataModel = null;
+            List<ZTreeDataModel> datalist = new List<ZTreeDataModel>();
+
+            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+
+            if (string.IsNullOrEmpty(Id))
+            {
+                List<ZTreeDataModel> treeDatalist = new List<ZTreeDataModel>();
+                treeDataModel = new ZTreeDataModel()
+                {
+                    Id = "/",
+                    Name = "Root",
+                    IsParent = true,
+                    open = true,
+                };
+                datalist.Add(treeDataModel);
+            }
+            else if (Id == "/")
+            {
+                var nodechilds = await _zookeeperService.GetChildrenAsync(nodePath);
+
+                if (nodechilds != null)
+                {
+                    var nodechildlist = nodechilds.ToList();
+                    for (int i = 0; i < nodechildlist.Count(); i++)
+                    {
+                        datalist.Add(new ZTreeDataModel()
+                        {
+                            Id = nodechildlist[i].Path,
+                            Pid = "/",
+                            Name = nodechildlist[i].Name,
+                            //IsParent = true,
+                        });
+                    }
+                }
+            }
+            else
+            {
+                var nodechilds = await _zookeeperService.GetChildrenAsync(nodePath);
+                if (nodechilds != null)
+                {
+                    var nodechildlist = nodechilds.ToList();
+                    for (int i = 0; i < nodechildlist.Count(); i++)
+                    {
+                        datalist.Add(new ZTreeDataModel()
+                        {
+                            Id = nodechildlist[i].Path,
+                            Name = nodechildlist[i].Name,
+                            //IsParent = true,
+                        });
+                    }
+                }
+            }
+            return datalist;
+        }
 
         //生成树的方法
         public void GetTheTree(TreeDataModel dataModel)
@@ -120,7 +184,7 @@ namespace ZookeeperBrowser.Controllers
             _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
             //获取
             var nodes = _zookeeperService.GetChildrenAsync("/").Result;
-            //如果没有字节点了，那就返回空 
+            //如果没有字节点了，那就返回空
             if (nodes != null)
             {
                 var nodelist = nodes.ToList();
@@ -144,24 +208,22 @@ namespace ZookeeperBrowser.Controllers
             {
                 return;
             }
-
         }
-            //List<JieDian> jdList = new List<JieDian>();
-            //for (int i = 0; i < items.Length; i++)
-            //{
-            //    JieDian jiedian = new JieDian();
-            //    jiedian.Id = items[i].Id;
-            //    jiedian.Name = items[i].Name;
-            //    jiedian.ParentId = items[i].ParentId;
-            //    jiedian.ContentText = items[i].ContentText;
-               
-            //    creatTheTree(items[i].Id.ToString(), jiedian);
-            //    jdList.Add(jiedian);
-            //    }
-            //    jd.children = jdList.ToArray(); //由于对象是引用类型，因为可以改变参数的值
-            //}
 
+        //List<JieDian> jdList = new List<JieDian>();
+        //for (int i = 0; i < items.Length; i++)
+        //{
+        //    JieDian jiedian = new JieDian();
+        //    jiedian.Id = items[i].Id;
+        //    jiedian.Name = items[i].Name;
+        //    jiedian.ParentId = items[i].ParentId;
+        //    jiedian.ContentText = items[i].ContentText;
 
+        //    creatTheTree(items[i].Id.ToString(), jiedian);
+        //    jdList.Add(jiedian);
+        //    }
+        //    jd.children = jdList.ToArray(); //由于对象是引用类型，因为可以改变参数的值
+        //}
 
         //private void RecursionSaveNode(TreeDataModel tn)
         //{
@@ -173,7 +235,6 @@ namespace ZookeeperBrowser.Controllers
         //        RecursionSaveNode(tnSub);
         //    }
         //}
-
 
         private async Task ReloadAsync()
         {
