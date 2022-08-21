@@ -19,68 +19,83 @@
 </style>
 <link href="~/lib/zTreev3/css/metroStyle/metroStyle.css" rel="stylesheet" />
 
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>基本演示</legend>
-</fieldset>
 <div class="layui-btn-container">
-    <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>
-    <button type="button" class="layui-btn layui-btn-sm" lay-demo="setChecked">勾选指定节点</button>
-    <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">重载实例</button>
+    @* <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-demo="setChecked">勾选指定节点</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">重载实例</button>*@
 </div>
+<div class="layui-container">
+<div class="layui-row layui-col-space30">
 
-<div id="test12" class="demo-tree-more"></div>
+    <div class="layui-col-lg12 layui-col-md12 layui-header" style="text-align: center;margin-top:30px;">
+        <h1>Zookeeper简单管理工具</h1>
+    </div>
 
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>常规用法(Zookeeper加载一级节点)</legend>
-</fieldset>
+    <div class="layui-col-lg2 layui-col-md2">
+        <blockquote class="layui-elem-quote title">Zookeeper节点</blockquote>
 
-<div id="test1" class="demo-tree demo-tree-box"></div>
+        @* <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+            <legend>Layui用法(Zookeeper加载一级节点)</legend>
+            </fieldset>
+            <div id="zookeepertest" class="demo-tree demo-tree-box"></div>*@
+        @* <div class="">
+            <h2>zookeeper</h2>
+        </div>*@
 
-<div class="layui-fluid layui-col-xs2">
-    <div class="layui-card">
-        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-            <h2>字典分类</h2>
-        </div>
-        <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="height:650px">
+        @* ztree用法*@
+        <div class="" style="height:850px">
             <ul id="zookeepertree" class="ztree"></ul>
         </div>
+        @* ztree用法*@
+        @*<div class="layui-fluid layui-col-xs2">
+            <div class="layui-card">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <h2>zookeeper</h2>
+            </div>
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="height:850px">
+            <ul id="zookeepertree" class="ztree"></ul>
+            </div>
+            </div>
+            </div>*@
+    </div>
+    <div class="layui-col-lg10 layui-col-md10">
+        <form class="layui-form layui-form-pane" action="">
+         <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Data值</label>
+            <div class="layui-input-block">
+              <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+         </div>
+         </form>
+        <table lay-filter="parse-table-demo">
+          <thead>
+            <tr>
+              <th lay-data="{field:'statkey', width:200}">状态属性参数</th>
+              <th lay-data="{field:'statvalue', width:150}">属性值</th>
+            </tr> 
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>20161128</td>
+             
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>20161129</td>
+             
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>20161130</td>
+            
+            </tr>
+          </tbody>
+        </table>
     </div>
 </div>
-
-
-
-
-
 <hr />
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>无连接线风格</legend>
-</fieldset>
-<div id="test13" class="demo-tree-more"></div>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>仅节点左侧图标控制收缩</legend>
-</fieldset>
-
-<div id="test2" class="demo-tree"></div>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>手风琴模式</legend>
-</fieldset>
-
-<div id="test4" class="demo-tree"></div>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>点击节点新窗口跳转</legend>
-</fieldset>
-
-<div id="test5" class="demo-tree"></div>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>开启复选框</legend>
-</fieldset>
-
-<div id="test7" class="demo-tree"></div>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-    <legend>开启节点操作图标</legend>
-</fieldset>
-
-<div id="test9" class="demo-tree demo-tree-box" style="width: 200px; height: 300px; overflow: scroll;"></div>
+</div>
 
 <script src="~/lib/layui/layui.js" charset="utf-8"></script>
 <script src="~/lib/zTreev3/js/jquery.ztree.core.js"></script>
@@ -172,10 +187,9 @@
         function () {
             var tree = layui.tree,
                 layer = layui.layer,
-                util = layui.util
+                util = layui.util,
 
                 //模拟数据
-                ,
                 data = [
                     {
                         title: '一级1',
@@ -349,10 +363,9 @@
                             }
                         ]
                     }
-                ]
+                ],
 
                 //模拟数据1
-                ,
                 data1 = [
                     {
                         title: '江西',
@@ -403,10 +416,9 @@
                             }
                         ]
                     }
-                ]
+                ],
 
                 //模拟数据2
-                ,
                 data2 = [
                     {
                         title: '早餐',
@@ -475,48 +487,26 @@
                     }
                 ];
 
-            //基本演示
-            tree.render({
-                elem: '#test12',
-                data: data,
-                showCheckbox: true //是否显示复选框
-                ,
-                id: 'demoId1',
-                isJump: true //是否允许点击节点时弹出新窗口跳转
-                ,
-                click: function (obj) {
-                    var data = obj.data; //获取当前点击的节点数据
-                    layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
-                }
-            });
-
             //按钮事件
             util.event('lay-demo',
                 {
                     getChecked: function (othis) {
-                        var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+                        //var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
 
-                        layer.alert(JSON.stringify(checkedData), { shade: 0 });
-                        console.log(checkedData);
+                        //layer.alert(JSON.stringify(checkedData), { shade: 0 });
+                        //console.log(checkedData);
                     },
                     setChecked: function () {
-                        tree.setChecked('demoId1', [12, 16]); //勾选指定节点
+                        //tree.setChecked('demoId1', [12, 16]); //勾选指定节点
                     },
                     reload: function () {
                         //重载实例
-                        tree.reload('demoId1',
-                            {
-                            });
+                        //tree.reload('demoId1',
+                        //    {
+                        //    });
 
                     }
                 });
-
-            ////常规用法
-            //tree.render({
-            //    elem: '#test1' //默认是点击节点可进行收缩
-            //    ,
-            //    data: data1
-            //});
 
             $.get('/Zookeeper/GetLayuiTreeData',
                 function (data) {
@@ -535,87 +525,11 @@
 
                     //常规用法
                     tree.render({
-                        elem: '#test1' //默认是点击节点可进行收缩
+                        elem: '#zookeepertest' //默认是点击节点可进行收缩
                         , data: data
                     });
 
                 });
 
-
-            //无连接线风格
-            tree.render({
-                elem: '#test13',
-                data: data1,
-                showLine: false //是否开启连接线
-            });
-
-            //仅节点左侧图标控制收缩
-            tree.render({
-                elem: '#test2',
-                data: data1,
-                onlyIconControl: true //是否仅允许节点左侧图标控制展开收缩
-                ,
-                click: function (obj) {
-                    layer.msg(JSON.stringify(obj.data));
-                }
-            });
-            //手风琴模式
-            tree.render({
-                elem: '#test4',
-                data: [
-                    {
-                        title: '优秀',
-                        children: [
-                            {
-                                title: '80 ~ 90'
-                            }, {
-                                title: '90 ~ 100'
-                            }
-                        ]
-                    }, {
-                        title: '良好',
-                        children: [
-                            {
-                                title: '70 ~ 80'
-                            }, {
-                                title: '60 ~ 70'
-                            }
-                        ]
-                    }, {
-                        title: '要努力奥',
-                        children: [
-                            {
-                                title: '0 ~ 60'
-                            }
-                        ]
-                    }
-                ],
-                accordion: true
-            });
-
-            //点击节点新窗口跳转
-            tree.render({
-                elem: '#test5',
-                data: data,
-                isJump: true //link 为参数匹配
-            });
-
-            //开启复选框
-            tree.render({
-                elem: '#test7',
-                data: data2,
-                showCheckbox: true
-            });
-
-            //开启节点操作图标
-            tree.render({
-                elem: '#test9',
-                data: data1,
-                edit: ['add', 'update', 'del'] //操作节点的图标
-                ,
-                click: function (obj) {
-                    layer.msg(JSON.stringify(obj.data));
-                }
-            });
         });
 </script>

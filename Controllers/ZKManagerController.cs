@@ -12,8 +12,8 @@ namespace ZookeeperBrowser.Controllers
     public class ZKManagerController : Controller
     {
         private readonly ZooKeeperManager _zkManager;
-        public readonly IZookeeperService _zookeeperService;
-        private readonly IConfiguration _configuration;
+        //public readonly IZookeeperService _zookeeperService;
+        //private readonly IConfiguration _configuration;
 
         public ZKManagerController(ZooKeeperManager zkMamager)
         {
