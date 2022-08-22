@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Net;
 using ZookeeperBrowser.Dtos;
+using ZookeeperBrowser.Models;
 using ZookeeperBrowser.Services;
 using ZookeeperBrowser.ViewModel;
 
@@ -112,7 +113,7 @@ namespace ZookeeperBrowser.Controllers
         }
 
         /// <summary>
-        ///
+        /// 获取树状节点
         /// </summary>
         /// <param name="nodepath"></param>
         /// <returns></returns>
@@ -163,19 +164,54 @@ namespace ZookeeperBrowser.Controllers
                 if (nodechilds != null)
                 {
                     var nodechildlist = nodechilds.ToList();
-                    for (int i = 0; i < nodechildlist.Count(); i++)
+                    if (nodechildlist.Count>0)
                     {
-                        datalist.Add(new ZTreeDataModel()
+                        for (int i = 0; i < nodechildlist.Count(); i++)
                         {
-                            Id = nodechildlist[i].Path,
-                            Name = nodechildlist[i].Name,
-                            //IsParent = true,
-                        });
+                            datalist.Add(new ZTreeDataModel()
+                            {
+                                Id = nodechildlist[i].Path,
+                                Name = nodechildlist[i].Name,
+                                Pid = nodePath,
+                                //IsParent = true,
+                            });
+                        }
                     }
                 }
             }
             return datalist;
         }
+
+        /// <summary>
+        /// 获取树状节点
+        /// </summary>
+        /// <param name="nodepath"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<PageDataResult<DataViewModel>> GetDataViewModel([FromBody]ZKQueryData zKQueryData)
+        {
+            string nodePath = WebUtility.HtmlDecode(zKQueryData.nodepath);
+         
+            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+            var dataViewModel = await  _zookeeperService.GetDataAsync(nodePath);
+            //return dataViewModel;
+
+            var list = new List<DataViewModel>();
+            if (dataViewModel!=null)
+            {
+                list.Add(dataViewModel);
+            }
+            return new PageDataResult<DataViewModel>()
+            {
+                Msg = "success",
+                Code = 0,
+                Count = list.Count,
+                Data = list
+            };
+        }
+
+
 
         //生成树的方法
         public void GetTheTree(TreeDataModel dataModel)
@@ -210,31 +246,6 @@ namespace ZookeeperBrowser.Controllers
             }
         }
 
-        //List<JieDian> jdList = new List<JieDian>();
-        //for (int i = 0; i < items.Length; i++)
-        //{
-        //    JieDian jiedian = new JieDian();
-        //    jiedian.Id = items[i].Id;
-        //    jiedian.Name = items[i].Name;
-        //    jiedian.ParentId = items[i].ParentId;
-        //    jiedian.ContentText = items[i].ContentText;
-
-        //    creatTheTree(items[i].Id.ToString(), jiedian);
-        //    jdList.Add(jiedian);
-        //    }
-        //    jd.children = jdList.ToArray(); //由于对象是引用类型，因为可以改变参数的值
-        //}
-
-        //private void RecursionSaveNode(TreeDataModel tn)
-        //{
-        //    List<TreeDataModel> m_SubNode = new List<TreeDataModel>();
-
-        //    foreach (TreeDataModel tnSub in tn.children)
-        //    {
-        //        m_SubNode.Add(tnSub);
-        //        RecursionSaveNode(tnSub);
-        //    }
-        //}
 
         private async Task ReloadAsync()
         {
