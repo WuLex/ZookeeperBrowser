@@ -1,0 +1,506 @@
+2022-08-23 15:14:10.548 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:14:22.133 +08:00 [INF] Executed DbCommand (1,241ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [Student];
+2022-08-23 15:14:22.390 +08:00 [INF] Executed DbCommand (250ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [Student] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2022-08-23 15:14:22.409 +08:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-08-23 15:14:22.850 +08:00 [INF] Executed DbCommand (359ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2022-08-23 15:14:22.856 +08:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-08-23 15:14:22.876 +08:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2022-08-23 15:14:22.885 +08:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2022-08-23 15:14:22.905 +08:00 [INF] Applying migration '20200818064956_InitialCreate'.
+2022-08-23 15:14:22.960 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Account] (
+    [Id] uniqueidentifier NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    [UserName] varchar(50) NOT NULL,
+    [PassWord] varchar(50) NOT NULL,
+    [Type] int NOT NULL,
+    [Name] varchar(50) NOT NULL,
+    [Status] int NOT NULL,
+    CONSTRAINT [PK_Account] PRIMARY KEY ([Id])
+);
+2022-08-23 15:14:22.970 +08:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AuthInfo] (
+    [Id] int NOT NULL IDENTITY,
+    [ModifiedTime] datetime2 NOT NULL,
+    [AccountId] uniqueidentifier NOT NULL,
+    [Platform] int NOT NULL,
+    [RefreshToken] nvarchar(max) NULL,
+    [RefreshTokenExpiredTime] datetime2 NOT NULL,
+    [LoginTime] bigint NOT NULL,
+    [LoginIP] nvarchar(max) NULL,
+    CONSTRAINT [PK_AuthInfo] PRIMARY KEY ([Id])
+);
+2022-08-23 15:14:22.976 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Config] (
+    [Id] int NOT NULL IDENTITY,
+    [CreatedTime] datetime2 NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    [OperatorName] nvarchar(max) NULL,
+    [Code] varchar(50) NOT NULL,
+    [Value] varchar(1024) NULL,
+    CONSTRAINT [PK_Config] PRIMARY KEY ([Id])
+);
+2022-08-23 15:14:22.986 +08:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Depart] (
+    [Id] int NOT NULL IDENTITY,
+    [CreatedTime] datetime2 NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    [OperatorName] nvarchar(max) NULL,
+    [DepartName] varchar(50) NOT NULL,
+    [DeptType] int NOT NULL,
+    [GradeId] int NULL,
+    CONSTRAINT [PK_Depart] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Depart_Depart_GradeId] FOREIGN KEY ([GradeId]) REFERENCES [Depart] ([Id]) ON DELETE NO ACTION
+);
+2022-08-23 15:14:22.990 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [StudentInfo] (
+    [Id] bigint NOT NULL IDENTITY,
+    [CreatedTime] datetime2 NOT NULL,
+    [ModifiedTime] datetime2 NOT NULL,
+    [OperatorName] nvarchar(max) NULL,
+    [Deleted] int NOT NULL,
+    [Name] varchar(50) NOT NULL,
+    [Gender] int NOT NULL,
+    [Nation] int NOT NULL,
+    [EnrollmentDT] datetime2 NOT NULL,
+    [DepartId] int NOT NULL,
+    [Phone] nvarchar(max) NULL,
+    [Email] varchar(50) NULL,
+    [IdentityCard] nvarchar(max) NOT NULL,
+    [Address] varchar(200) NULL,
+    [Photos] nvarchar(max) NULL,
+    [Status] int NOT NULL,
+    CONSTRAINT [PK_StudentInfo] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_StudentInfo_Depart_DepartId] FOREIGN KEY ([DepartId]) REFERENCES [Depart] ([Id]) ON DELETE CASCADE
+);
+2022-08-23 15:14:23.149 +08:00 [INF] Executed DbCommand (152ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'ModifiedTime', N'Name', N'PassWord', N'Status', N'Type', N'UserName') AND [object_id] = OBJECT_ID(N'[Account]'))
+    SET IDENTITY_INSERT [Account] ON;
+INSERT INTO [Account] ([Id], [ModifiedTime], [Name], [PassWord], [Status], [Type], [UserName])
+VALUES ('39f08cfd-8e0d-771b-a2f3-2639a62ca2fa', '2020-08-18T14:49:54.6237691+08:00', '管理员', 'c30807e6587ade285ba7ade9f881b3d7', 1, 0, 'admin');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'ModifiedTime', N'Name', N'PassWord', N'Status', N'Type', N'UserName') AND [object_id] = OBJECT_ID(N'[Account]'))
+    SET IDENTITY_INSERT [Account] OFF;
+2022-08-23 15:14:23.169 +08:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Code', N'CreatedTime', N'ModifiedTime', N'OperatorName', N'Value') AND [object_id] = OBJECT_ID(N'[Config]'))
+    SET IDENTITY_INSERT [Config] ON;
+INSERT INTO [Config] ([Id], [Code], [CreatedTime], [ModifiedTime], [OperatorName], [Value])
+VALUES (1, 'Auth', '2020-08-18T14:49:54.6215044+08:00', '2020-08-18T14:49:54.6221380+08:00', NULL, '{"verifyCode": false,"validate": true,"button": true,"singleAccount": false,"jwt": {"key": "hG#yJ$j3#vPc9*u&","issuer": "http://127.0.0.1:5000","audience": "http://127.0.0.1:5000","expires": 120,"refreshTokenExpires": 7}}');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Code', N'CreatedTime', N'ModifiedTime', N'OperatorName', N'Value') AND [object_id] = OBJECT_ID(N'[Config]'))
+    SET IDENTITY_INSERT [Config] OFF;
+2022-08-23 15:14:23.189 +08:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] ON;
+INSERT INTO [Depart] ([Id], [CreatedTime], [DepartName], [DeptType], [GradeId], [ModifiedTime], [OperatorName])
+VALUES (1, '2020-08-18T14:49:54.6268596+08:00', '2020级', 0, NULL, '2020-08-18T14:49:54.6268602+08:00', NULL);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] OFF;
+2022-08-23 15:14:23.208 +08:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] ON;
+INSERT INTO [Depart] ([Id], [CreatedTime], [DepartName], [DeptType], [GradeId], [ModifiedTime], [OperatorName])
+VALUES (2, '2020-08-18T14:49:54.6276106+08:00', '.net core 基础班', 1, 1, '2020-08-18T14:49:54.6276113+08:00', NULL);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] OFF;
+2022-08-23 15:14:23.232 +08:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] ON;
+INSERT INTO [Depart] ([Id], [CreatedTime], [DepartName], [DeptType], [GradeId], [ModifiedTime], [OperatorName])
+VALUES (3, '2020-08-18T14:49:54.6279624+08:00', '.net core 精英班', 1, 1, '2020-08-18T14:49:54.6279629+08:00', NULL);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] OFF;
+2022-08-23 15:14:23.249 +08:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] ON;
+INSERT INTO [Depart] ([Id], [CreatedTime], [DepartName], [DeptType], [GradeId], [ModifiedTime], [OperatorName])
+VALUES (4, '2020-08-18T14:49:54.6282308+08:00', 'java EE 基础班', 1, 1, '2020-08-18T14:49:54.6282312+08:00', NULL);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CreatedTime', N'DepartName', N'DeptType', N'GradeId', N'ModifiedTime', N'OperatorName') AND [object_id] = OBJECT_ID(N'[Depart]'))
+    SET IDENTITY_INSERT [Depart] OFF;
+2022-08-23 15:14:23.265 +08:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Address', N'CreatedTime', N'Deleted', N'DepartId', N'Email', N'EnrollmentDT', N'Gender', N'IdentityCard', N'ModifiedTime', N'Name', N'Nation', N'OperatorName', N'Phone', N'Photos', N'Status') AND [object_id] = OBJECT_ID(N'[StudentInfo]'))
+    SET IDENTITY_INSERT [StudentInfo] ON;
+INSERT INTO [StudentInfo] ([Id], [Address], [CreatedTime], [Deleted], [DepartId], [Email], [EnrollmentDT], [Gender], [IdentityCard], [ModifiedTime], [Name], [Nation], [OperatorName], [Phone], [Photos], [Status])
+VALUES (CAST(10002 AS bigint), '北京市朝阳区东三环中路甲10号', '2020-08-18T14:49:54.6317559+08:00', 0, 3, 'laoli@stu.com', '2020-04-23T00:00:00.0000000', 0, N'230210199802127323', '2020-08-18T14:49:54.6317564+08:00', '老李', 0, NULL, N'13902451189', N'stu_2.jpg', 0);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Address', N'CreatedTime', N'Deleted', N'DepartId', N'Email', N'EnrollmentDT', N'Gender', N'IdentityCard', N'ModifiedTime', N'Name', N'Nation', N'OperatorName', N'Phone', N'Photos', N'Status') AND [object_id] = OBJECT_ID(N'[StudentInfo]'))
+    SET IDENTITY_INSERT [StudentInfo] OFF;
+2022-08-23 15:14:23.280 +08:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Address', N'CreatedTime', N'Deleted', N'DepartId', N'Email', N'EnrollmentDT', N'Gender', N'IdentityCard', N'ModifiedTime', N'Name', N'Nation', N'OperatorName', N'Phone', N'Photos', N'Status') AND [object_id] = OBJECT_ID(N'[StudentInfo]'))
+    SET IDENTITY_INSERT [StudentInfo] ON;
+INSERT INTO [StudentInfo] ([Id], [Address], [CreatedTime], [Deleted], [DepartId], [Email], [EnrollmentDT], [Gender], [IdentityCard], [ModifiedTime], [Name], [Nation], [OperatorName], [Phone], [Photos], [Status])
+VALUES (CAST(10001 AS bigint), '朝阳区朝阳公园西路9号院九号', '2020-08-18T14:49:54.6289649+08:00', 0, 4, 'xiaoan@stu.com', '2020-04-23T00:00:00.0000000', 1, N'230210199708162251', '2020-08-18T14:49:54.6289654+08:00', '小安', 1, NULL, N'13902451188', N'stu_1.jpg', 0);
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Address', N'CreatedTime', N'Deleted', N'DepartId', N'Email', N'EnrollmentDT', N'Gender', N'IdentityCard', N'ModifiedTime', N'Name', N'Nation', N'OperatorName', N'Phone', N'Photos', N'Status') AND [object_id] = OBJECT_ID(N'[StudentInfo]'))
+    SET IDENTITY_INSERT [StudentInfo] OFF;
+2022-08-23 15:14:23.310 +08:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Depart_GradeId] ON [Depart] ([GradeId]);
+2022-08-23 15:14:23.317 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_StudentInfo_DepartId] ON [StudentInfo] ([DepartId]);
+2022-08-23 15:14:23.322 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20200818064956_InitialCreate', N'3.1.3');
+2022-08-23 15:15:54.566 +08:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-08-23 15:15:54.889 +08:00 [INF] Now listening on: http://[::]:5000
+2022-08-23 15:15:54.890 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-08-23 15:15:54.892 +08:00 [INF] Hosting environment: Development
+2022-08-23 15:15:54.895 +08:00 [INF] Content root path: E:\GitProject\StudentManagement\CoreAPI
+2022-08-23 15:15:56.534 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Auth/VerifyCode?length=4  
+2022-08-23 15:15:57.095 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.AuthController.VerifyCode (CoreAPI)'
+2022-08-23 15:15:57.147 +08:00 [INF] Route matched with {action = "VerifyCode", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] VerifyCode(Int32) on controller CoreAPI.Controllers.AuthController (CoreAPI).
+2022-08-23 15:15:57.522 +08:00 [INF] Executing action method CoreAPI.Controllers.AuthController.VerifyCode (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:15:57.589 +08:00 [INF] Executed action method CoreAPI.Controllers.AuthController.VerifyCode (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 57.7938ms.
+2022-08-23 15:15:57.604 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[Student.DTO.Login.VerifyCodeModel, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:15:57.847 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api-docs  
+2022-08-23 15:15:57.905 +08:00 [INF] Executed action CoreAPI.Controllers.AuthController.VerifyCode (CoreAPI) in 745.848ms
+2022-08-23 15:15:57.989 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.AuthController.VerifyCode (CoreAPI)'
+2022-08-23 15:15:58.006 +08:00 [INF] Request finished in 1475.1316ms 200 application/json; charset=utf-8
+2022-08-23 15:15:58.066 +08:00 [INF] Request finished in 219.3991ms 301 
+2022-08-23 15:15:58.099 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api-docs/index.html  
+2022-08-23 15:15:58.289 +08:00 [INF] Request finished in 189.8848ms 200 text/html;charset=utf-8
+2022-08-23 15:15:58.313 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api-docs/swagger-ui.css  
+2022-08-23 15:15:58.350 +08:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2022-08-23 15:15:58.352 +08:00 [INF] Request finished in 39.6741ms 200 text/css
+2022-08-23 15:15:58.465 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api-docs/swagger-ui-bundle.js  
+2022-08-23 15:15:58.469 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api-docs/swagger-ui-standalone-preset.js  
+2022-08-23 15:15:58.471 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/_framework/aspnetcore-browser-refresh.js  
+2022-08-23 15:15:58.483 +08:00 [INF] Request finished in 11.4874ms 200 application/javascript; charset=utf-8
+2022-08-23 15:15:58.488 +08:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2022-08-23 15:15:58.496 +08:00 [INF] Request finished in 26.9088ms 200 application/javascript
+2022-08-23 15:15:58.507 +08:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2022-08-23 15:15:58.510 +08:00 [INF] Request finished in 44.7299ms 200 application/javascript
+2022-08-23 15:15:58.998 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api-docs/favicon-32x32.png  
+2022-08-23 15:15:59.005 +08:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2022-08-23 15:15:59.015 +08:00 [INF] Request finished in 16.8631ms 200 image/png
+2022-08-23 15:15:59.303 +08:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v2.0/swagger.json  
+2022-08-23 15:15:59.616 +08:00 [INF] Request finished in 313.3335ms 200 application/json;charset=utf-8
+2022-08-23 15:16:21.327 +08:00 [INF] Request starting HTTP/1.1 POST http://127.0.0.1:5000/api/Auth/Login application/json; charset=utf-8 153
+2022-08-23 15:16:21.331 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.AuthController.Login (CoreAPI)'
+2022-08-23 15:16:21.334 +08:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] Login(Student.DTO.Login.LoginModel) on controller CoreAPI.Controllers.AuthController (CoreAPI).
+2022-08-23 15:16:21.406 +08:00 [INF] Executing action method CoreAPI.Controllers.AuthController.Login (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:22.139 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:22.676 +08:00 [INF] Executed DbCommand (66ms) [Parameters=[@__Trim_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ModifiedTime], [a].[Name], [a].[PassWord], [a].[Status], [a].[Type], [a].[UserName]
+FROM [Account] AS [a]
+WHERE [a].[UserName] = @__Trim_0
+2022-08-23 15:16:22.749 +08:00 [INF] Executed DbCommand (6ms) [Parameters=[@__account_Id_0='?' (DbType = Guid), @__model_Platform_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[LoginIP], [a].[LoginTime], [a].[ModifiedTime], [a].[Platform], [a].[RefreshToken], [a].[RefreshTokenExpiredTime]
+FROM [AuthInfo] AS [a]
+WHERE ([a].[AccountId] = @__account_Id_0) AND ([a].[Platform] = @__model_Platform_1)
+2022-08-23 15:16:22.925 +08:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 4000), @p2='?' (DbType = Int64), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (Size = 4000), @p6='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [AuthInfo] ([AccountId], [LoginIP], [LoginTime], [ModifiedTime], [Platform], [RefreshToken], [RefreshTokenExpiredTime])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT [Id]
+FROM [AuthInfo]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-08-23 15:16:23.016 +08:00 [INF] Executed DbCommand (17ms) [Parameters=[@__ToUpper_0='?' (Size = 50) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[Code], [c].[CreatedTime], [c].[ModifiedTime], [c].[OperatorName], [c].[Value]
+FROM [Config] AS [c]
+WHERE UPPER([c].[Code]) = @__ToUpper_0
+2022-08-23 15:16:23.128 +08:00 [DBG] 生成JwtToken：eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5ZjA4Y2ZkLThlMGQtNzcxYi1hMmYzLTI2MzlhNjJjYTJmYSIsIm5hIjoi566h55CG5ZGYIiwidHkiOiIwIiwicGYiOiIwIiwibHQiOiIxNjYxMjM4OTgyIiwibmJmIjoxNjYxMjM4OTgzLCJleHAiOjE2NjEyNDYxODMsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMCIsImF1ZCI6Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMCJ9.0hj8RH3PGwwUAHOjKUZihyReMJX7wkbn95dF6hhHUU8
+2022-08-23 15:16:23.141 +08:00 [INF] Executed action method CoreAPI.Controllers.AuthController.Login (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 1731.1471ms.
+2022-08-23 15:16:23.147 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[Auth.Jwt.JwtTokenModel, Auth.Jwt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:23.151 +08:00 [INF] Executed action CoreAPI.Controllers.AuthController.Login (CoreAPI) in 1815.6502ms
+2022-08-23 15:16:23.153 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.AuthController.Login (CoreAPI)'
+2022-08-23 15:16:23.159 +08:00 [INF] Request finished in 1832.3196ms 200 application/json; charset=utf-8
+2022-08-23 15:16:23.207 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Auth/AuthInfo  
+2022-08-23 15:16:23.306 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:23.313 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:23.314 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.AuthController.AuthInfo (CoreAPI)'
+2022-08-23 15:16:23.318 +08:00 [INF] Route matched with {action = "AuthInfo", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] AuthInfo() on controller CoreAPI.Controllers.AuthController (CoreAPI).
+2022-08-23 15:16:23.337 +08:00 [INF] Executing action method CoreAPI.Controllers.AuthController.AuthInfo (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:23.348 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:23.362 +08:00 [INF] Executed DbCommand (8ms) [Parameters=[@___loginInfo_Value_AccountId_0='?' (DbType = Guid), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccountId], [a].[LoginIP], [a].[LoginTime], [a].[ModifiedTime], [a].[Platform], [a].[RefreshToken], [a].[RefreshTokenExpiredTime]
+FROM [AuthInfo] AS [a]
+WHERE ([a].[AccountId] = @___loginInfo_Value_AccountId_0) AND ([a].[Platform] = @__p_1)
+2022-08-23 15:16:23.378 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ModifiedTime], [a].[Name], [a].[PassWord], [a].[Status], [a].[Type], [a].[UserName]
+FROM [Account] AS [a]
+WHERE [a].[Id] = @__p_0
+2022-08-23 15:16:23.391 +08:00 [INF] Executed action method CoreAPI.Controllers.AuthController.AuthInfo (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 51.0017ms.
+2022-08-23 15:16:23.395 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[Student.DTO.Login.LoginResultModel, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:23.403 +08:00 [INF] Executed action CoreAPI.Controllers.AuthController.AuthInfo (CoreAPI) in 83.6276ms
+2022-08-23 15:16:23.405 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.AuthController.AuthInfo (CoreAPI)'
+2022-08-23 15:16:23.407 +08:00 [INF] Request finished in 200.5898ms 200 application/json; charset=utf-8
+2022-08-23 15:16:32.145 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Config/Auth  
+2022-08-23 15:16:32.149 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:32.150 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:32.151 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.ConfigController.Query (CoreAPI)'
+2022-08-23 15:16:32.155 +08:00 [INF] Route matched with {action = "Query", controller = "Config"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] Query(System.String) on controller CoreAPI.Controllers.ConfigController (CoreAPI).
+2022-08-23 15:16:32.172 +08:00 [INF] Executing action method CoreAPI.Controllers.ConfigController.Query (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:32.174 +08:00 [DBG] 获取一条配置信息,Code:Auth
+2022-08-23 15:16:32.174 +08:00 [INF] Executed action method CoreAPI.Controllers.ConfigController.Query (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 1.2299ms.
+2022-08-23 15:16:32.176 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[Student.DTO.ConfigDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:32.180 +08:00 [INF] Executed action CoreAPI.Controllers.ConfigController.Query (CoreAPI) in 23.1949ms
+2022-08-23 15:16:32.181 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.ConfigController.Query (CoreAPI)'
+2022-08-23 15:16:32.182 +08:00 [INF] Request finished in 37.4472ms 200 application/json; charset=utf-8
+2022-08-23 15:16:33.622 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Account  
+2022-08-23 15:16:33.630 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:33.632 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:33.635 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.AccountController.GetListAll (CoreAPI)'
+2022-08-23 15:16:33.644 +08:00 [INF] Route matched with {action = "GetListAll", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetListAll() on controller CoreAPI.Controllers.AccountController (CoreAPI).
+2022-08-23 15:16:33.673 +08:00 [INF] Executing action method CoreAPI.Controllers.AccountController.GetListAll (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:33.678 +08:00 [DBG] 操作：获取全部账户列表
+2022-08-23 15:16:33.683 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:33.746 +08:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [a].[Id], CONVERT(VARCHAR(100), [a].[ModifiedTime]), [a].[Name], [a].[Status], [a].[ModifiedTime], [a].[PassWord], [a].[Type], [a].[UserName]
+FROM [Account] AS [a]
+ORDER BY [a].[Id] DESC
+2022-08-23 15:16:33.753 +08:00 [INF] Executed action method CoreAPI.Controllers.AccountController.GetListAll (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 77.1044ms.
+2022-08-23 15:16:33.758 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[System.Collections.Generic.List`1[[Student.DTO.AccountDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-08-23 15:16:33.770 +08:00 [INF] Executed action CoreAPI.Controllers.AccountController.GetListAll (CoreAPI) in 120.3393ms
+2022-08-23 15:16:33.772 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.AccountController.GetListAll (CoreAPI)'
+2022-08-23 15:16:33.773 +08:00 [INF] Request finished in 151.4083ms 200 application/json; charset=utf-8
+2022-08-23 15:16:35.292 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Depart  
+2022-08-23 15:16:35.297 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:35.299 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:35.301 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.DepartController.GetListAll (CoreAPI)'
+2022-08-23 15:16:35.307 +08:00 [INF] Route matched with {action = "GetListAll", controller = "Depart"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetListAll() on controller CoreAPI.Controllers.DepartController (CoreAPI).
+2022-08-23 15:16:35.335 +08:00 [INF] Executing action method CoreAPI.Controllers.DepartController.GetListAll (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:35.335 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/StudentInfo/1/10/0/  
+2022-08-23 15:16:35.339 +08:00 [DBG] 获取全部部门列表
+2022-08-23 15:16:35.340 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:35.343 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:35.344 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:35.345 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:35.350 +08:00 [INF] Route matched with {action = "GetPagedList", controller = "StudentInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetPagedList(Int32, Int32, Int32, System.String) on controller CoreAPI.Controllers.StudentInfoController (CoreAPI).
+2022-08-23 15:16:35.382 +08:00 [INF] Executing action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:35.385 +08:00 [DBG] 获取学生分页列表
+2022-08-23 15:16:35.392 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:35.427 +08:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[DepartName], [d].[DeptType], [d].[Id], [d].[CreatedTime], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName], [d0].[DepartName]
+FROM [Depart] AS [d]
+LEFT JOIN [Depart] AS [d0] ON [d].[GradeId] = [d0].[Id]
+ORDER BY [d].[Id]
+2022-08-23 15:16:35.432 +08:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StudentInfo] AS [s]
+WHERE [s].[Deleted] = 0
+2022-08-23 15:16:35.433 +08:00 [INF] Executed action method CoreAPI.Controllers.DepartController.GetListAll (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 95.2346ms.
+2022-08-23 15:16:35.435 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[System.Collections.Generic.List`1[[Student.DTO.DepartDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-08-23 15:16:35.444 +08:00 [INF] Executed action CoreAPI.Controllers.DepartController.GetListAll (CoreAPI) in 133.3737ms
+2022-08-23 15:16:35.446 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.DepartController.GetListAll (CoreAPI)'
+2022-08-23 15:16:35.448 +08:00 [INF] Request finished in 156.4327ms 200 application/json; charset=utf-8
+2022-08-23 15:16:35.457 +08:00 [INF] Executed DbCommand (7ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Address], CONVERT(VARCHAR(100), [s].[CreatedTime]), [s].[DepartId], [d].[DepartName], [s].[Email], [s].[EnrollmentDT], [s].[Gender], [s].[Id], [s].[CreatedTime], [s].[Deleted], [s].[IdentityCard], [s].[ModifiedTime], [s].[Name], [s].[Nation], [s].[OperatorName], [s].[Phone], [s].[Photos], [s].[Status], CONVERT(VARCHAR(100), [s].[ModifiedTime])
+FROM [StudentInfo] AS [s]
+INNER JOIN [Depart] AS [d] ON [s].[DepartId] = [d].[Id]
+WHERE [s].[Deleted] = 0
+ORDER BY [s].[Id] DESC
+OFFSET 0 ROWS FETCH NEXT @__p_0 ROWS ONLY
+2022-08-23 15:16:35.465 +08:00 [INF] Executed action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 80.9658ms.
+2022-08-23 15:16:35.469 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[yrjw.ORM.Chimp.PagedList`1[[Student.DTO.StudentInfoDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], yrjw.ORM.Chimp, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:35.494 +08:00 [INF] Executed action CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) in 141.3916ms
+2022-08-23 15:16:35.497 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:35.499 +08:00 [INF] Request finished in 164.0151ms 200 application/json; charset=utf-8
+2022-08-23 15:16:36.015 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Depart  
+2022-08-23 15:16:36.019 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:36.022 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:36.026 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.DepartController.GetListAll (CoreAPI)'
+2022-08-23 15:16:36.030 +08:00 [INF] Route matched with {action = "GetListAll", controller = "Depart"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetListAll() on controller CoreAPI.Controllers.DepartController (CoreAPI).
+2022-08-23 15:16:36.058 +08:00 [INF] Executing action method CoreAPI.Controllers.DepartController.GetListAll (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:36.061 +08:00 [DBG] 获取全部部门列表
+2022-08-23 15:16:36.063 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:36.068 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[DepartName], [d].[DeptType], [d].[Id], [d].[CreatedTime], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName], [d0].[DepartName]
+FROM [Depart] AS [d]
+LEFT JOIN [Depart] AS [d0] ON [d].[GradeId] = [d0].[Id]
+ORDER BY [d].[Id]
+2022-08-23 15:16:36.070 +08:00 [INF] Executed action method CoreAPI.Controllers.DepartController.GetListAll (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 8.9216ms.
+2022-08-23 15:16:36.072 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[System.Collections.Generic.List`1[[Student.DTO.DepartDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-08-23 15:16:36.074 +08:00 [INF] Executed action CoreAPI.Controllers.DepartController.GetListAll (CoreAPI) in 40.8948ms
+2022-08-23 15:16:36.076 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.DepartController.GetListAll (CoreAPI)'
+2022-08-23 15:16:36.078 +08:00 [INF] Request finished in 62.7893ms 200 application/json; charset=utf-8
+2022-08-23 15:16:37.922 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/StudentInfo/1/10/2/  
+2022-08-23 15:16:37.925 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:37.926 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:37.927 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:37.928 +08:00 [INF] Route matched with {action = "GetPagedList", controller = "StudentInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetPagedList(Int32, Int32, Int32, System.String) on controller CoreAPI.Controllers.StudentInfoController (CoreAPI).
+2022-08-23 15:16:37.944 +08:00 [INF] Executing action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:37.946 +08:00 [DBG] 获取学生分页列表
+2022-08-23 15:16:37.947 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:37.961 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[CreatedTime], [d].[DepartName], [d].[DeptType], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName]
+FROM [Depart] AS [d]
+WHERE [d].[Id] = @__p_0
+2022-08-23 15:16:37.978 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__dept_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StudentInfo] AS [s]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+2022-08-23 15:16:37.990 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__dept_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Address], CONVERT(VARCHAR(100), [s].[CreatedTime]), [s].[DepartId], [d].[DepartName], [s].[Email], [s].[EnrollmentDT], [s].[Gender], [s].[Id], [s].[CreatedTime], [s].[Deleted], [s].[IdentityCard], [s].[ModifiedTime], [s].[Name], [s].[Nation], [s].[OperatorName], [s].[Phone], [s].[Photos], [s].[Status], CONVERT(VARCHAR(100), [s].[ModifiedTime])
+FROM [StudentInfo] AS [s]
+INNER JOIN [Depart] AS [d] ON [s].[DepartId] = [d].[Id]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+ORDER BY [s].[Id] DESC
+OFFSET 0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2022-08-23 15:16:37.993 +08:00 [INF] Executed action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 46.5058ms.
+2022-08-23 15:16:37.994 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[yrjw.ORM.Chimp.PagedList`1[[Student.DTO.StudentInfoDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], yrjw.ORM.Chimp, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:37.996 +08:00 [INF] Executed action CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) in 66.3343ms
+2022-08-23 15:16:37.997 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:37.999 +08:00 [INF] Request finished in 77.848ms 200 application/json; charset=utf-8
+2022-08-23 15:16:38.794 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/StudentInfo/1/10/3/  
+2022-08-23 15:16:38.798 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:38.801 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:38.804 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:38.806 +08:00 [INF] Route matched with {action = "GetPagedList", controller = "StudentInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetPagedList(Int32, Int32, Int32, System.String) on controller CoreAPI.Controllers.StudentInfoController (CoreAPI).
+2022-08-23 15:16:38.825 +08:00 [INF] Executing action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:38.827 +08:00 [DBG] 获取学生分页列表
+2022-08-23 15:16:38.829 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:38.834 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[CreatedTime], [d].[DepartName], [d].[DeptType], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName]
+FROM [Depart] AS [d]
+WHERE [d].[Id] = @__p_0
+2022-08-23 15:16:38.842 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__dept_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StudentInfo] AS [s]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+2022-08-23 15:16:38.849 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__dept_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Address], CONVERT(VARCHAR(100), [s].[CreatedTime]), [s].[DepartId], [d].[DepartName], [s].[Email], [s].[EnrollmentDT], [s].[Gender], [s].[Id], [s].[CreatedTime], [s].[Deleted], [s].[IdentityCard], [s].[ModifiedTime], [s].[Name], [s].[Nation], [s].[OperatorName], [s].[Phone], [s].[Photos], [s].[Status], CONVERT(VARCHAR(100), [s].[ModifiedTime])
+FROM [StudentInfo] AS [s]
+INNER JOIN [Depart] AS [d] ON [s].[DepartId] = [d].[Id]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+ORDER BY [s].[Id] DESC
+OFFSET 0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2022-08-23 15:16:38.853 +08:00 [INF] Executed action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 26.0774ms.
+2022-08-23 15:16:38.855 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[yrjw.ORM.Chimp.PagedList`1[[Student.DTO.StudentInfoDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], yrjw.ORM.Chimp, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:38.857 +08:00 [INF] Executed action CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) in 48.3722ms
+2022-08-23 15:16:38.858 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:38.859 +08:00 [INF] Request finished in 64.9852ms 200 application/json; charset=utf-8
+2022-08-23 15:16:39.330 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/StudentInfo/1/10/3/  
+2022-08-23 15:16:39.334 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:39.337 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:39.337 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:39.339 +08:00 [INF] Route matched with {action = "GetPagedList", controller = "StudentInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetPagedList(Int32, Int32, Int32, System.String) on controller CoreAPI.Controllers.StudentInfoController (CoreAPI).
+2022-08-23 15:16:39.361 +08:00 [INF] Executing action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:39.362 +08:00 [DBG] 获取学生分页列表
+2022-08-23 15:16:39.363 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:39.369 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[CreatedTime], [d].[DepartName], [d].[DeptType], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName]
+FROM [Depart] AS [d]
+WHERE [d].[Id] = @__p_0
+2022-08-23 15:16:39.374 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[@__dept_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StudentInfo] AS [s]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+2022-08-23 15:16:39.380 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__dept_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Address], CONVERT(VARCHAR(100), [s].[CreatedTime]), [s].[DepartId], [d].[DepartName], [s].[Email], [s].[EnrollmentDT], [s].[Gender], [s].[Id], [s].[CreatedTime], [s].[Deleted], [s].[IdentityCard], [s].[ModifiedTime], [s].[Name], [s].[Nation], [s].[OperatorName], [s].[Phone], [s].[Photos], [s].[Status], CONVERT(VARCHAR(100), [s].[ModifiedTime])
+FROM [StudentInfo] AS [s]
+INNER JOIN [Depart] AS [d] ON [s].[DepartId] = [d].[Id]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+ORDER BY [s].[Id] DESC
+OFFSET 0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2022-08-23 15:16:39.383 +08:00 [INF] Executed action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 20.5522ms.
+2022-08-23 15:16:39.386 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[yrjw.ORM.Chimp.PagedList`1[[Student.DTO.StudentInfoDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], yrjw.ORM.Chimp, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:39.389 +08:00 [INF] Executed action CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) in 47.8354ms
+2022-08-23 15:16:39.391 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:39.392 +08:00 [INF] Request finished in 61.6943ms 200 application/json; charset=utf-8
+2022-08-23 15:16:40.580 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/StudentInfo/1/10/3/  
+2022-08-23 15:16:40.583 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:40.584 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:40.585 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:40.586 +08:00 [INF] Route matched with {action = "GetPagedList", controller = "StudentInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetPagedList(Int32, Int32, Int32, System.String) on controller CoreAPI.Controllers.StudentInfoController (CoreAPI).
+2022-08-23 15:16:40.601 +08:00 [INF] Executing action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:40.602 +08:00 [DBG] 获取学生分页列表
+2022-08-23 15:16:40.603 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:40.607 +08:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[CreatedTime], [d].[DepartName], [d].[DeptType], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName]
+FROM [Depart] AS [d]
+WHERE [d].[Id] = @__p_0
+2022-08-23 15:16:40.613 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__dept_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StudentInfo] AS [s]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+2022-08-23 15:16:40.621 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__dept_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Address], CONVERT(VARCHAR(100), [s].[CreatedTime]), [s].[DepartId], [d].[DepartName], [s].[Email], [s].[EnrollmentDT], [s].[Gender], [s].[Id], [s].[CreatedTime], [s].[Deleted], [s].[IdentityCard], [s].[ModifiedTime], [s].[Name], [s].[Nation], [s].[OperatorName], [s].[Phone], [s].[Photos], [s].[Status], CONVERT(VARCHAR(100), [s].[ModifiedTime])
+FROM [StudentInfo] AS [s]
+INNER JOIN [Depart] AS [d] ON [s].[DepartId] = [d].[Id]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+ORDER BY [s].[Id] DESC
+OFFSET 0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2022-08-23 15:16:40.623 +08:00 [INF] Executed action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 21.0214ms.
+2022-08-23 15:16:40.625 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[yrjw.ORM.Chimp.PagedList`1[[Student.DTO.StudentInfoDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], yrjw.ORM.Chimp, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:40.627 +08:00 [INF] Executed action CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) in 38.9416ms
+2022-08-23 15:16:40.628 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:40.629 +08:00 [INF] Request finished in 49.6499ms 200 application/json; charset=utf-8
+2022-08-23 15:16:40.932 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/StudentInfo/1/10/4/  
+2022-08-23 15:16:40.936 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:40.938 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:40.939 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:40.940 +08:00 [INF] Route matched with {action = "GetPagedList", controller = "StudentInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetPagedList(Int32, Int32, Int32, System.String) on controller CoreAPI.Controllers.StudentInfoController (CoreAPI).
+2022-08-23 15:16:40.961 +08:00 [INF] Executing action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:40.964 +08:00 [DBG] 获取学生分页列表
+2022-08-23 15:16:40.967 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:40.971 +08:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[CreatedTime], [d].[DepartName], [d].[DeptType], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName]
+FROM [Depart] AS [d]
+WHERE [d].[Id] = @__p_0
+2022-08-23 15:16:40.978 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[@__dept_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StudentInfo] AS [s]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+2022-08-23 15:16:40.982 +08:00 [INF] Executed DbCommand (1ms) [Parameters=[@__dept_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Address], CONVERT(VARCHAR(100), [s].[CreatedTime]), [s].[DepartId], [d].[DepartName], [s].[Email], [s].[EnrollmentDT], [s].[Gender], [s].[Id], [s].[CreatedTime], [s].[Deleted], [s].[IdentityCard], [s].[ModifiedTime], [s].[Name], [s].[Nation], [s].[OperatorName], [s].[Phone], [s].[Photos], [s].[Status], CONVERT(VARCHAR(100), [s].[ModifiedTime])
+FROM [StudentInfo] AS [s]
+INNER JOIN [Depart] AS [d] ON [s].[DepartId] = [d].[Id]
+WHERE ([s].[Deleted] = 0) AND ([s].[DepartId] = @__dept_0)
+ORDER BY [s].[Id] DESC
+OFFSET 0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2022-08-23 15:16:40.985 +08:00 [INF] Executed action method CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 20.4959ms.
+2022-08-23 15:16:40.986 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[yrjw.ORM.Chimp.PagedList`1[[Student.DTO.StudentInfoDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], yrjw.ORM.Chimp, Version=1.0.8.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:40.988 +08:00 [INF] Executed action CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI) in 45.7243ms
+2022-08-23 15:16:40.989 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.StudentInfoController.GetPagedList (CoreAPI)'
+2022-08-23 15:16:40.990 +08:00 [INF] Request finished in 57.8587ms 200 application/json; charset=utf-8
+2022-08-23 15:16:52.738 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Depart/4  
+2022-08-23 15:16:52.743 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:52.745 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:52.746 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.DepartController.Query (CoreAPI)'
+2022-08-23 15:16:52.752 +08:00 [INF] Route matched with {action = "Query", controller = "Depart"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] Query(Int32) on controller CoreAPI.Controllers.DepartController (CoreAPI).
+2022-08-23 15:16:52.771 +08:00 [INF] Executing action method CoreAPI.Controllers.DepartController.Query (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:52.772 +08:00 [DBG] 根据ID获取指定部门4
+2022-08-23 15:16:52.774 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:52.783 +08:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [d].[Id], [d].[CreatedTime], [d].[DepartName], [d].[DeptType], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName]
+FROM [Depart] AS [d]
+WHERE [d].[Id] = @__p_0
+2022-08-23 15:16:52.804 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[Id], [d].[CreatedTime], [d].[DepartName], [d].[DeptType], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName]
+FROM [Depart] AS [d]
+WHERE [d].[Id] = @__p_0
+2022-08-23 15:16:52.812 +08:00 [INF] Executed action method CoreAPI.Controllers.DepartController.Query (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 39.7702ms.
+2022-08-23 15:16:52.815 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[Student.DTO.DepartDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-08-23 15:16:52.820 +08:00 [INF] Executed action CoreAPI.Controllers.DepartController.Query (CoreAPI) in 65.596ms
+2022-08-23 15:16:52.821 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.DepartController.Query (CoreAPI)'
+2022-08-23 15:16:52.823 +08:00 [INF] Request finished in 84.9782ms 200 application/json; charset=utf-8
+2022-08-23 15:16:59.643 +08:00 [INF] Request starting HTTP/1.1 GET http://127.0.0.1:5000/api/Depart  
+2022-08-23 15:16:59.646 +08:00 [INF] Successfully validated the token.
+2022-08-23 15:16:59.647 +08:00 [INF] Authorization was successful.
+2022-08-23 15:16:59.648 +08:00 [INF] Executing endpoint 'CoreAPI.Controllers.DepartController.GetListAll (CoreAPI)'
+2022-08-23 15:16:59.649 +08:00 [INF] Route matched with {action = "GetListAll", controller = "Depart"}. Executing controller action with signature System.Threading.Tasks.Task`1[yrjw.ORM.Chimp.Result.IResultModel] GetListAll() on controller CoreAPI.Controllers.DepartController (CoreAPI).
+2022-08-23 15:16:59.664 +08:00 [INF] Executing action method CoreAPI.Controllers.DepartController.GetListAll (CoreAPI) - Validation state: "Valid"
+2022-08-23 15:16:59.666 +08:00 [DBG] 获取全部部门列表
+2022-08-23 15:16:59.667 +08:00 [INF] Entity Framework Core 3.1.3 initialized 'myDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: using lazy-loading proxies MigrationsAssembly=CoreAPI 
+2022-08-23 15:16:59.672 +08:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [d].[DepartName], [d].[DeptType], [d].[Id], [d].[CreatedTime], [d].[GradeId], [d].[ModifiedTime], [d].[OperatorName], [d0].[DepartName]
+FROM [Depart] AS [d]
+LEFT JOIN [Depart] AS [d0] ON [d].[GradeId] = [d0].[Id]
+ORDER BY [d].[Id]
+2022-08-23 15:16:59.674 +08:00 [INF] Executed action method CoreAPI.Controllers.DepartController.GetListAll (CoreAPI), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 8.2212ms.
+2022-08-23 15:16:59.675 +08:00 [INF] Executing ObjectResult, writing value of type 'yrjw.ORM.Chimp.Result.ResultModel`1[[System.Collections.Generic.List`1[[Student.DTO.DepartDTO, Student.DTO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-08-23 15:16:59.677 +08:00 [INF] Executed action CoreAPI.Controllers.DepartController.GetListAll (CoreAPI) in 26.1839ms
+2022-08-23 15:16:59.678 +08:00 [INF] Executed endpoint 'CoreAPI.Controllers.DepartController.GetListAll (CoreAPI)'
+2022-08-23 15:16:59.679 +08:00 [INF] Request finished in 35.4411ms 200 application/json; charset=utf-8

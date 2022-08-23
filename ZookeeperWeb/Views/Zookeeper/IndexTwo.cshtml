@@ -1,0 +1,579 @@
+﻿@{
+    ViewBag.Title = "Manager";
+    Layout = "/Views/Shared/_LayoutTwo.cshtml";
+}
+
+<style>
+    #test1 *,
+    #test2 *,
+    #test4 *,
+    #test5 *,
+    #test7 *,
+    #test9 *,
+    #test12 *,
+    #test13 * {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box
+    }
+
+     /*layui-table 表格内容允许换行*/
+    .layui-table-cell{
+       height: auto;
+        text-overflow:inherit;
+        white-space:normal;
+    }
+</style>
+<link href="~/lib/zTreev3/css/metroStyle/metroStyle.css" rel="stylesheet" />
+
+<div class="layui-btn-container">
+    @* <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-demo="setChecked">勾选指定节点</button>
+        <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">重载实例</button>*@
+</div>
+<div class="layui-container">
+    <div class="layui-row layui-col-space30">
+
+        <div class="layui-col-lg12 layui-col-md12 layui-header" style="text-align: center;margin-top:30px;">
+            <h1>Zookeeper简单管理工具</h1>
+        </div>
+
+        <div class="layui-col-lg2 layui-col-md2">
+            <blockquote class="layui-elem-quote title">Zookeeper节点</blockquote>
+
+            @* <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>Layui用法(Zookeeper加载一级节点)</legend>
+                </fieldset>
+                <div id="zookeepertest" class="demo-tree demo-tree-box"></div>*@
+            @* <div class="">
+                <h2>zookeeper</h2>
+                </div>*@
+
+            @* ztree用法*@
+            <div class="" style="height:850px">
+                <ul id="zookeepertree" class="ztree"></ul>
+            </div>
+            @* ztree用法*@
+            @*<div class="layui-fluid layui-col-xs2">
+                <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <h2>zookeeper</h2>
+                </div>
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="height:850px">
+                <ul id="zookeepertree" class="ztree"></ul>
+                </div>
+                </div>
+                </div>*@
+        </div>
+        <div class="layui-col-lg10 layui-col-md10">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">Data值</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="" readonly="readonly" id="zkdata" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </form>
+            
+             状态信息表格
+                   
+            <table id="zktable" lay-filter="tabledemo">
+               
+            </table>
+        </div>
+    </div>
+    <hr />
+</div>
+
+<script src="~/lib/layui/layui.js" charset="utf-8"></script>
+<script src="~/lib/zTreev3/js/jquery.ztree.core.js"></script>
+<script src="~/lib/zTreev3/js/jquery.ztree.excheck.js"></script>
+<script src="~/lib/zTreev3/js/jquery.ztree.exhide.js"></script>
+<script src="~/lib/zTreev3/js/jquery.ztree.all.js"></script>
+
+<script>
+    var setting = {//树设置
+        //treeId: "",  //zTree 的唯一标识，初始化后，等于 用户定义的 zTree 容器的 id 属性值。
+
+        //区划树设置
+        async: {
+            enable: true,//开启异步加载处理
+            url: "/Zookeeper/GetZTreeData",
+            autoParam: ["id","level"],
+            type: "post"
+            //dataFilter: filter//用于对 Ajax 返回数据进行预处理的函数
+        },
+        edit: {
+            enable: false,//true / false 分别表示 可以 / 不可以 编辑
+            showRemoveBtn: false,//true / false 分别表示 显示 / 隐藏 删除按钮
+            drag: {
+                isCopy: true,//是否可复制
+                isMove: false,//是否可移动
+                prev: false,//拖拽到目标节点时，设置是否允许移动到目标节点前面的操作
+                next: false,//拖拽到目标节点时，设置是否允许移动到目标节点后面的操作
+                inner: false//拖拽到目标节点时，设置是否允许成为目标节点的子节点。
+            }
+        },
+        data: {
+            key: {
+                leaf: false,
+                //zTree 的节点叶子节点属性锁，是否始终保持 isParent = false
+                //默认值：false 如果设置为 true，则所有 isParent = false 的节点，都无法添加子节点。
+                //children: "sub",
+                //isParent: "isParent", //是否为父节点，false显示文件图标！
+                //title: "name"
+            },
+            simpleData: {
+                //是否使用简单模式
+                //如果设置为 true，请务必设置 setting.data.simpleData 内的其他参数: idKey /  pIdKey / rootPId，并且让数据满足父子关系。
+                enable: true,
+                idKey: "id", // 唯一标识的属性名称
+                pIdKey: "parentId", // 父节点唯一标识的属性名称
+                //rootPId: "/"
+            }
+
+        },
+        callback: {
+            onExpand: onExpandIdentValueTree,//节点被展开的事件回调函数
+
+            onClick: identValueOnClick,//节点被点击的事件回调函数
+
+        },
+
+        view: {
+            showIcon: true,//设置 zTree 是否显示节点的图标。
+            showLine: true//设置 zTree 是否显示节点的连线。
+        }
+
+    }
+
+    //1. 每次展开节点后， 弹出该节点的 tId、name 的信息
+    function onExpandIdentValueTree(event, treeId, treeNode) {
+        //alert("onExpandIdentValueTree=" + treeNode.tId + ", " + treeNode.name);
+    };
+
+    // 每次点击节点后， 弹出该节点的 tId、name 的信息
+    function identValueOnClick(event, treeId, treeNode) {
+        //alert("identValueOnClick=" + treeNode.tId + ", " + treeNode.name);
+        // $.ajax({
+        //   type: "post",        // 请求方式
+        //   url: "/Zookeeper/GetDataViewModel", // 请求路径
+        //   data:{nodepath:treeNode.id},
+        //   dataType: "json",   // 预期返回一个 json 类型数据
+        //   success: function (nodeinfo) {   // nodedata是形参名，代表返回的数据
+        //       //console.log(nodeinfo);
+        //       $("#zkdata").text(nodeinfo.data);
+
+        //       $("#zktable tbody").empty();
+        //       $.each(nodeinfo,function(name,value) {
+        //            if(name!="data")
+        //            { 
+        //                $("#zktable tbody").prepend('<tr><td>'+name+'</td><td>'+value+'</td></tr>');
+        //            }
+        //       });
+        //   }
+        //});
+
+        layui.use('table', function () {
+            var table = layui.table;
+            table.render({
+                elem: '#zktable',
+                method: "post",
+                loading: true
+                , url: '/Zookeeper/GetDataViewModel'
+                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                , contentType: 'application/json',
+                where: { nodepath: treeNode.id },
+                parseData: function (res) { //res 即为原始返回的数据
+
+                   $("#zkdata").text(res.data[0].data);
+
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                }
+                , cols: [[
+                    { field: 'version', title: 'version' }
+                    , { field: 'pzxid', title: 'pzxid' }
+                    , { field: 'numChildren', title: 'numChildren', width: 180 }
+                    , { field: 'mzxid', title: 'mzxid' }
+                    , { field: 'mtime', title: 'mtime', width: 180 }
+                    , { field: 'ephemeralOwner', title: 'ephemeralOwner', width: 180 }
+                    , { field: 'dataLength', title: 'dataLength', width: 180 }
+                    , { field: 'czxid', title: 'czxid' }
+                    , { field: 'cversion', title: 'cversion' }
+                    , { field: 'ctime', title: 'ctime', width: 180 }
+                    , { field: 'aversion', title: 'aversion', width: 180 }
+                ]]
+            });
+        });
+
+    };
+
+    function filter(treeId, parentNode, childNodes) {
+        if (!childNodes) return null;
+        for (var i = 0, l = childNodes.length; i < l; i++) {
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+        }
+        return childNodes;
+    }
+
+    $(document).ready(function () {
+        zTree = $.fn.zTree.init($("#zookeepertree"), setting,);
+    });
+
+</script>
+<script>
+    layui.use(['tree', 'util'],
+        function () {
+            var tree = layui.tree,
+                layer = layui.layer,
+                util = layui.util,
+
+                //模拟数据
+                data = [
+                    {
+                        title: '一级1',
+                        id: 1,
+                        field: 'name1',
+                        checked: true,
+                        spread: true,
+                        children: [
+                            {
+                                title: '二级1-1 可允许跳转',
+                                id: 3,
+                                field: 'name11',
+                                href: 'https://www.layui.com/',
+                                children: [
+                                    {
+                                        title: '三级1-1-3',
+                                        id: 23,
+                                        field: '',
+                                        children: [
+                                            {
+                                                title: '四级1-1-3-1',
+                                                id: 24,
+                                                field: '',
+                                                children: [
+                                                    {
+                                                        title: '五级1-1-3-1-1',
+                                                        id: 30,
+                                                        field: ''
+                                                    }, {
+                                                        title: '五级1-1-3-1-2',
+                                                        id: 31,
+                                                        field: ''
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }, {
+                                        title: '三级1-1-1',
+                                        id: 7,
+                                        field: '',
+                                        children: [
+                                            {
+                                                title: '四级1-1-1-1 可允许跳转',
+                                                id: 15,
+                                                field: '',
+                                                href: 'https://www.layui.com/doc/'
+                                            }
+                                        ]
+                                    }, {
+                                        title: '三级1-1-2',
+                                        id: 8,
+                                        field: '',
+                                        children: [
+                                            {
+                                                title: '四级1-1-2-1',
+                                                id: 32,
+                                                field: ''
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }, {
+                                title: '二级1-2',
+                                id: 4,
+                                spread: true,
+                                children: [
+                                    {
+                                        title: '三级1-2-1',
+                                        id: 9,
+                                        field: '',
+                                        disabled: true
+                                    }, {
+                                        title: '三级1-2-2',
+                                        id: 10,
+                                        field: ''
+                                    }
+                                ]
+                            }, {
+                                title: '二级1-3',
+                                id: 20,
+                                field: '',
+                                children: [
+                                    {
+                                        title: '三级1-3-1',
+                                        id: 21,
+                                        field: ''
+                                    }, {
+                                        title: '三级1-3-2',
+                                        id: 22,
+                                        field: ''
+                                    }
+                                ]
+                            }
+                        ]
+                    }, {
+                        title: '一级2',
+                        id: 2,
+                        field: '',
+                        spread: true,
+                        children: [
+                            {
+                                title: '二级2-1',
+                                id: 5,
+                                field: '',
+                                spread: true,
+                                children: [
+                                    {
+                                        title: '三级2-1-1',
+                                        id: 11,
+                                        field: ''
+                                    }, {
+                                        title: '三级2-1-2',
+                                        id: 12,
+                                        field: ''
+                                    }
+                                ]
+                            }, {
+                                title: '二级2-2',
+                                id: 6,
+                                field: '',
+                                children: [
+                                    {
+                                        title: '三级2-2-1',
+                                        id: 13,
+                                        field: ''
+                                    }, {
+                                        title: '三级2-2-2',
+                                        id: 14,
+                                        field: '',
+                                        disabled: true
+                                    }
+                                ]
+                            }
+                        ]
+                    }, {
+                        title: '一级3',
+                        id: 16,
+                        field: '',
+                        children: [
+                            {
+                                title: '二级3-1',
+                                id: 17,
+                                field: '',
+                                fixed: true,
+                                children: [
+                                    {
+                                        title: '三级3-1-1',
+                                        id: 18,
+                                        field: ''
+                                    }, {
+                                        title: '三级3-1-2',
+                                        id: 19,
+                                        field: ''
+                                    }
+                                ]
+                            }, {
+                                title: '二级3-2',
+                                id: 27,
+                                field: '',
+                                children: [
+                                    {
+                                        title: '三级3-2-1',
+                                        id: 28,
+                                        field: ''
+                                    }, {
+                                        title: '三级3-2-2',
+                                        id: 29,
+                                        field: ''
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+
+                //模拟数据1
+                data1 = [
+                    {
+                        title: '江西',
+                        id: 1,
+                        children: [
+                            {
+                                title: '南昌',
+                                id: 1000,
+                                children: [
+                                    {
+                                        title: '青山湖区',
+                                        id: 10001
+                                    }, {
+                                        title: '高新区',
+                                        id: 10002
+                                    }
+                                ]
+                            }, {
+                                title: '九江',
+                                id: 1001
+                            }, {
+                                title: '赣州',
+                                id: 1002
+                            }
+                        ]
+                    }, {
+                        title: '广西',
+                        id: 2,
+                        children: [
+                            {
+                                title: '南宁',
+                                id: 2000
+                            }, {
+                                title: '桂林',
+                                id: 2001
+                            }
+                        ]
+                    }, {
+                        title: '陕西',
+                        id: 3,
+                        children: [
+                            {
+                                title: '西安',
+                                id: 3000
+                            }, {
+                                title: '延安',
+                                id: 3001
+                            }
+                        ]
+                    }
+                ],
+
+                //模拟数据2
+                data2 = [
+                    {
+                        title: '早餐',
+                        id: 1,
+                        children: [
+                            {
+                                title: '油条',
+                                id: 5
+                            }, {
+                                title: '包子',
+                                id: 6
+                            }, {
+                                title: '豆浆',
+                                id: 7
+                            }
+                        ]
+                    }, {
+                        title: '午餐',
+                        id: 2,
+                        checked: true,
+                        children: [
+                            {
+                                title: '藜蒿炒腊肉',
+                                id: 8
+                            }, {
+                                title: '西湖醋鱼',
+                                id: 9
+                            }, {
+                                title: '小白菜',
+                                id: 10
+                            }, {
+                                title: '海带排骨汤',
+                                id: 11
+                            }
+                        ]
+                    }, {
+                        title: '晚餐',
+                        id: 3,
+                        children: [
+                            {
+                                title: '红烧肉',
+                                id: 12,
+                                fixed: true
+                            }, {
+                                title: '番茄炒蛋',
+                                id: 13
+                            }
+                        ]
+                    }, {
+                        title: '夜宵',
+                        id: 4,
+                        children: [
+                            {
+                                title: '小龙虾',
+                                id: 14,
+                                checked: true
+                            }, {
+                                title: '香辣蟹',
+                                id: 15,
+                                disabled: true
+                            }, {
+                                title: '烤鱿鱼',
+                                id: 16
+                            }
+                        ]
+                    }
+                ];
+
+            //按钮事件
+            util.event('lay-demo',
+                {
+                    getChecked: function (othis) {
+                        //var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+
+                        //layer.alert(JSON.stringify(checkedData), { shade: 0 });
+                        //console.log(checkedData);
+                    },
+                    setChecked: function () {
+                        //tree.setChecked('demoId1', [12, 16]); //勾选指定节点
+                    },
+                    reload: function () {
+                        //重载实例
+                        //tree.reload('demoId1',
+                        //    {
+                        //    });
+
+                    }
+                });
+
+            $.get('/Zookeeper/GetLayuiTreeData',
+                function (data) {
+                    //基本演示
+                    //tree.render({
+                    //    elem: '#test12'
+                    //    , data: data
+                    //    , showCheckbox: true  //是否显示复选框
+                    //    , id: 'demoId1'
+                    //    , isJump: true //是否允许点击节点时弹出新窗口跳转
+                    //    , click: function (obj) {
+                    //        var data = obj.data;  //获取当前点击的节点数据
+                    //        layer.msg('状态：' + obj.state + '<br>节点数据：' + JSON.stringify(data));
+                    //    }
+                    //});
+
+                    //常规用法
+                    tree.render({
+                        elem: '#zookeepertest' //默认是点击节点可进行收缩
+                        , data: data
+                    });
+
+                });
+
+        });
+</script>

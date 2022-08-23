@@ -1,0 +1,72 @@
+﻿@using ZookeeperBrowser.ViewModels
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Zookeeper查看";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/lib/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="~/lib/layui/layui.js"></script>
+    <script>
+        var device = layui.device();
+        if (device.android || device.ios || device.weixin) {
+            location.href = "/Login/Index";
+        }
+        console.log(device);
+    </script>
+</head>
+
+<body class="layui-login">
+    <form id="frmlogin" action="/Login/Index" method="post" class="layui-form">
+        @Html.AntiForgeryToken()
+        <div class="login-wrap">
+            <div class="login-right">
+                <div class="login-cir"></div>
+                <div class="login-logo" alt="Zookeeper管理"></div>
+                <div class="login-form" style="padding: 20px 30px">
+                    <div class="col">
+                        @Html.TextBoxFor(model => model.userid, new { @id = "userid", @class = "login-input", @placeholder = "用户名", @lay_verify = "required", @lay_verType = "tips" })
+                        @*<input name="username" lay-verify="required" placeholder="用户名" type="text" class="login-input">*@
+                        <label class="icon user" for="txtUserName"></label>
+                    </div>
+                    <div class="col">
+                        <input name="password" lay-verify="required" placeholder="密码" type="password" lay-verType="tips" class="login-input">
+                        <label class="icon pwd" for="txtPassword"></label>
+                    </div>
+                    <div class="col">
+                        <input name="code" lay-verify="required|number" placeholder="验证码" type="text" lay-verType="tips" class="login-input login-input2">
+                        <label class="icon code" for="txtPassword"></label>
+                        <label class="login-code" for="txtPassword"><img src="/Login/GetValidataCode" title="看不清楚换一张" alt="验证码" onclick="this.src='/Login/GetValidataCode?'+Math.round(Math.random() * 100000)"></label>
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="登录" lay-submit="" lay-filter="login" class="login-btn">
+                    </div>
+                    <span style="color:firebrick;word-break: break-all;">@Html.ValidationSummary()</span>
+                </div>
+            </div>
+            <div class="login-left"><img src="~/images/leftimg.png" style="width:500px;height:445px;" asp-append-version="true" /></div>
+        </div>
+        <div class="footer ">
+            <div class=" layui-row" style="width:980px; margin:0 auto;">
+                <div class="layui-col-md6"><a href="#" style=" color: #fff;"></a></div>
+            </div>
+        </div>
+    </form>
+    <script>
+        $(function () {
+            layui.use('form', function () {
+                var form = layui.form;
+                form.on('submit(login)', function (data) {
+                });
+            });
+        })
+    </script>
+</body>
+</html>
