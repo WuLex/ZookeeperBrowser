@@ -28,7 +28,6 @@ namespace CoreAPI.Code.WebApi
         public int Code { get; set; }
         public string FailedId { get; set; }
 
-        public List<StudentInfoDTO> Data { get; set; }
 
         public int Status => throw new NotImplementedException();
 

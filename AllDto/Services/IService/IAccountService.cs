@@ -5,7 +5,7 @@ using AllDto;
 using System;
 using AllModel;
 
-namespace AllDto.Services
+namespace AllDto.Services.IService
 {
     public interface IAccountService : IBaseService<Account, AccountDTO, Guid>
     {

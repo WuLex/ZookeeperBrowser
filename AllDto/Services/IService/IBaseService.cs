@@ -1,4 +1,5 @@
 ﻿using AllModel;
+using AllModel.Code;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 using yrjw.ORM.Chimp;
 using yrjw.ORM.Chimp.Result;
 
-namespace AllDto.Services
+namespace AllDto.Services.IService
 {
     /// <summary>
     /// 封装公共方法CURD操作给API直接调用，业务相关操作请在子类中重写基类方法

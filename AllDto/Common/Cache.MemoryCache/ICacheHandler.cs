@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZookeeperBrowser.Common.Cache.MemoryCache
+namespace AllDto.Common.Cache.MemoryCache
 {
     /// <summary>
     /// 缓存处理器

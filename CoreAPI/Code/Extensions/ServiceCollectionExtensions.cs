@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ZookeeperBrowser.Common.Cache.MemoryCache;
+using AllDto.Common.Cache.MemoryCache;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -226,7 +226,7 @@ namespace Microsoft.Extensions.DependencyInjection
             if (setting.DbType == yrjw.ORM.Chimp.DbType.MYSQL)
             {
                 //UseLazyLoadingProxies 通过延迟加载获取导航属性数据
-                services.AddChimp<myDbContext>(opt => opt.UseLazyLoadingProxies().UseMySql(setting.ConnectionString,
+                services.AddChimp<myDbContext>(opt => opt.UseLazyLoadingProxies().UseMySql(setting.ConnectionString, new MySqlServerVersion(new Version(8, 0, 29)),
                     b => b.MigrationsAssembly(setting.AssemblyName)));
             }
             else

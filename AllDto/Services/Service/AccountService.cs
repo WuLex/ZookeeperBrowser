@@ -11,8 +11,9 @@ using yrjw.ORM.Chimp;
 using yrjw.ORM.Chimp.Result;
 using AllDto.Services;
 using AllModel;
+using AllDto.Services.IService;
 
-namespace ZookeeperBrowser.Services.Service
+namespace AllDto.Services.Service
 {
     public class AccountService : BaseService<Account, AccountDTO, Guid>, IAccountService, IDependency
     {

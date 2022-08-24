@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace System
+namespace AllModel.Code
 {
     public static class EnumExtensions
     {

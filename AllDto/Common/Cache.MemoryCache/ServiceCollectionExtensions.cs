@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ZookeeperBrowser.Common.Cache.MemoryCache
+namespace AllDto.Common.Cache.MemoryCache
 {
     public static class ServiceCollectionExtensions
     {

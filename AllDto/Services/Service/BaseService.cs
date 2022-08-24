@@ -1,7 +1,7 @@
 ﻿using AllDto.Common.Auth.Jwt;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using ZookeeperBrowser.Common.Cache.MemoryCache;
+using AllDto.Common.Cache.MemoryCache;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,8 +13,10 @@ using yrjw.ORM.Chimp;
 using yrjw.ORM.Chimp.Result;
 using AllDto.Services;
 using AllModel;
+using AllDto.Services.IService;
+using AllModel.Code;
 
-namespace ZookeeperBrowser.Services.Service
+namespace AllDto.Services.Service
 {
     public class BaseService<TEntity, TEntityDTO, TKey> : IBaseService<TEntity, TEntityDTO, TKey> where TEntityDTO : class where TEntity : EntityBase<TKey>, new() where TKey: struct
     {

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using yrjw.ORM.Chimp;
 
-namespace AllModel
+namespace AllModel.Code
 {
     /// <summary>
     /// 包含通用模型实体基类，主键int类型自增

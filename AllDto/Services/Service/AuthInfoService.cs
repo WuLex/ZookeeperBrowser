@@ -12,13 +12,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using yrjw.ORM.Chimp;
 using yrjw.ORM.Chimp.Result;
-using ZookeeperBrowser.Common.Cache.MemoryCache;
+using AllDto.Common.Cache.MemoryCache;
 using AllDto.Services;
 using AllModel.Enums;
 using AllModel;
 using AllDto.Common.yrjw.CommonToolsCore.Helper;
+using AllDto.Services.IService;
 
-namespace ZookeeperBrowser.Services.Service
+namespace AllDto.Services.Service
 {
     public class AuthInfoService : BaseService<AuthInfo, AuthInfoDTO, int>, IAuthInfoService, IDependency
     {

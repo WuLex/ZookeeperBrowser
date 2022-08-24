@@ -6,7 +6,7 @@ using AllDto.Login;
 using System;
 using AllModel;
 
-namespace AllDto.Services
+namespace AllDto.Services.IService
 {
     public interface IAuthInfoService : IBaseService<AuthInfo, AuthInfoDTO, int>
     {

@@ -1,6 +1,5 @@
 ﻿using AllDto.Common.Auth.Jwt;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using AllDto;
@@ -8,14 +7,13 @@ using AllDto.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using yrjw.ORM.Chimp;
 using yrjw.ORM.Chimp.Result;
-using AllDto.Services;
-using ZookeeperBrowser.Common.Cache.MemoryCache;
+using AllDto.Common.Cache.MemoryCache;
 using AllModel;
+using AllDto.Services.IService;
 
-namespace ZookeeperBrowser.Services.Service
+namespace AllDto.Services.Service
 {
     public class ConfigService : BaseService<Config, ConfigDTO, int>, IConfigService, IDependency
     {

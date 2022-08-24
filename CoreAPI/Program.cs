@@ -1,4 +1,6 @@
-
+using AllDto.Services;
+using AllDto.Services.IService;
+using AllDto.Services.Service;
 using CoreAPI.Config;
 
 #region ∞Û∂®≈‰÷√¿‡
@@ -45,6 +47,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IConfigService, ConfigService>();
 
 builder.Services.AddWebHost(builder.Environment);
 #endregion

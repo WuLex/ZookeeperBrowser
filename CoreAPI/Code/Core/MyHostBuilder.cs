@@ -5,7 +5,7 @@ using Serilog;
 using CoreAPI.Config;
 using System;
 using System.IO;
-using ZookeeperBrowser.Common.Logging.Serilog;
+using AllDto.Common.Logging.Serilog;
 
 namespace CoreAPI.Code.Core
 {

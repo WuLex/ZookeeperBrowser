@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace ZookeeperBrowser.Common.Cache.MemoryCache
+namespace AllDto.Common.Cache.MemoryCache
 {
     public class MemoryCacheHandler : ICacheHandler
     {

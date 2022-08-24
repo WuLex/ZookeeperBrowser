@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using System;
 
-namespace ZookeeperBrowser.Common.Logging.Serilog
+namespace AllDto.Common.Logging.Serilog
 {
     public static class WebHostBuilderExtensions
     {

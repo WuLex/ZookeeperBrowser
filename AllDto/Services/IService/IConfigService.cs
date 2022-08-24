@@ -4,7 +4,7 @@ using yrjw.ORM.Chimp.Result;
 using AllDto;
 using AllModel;
 
-namespace AllDto.Services
+namespace AllDto.Services.IService
 {
     public interface IConfigService : IBaseService<Config, ConfigDTO, int>
     {

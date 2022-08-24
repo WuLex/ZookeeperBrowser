@@ -1,14 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using AllDto;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using yrjw.ORM.Chimp.Result;
-using AllDto.Services;
 using AllDto.Common.yrjw.CommonToolsCore.Attributes;
+using AllDto.Services.IService;
 
 namespace AllDto.Common.Auth.Jwt
 {

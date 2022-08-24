@@ -1,4 +1,5 @@
-﻿using AllModel.Enums;
+﻿using AllModel.Code;
+using AllModel.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
