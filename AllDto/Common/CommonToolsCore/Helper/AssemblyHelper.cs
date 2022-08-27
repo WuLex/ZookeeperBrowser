@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Microsoft.Extensions.DependencyModel;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Helper
+namespace AllDto.Common.CommonToolsCore.Helper
 {
     /// <summary>
     /// 程序集操作帮助类

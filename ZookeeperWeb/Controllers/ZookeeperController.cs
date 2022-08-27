@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Net;
@@ -9,6 +10,8 @@ using ZookeeperBrowser.ViewModel;
 
 namespace ZookeeperBrowser.Controllers
 {
+
+    [Authorize]
     public class ZookeeperController : Controller
     {
         public readonly IZookeeperService _zookeeperService;
@@ -26,12 +29,7 @@ namespace ZookeeperBrowser.Controllers
             return View();
         }
 
-        public ActionResult IndexTwo()
-        {
-            return View();
-        }
-
-        public ActionResult IndexThree()
+        public ActionResult Index()
         {
             return View();
         }

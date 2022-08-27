@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Helper
+namespace AllDto.Common.CommonToolsCore.Helper
 {
     public class ValidateCodeHelper
     {

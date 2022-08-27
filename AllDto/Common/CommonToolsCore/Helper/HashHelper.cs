@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Helper
+namespace AllDto.Common.CommonToolsCore.Helper
 {
     /// <summary>
     /// 字符串Hash操作类

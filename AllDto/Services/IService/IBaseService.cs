@@ -1,11 +1,11 @@
 ﻿using AllModel;
 using AllModel.Code;
+using AllModel.MyOrm.Result;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using yrjw.ORM.Chimp;
-using yrjw.ORM.Chimp.Result;
+
 
 namespace AllDto.Services.IService
 {

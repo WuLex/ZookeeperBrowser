@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	
+	
   <ItemGroup>
     <None Remove="Common\Auth.Jwt\Config\authconfig.json" />
     <None Remove="Common\Logging.Serilog\Config\logging.Development.json" />

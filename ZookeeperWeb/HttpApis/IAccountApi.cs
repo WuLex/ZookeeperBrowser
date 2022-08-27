@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using WebApiClient;
 using WebApiClient.Attributes;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 using AllDto;
 
 namespace ZookeeperBrowser.HttpApis

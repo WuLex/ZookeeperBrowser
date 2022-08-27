@@ -46,10 +46,11 @@ namespace AllModel
         public EnumStatus Status { get; set; }
 
         //通过override重写，标记NotMapped特性排除基类属性，不生成表字段
-        [NotMapped]
-        public override DateTime CreatedTime { get => base.CreatedTime; set => base.CreatedTime = value; }
-        [NotMapped]
-        public override string OperatorName { get => base.OperatorName; set => base.OperatorName = value; }
+        //[NotMapped]
+        //public override DateTime CreatedTime { get => base.CreatedTime; set => base.CreatedTime = value; }
+      
+        //[NotMapped]
+        //public override string OperatorName { get => base.OperatorName; set => base.OperatorName = value; }
 
     }
 }

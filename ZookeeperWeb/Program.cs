@@ -32,7 +32,6 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 builder.Services.AddSession();
 
 builder.Services.AddSingleton<IZookeeperService, ZookeeperService>();
-//builder.Services.AddScoped<IMyDependency2, MyDependency2>();
 builder.Services.AddSingleton<ZooKeeperManager>(ZooKeeperManager.Instance);
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

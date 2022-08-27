@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Attributes
+namespace AllDto.Common.CommonToolsCore.Attributes
 {
     /// <summary>
-    /// 瞬时注入(使用该特性的服务系统会自动注入)
+    /// 单例注入(使用该特性的服务系统会自动注入)
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property)]
-    public class TransientAttribute : Attribute
+    public class ScopedAttribute : Attribute
     {
         /// <summary>
         /// 是否使用自身的类型进行注入
@@ -18,7 +18,7 @@ namespace AllDto.Common.yrjw.CommonToolsCore.Attributes
         /// <summary>
         /// 
         /// </summary>
-        public TransientAttribute()
+        public ScopedAttribute()
         {
         }
 
@@ -26,7 +26,7 @@ namespace AllDto.Common.yrjw.CommonToolsCore.Attributes
         /// 是否使用自身的类型进行注入
         /// </summary>
         /// <param name="itself"></param>
-        public TransientAttribute(bool itself = false)
+        public ScopedAttribute(bool itself = false)
         {
             Itself = itself;
         }

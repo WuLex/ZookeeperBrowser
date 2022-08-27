@@ -1,23 +1,16 @@
-﻿using AllDto.Common.Auth.Jwt;
+﻿using AllDto.Cache;
+using AllDto.Common.Auth.Jwt;
+using AllDto.Common.Cache.MemoryCache;
+using AllDto.Common.CommonToolsCore.Helper;
+using AllDto.Login;
+using AllDto.Services.IService;
+using AllModel;
+using AllModel.Enums;
+using AllModel.MyOrm;
+using AllModel.MyOrm.Result;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using AllDto;
-using AllDto.Cache;
-using AllDto.Login;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using yrjw.ORM.Chimp;
-using yrjw.ORM.Chimp.Result;
-using AllDto.Common.Cache.MemoryCache;
-using AllDto.Services;
-using AllModel.Enums;
-using AllModel;
-using AllDto.Common.yrjw.CommonToolsCore.Helper;
-using AllDto.Services.IService;
 
 namespace AllDto.Services.Service
 {
@@ -33,34 +26,43 @@ namespace AllDto.Services.Service
 
         public async Task<IResultModel> Login(LoginModel model)
         {
-            //检测验证码
-            if (AuthConfigData.AuthConfig.VerifyCode)
+            try
             {
-                var verifyCodeCheckResult = CheckVerifyCode(model);
-                if (!verifyCodeCheckResult.Success)
-                    return verifyCodeCheckResult;
-            }
+                //检测验证码
+                if (AuthConfigData.AuthConfig.VerifyCode)
+                {
+                    var verifyCodeCheckResult = CheckVerifyCode(model);
+                    if (!verifyCodeCheckResult.Success)
+                        return verifyCodeCheckResult;
+                }
 
-            //检查账户密码
-            var entity = await repAccount.Value.TableNoTracking.FirstAsync(p => p.UserName == model.UserName.Trim());
-            if (entity == null)
-            {
-                return ResultModel.Failed("用户名密码错误"); //用户不存在
-            }
+                //检查账户密码
+                var entity = await repAccount.Value.TableNoTracking.FirstAsync(p => p.UserName == model.UserName.Trim());
+                if (entity == null)
+                {
+                    return ResultModel.Failed("用户名密码错误"); //用户不存在
+                }
 
-            var _passWord = $"{model.UserName}_{model.Password}".ToMd5Hash();
-            if (!_passWord.Equals(entity.PassWord))
-            {
-                return ResultModel.Failed("用户名密码错误");
-            }
+                var _passWord = $"{model.UserName}_{model.Password}".ToMd5Hash();
+                if (!_passWord.Equals(entity.PassWord))
+                {
+                    return ResultModel.Failed("用户名密码错误");
+                }
 
-            //更新认证信息并返回登录结果
-            var resultModel = await UpdateAuthInfo(entity, model);
-            if (resultModel != null)
-            {
-                return ResultModel.Success(resultModel);
+                //更新认证信息并返回登录结果
+                var resultModel = await UpdateAuthInfo(entity, model);
+                if (resultModel != null)
+                {
+                    return ResultModel.Success(resultModel);
+                }
+                return ResultModel.Failed("更新认证信息失败");
             }
-            return ResultModel.Failed("更新认证信息失败");
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return ResultModel.Failed("更新认证信息失败");
+            }
+          
         }
 
         public async Task<IResultModel> CreateVerifyCode(int length = 4)
@@ -108,7 +110,7 @@ namespace AllDto.Services.Service
             var accountDTO = _mapper.Value.Map<AccountDTO>(account);
             if (account.Status != EnumStatus.Enabled)
                 return ResultModel.Failed($"账户状态：{accountDTO.StatusName}");
-            
+
             return ResultModel.Success(new LoginResultModel
             {
                 Account = accountDTO,

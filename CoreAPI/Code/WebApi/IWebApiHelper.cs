@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApiClient;
 using WebApiClient.Attributes;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 
 namespace CoreAPI.Code.WebApi
 {

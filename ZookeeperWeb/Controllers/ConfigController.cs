@@ -8,8 +8,8 @@ using Microsoft.Extensions.Logging;
 using AllDto;
 using ZookeeperBrowser.HttpApis;
 using ZookeeperBrowser.ViewModels;
-using yrjw.ORM.Chimp.Result;
-using AllDto.Common.yrjw.CommonToolsCore.Helper;
+using AllModel.MyOrm.Result;
+using AllDto.Common.CommonToolsCore.Helper;
 
 namespace ZookeeperBrowser.Controllers
 {

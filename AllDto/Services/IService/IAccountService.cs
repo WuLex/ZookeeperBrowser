@@ -1,9 +1,8 @@
-﻿using yrjw.ORM.Chimp;
-using System.Threading.Tasks;
-using yrjw.ORM.Chimp.Result;
+﻿using System.Threading.Tasks;
 using AllDto;
 using System;
 using AllModel;
+using AllModel.MyOrm.Result;
 
 namespace AllDto.Services.IService
 {

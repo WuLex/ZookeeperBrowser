@@ -9,12 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using yrjw.ORM.Chimp;
-using yrjw.ORM.Chimp.Result;
 using AllDto.Services;
 using AllModel;
 using AllDto.Services.IService;
 using AllModel.Code;
+using AllModel.MyOrm.Result;
+using AllModel.MyOrm;
 
 namespace AllDto.Services.Service
 {
@@ -74,7 +74,7 @@ namespace AllDto.Services.Service
         public virtual async Task<IResultModel> InsertAsync(TEntityDTO model)
         {
             var entity = _mapper.Value.Map<TEntity>(model);
-            entity.CreatedTime = DateTime.Now;
+            //entity.CreatedTime = DateTime.Now;
             entity.ModifiedTime = DateTime.Now;
             if (_loginInfo != null && _loginInfo.Value != null)
             {

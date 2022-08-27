@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using yrjw.ORM.Chimp;
+using AllModel.MyOrm;
 
 namespace AllModel.Code
 {
@@ -28,8 +28,8 @@ namespace AllModel.Code
     /// <typeparam name="TKey">主键类型</typeparam>
     public class EntityBaseNoDeleted<TKey> : EntityBase<TKey> where TKey : struct
     {
-        [NotMapped]
-        public override int Deleted { get => base.Deleted; set => base.Deleted = value; }
+        //[NotMapped]
+        //public override int Deleted { get => base.Deleted; set => base.Deleted = value; }
     }
 
     /// <summary>
@@ -40,10 +40,16 @@ namespace AllModel.Code
     {
         [Key]
         public TKey Id { get; set; }
+
+
+
         /// <summary>
         /// 创建时间
         /// </summary>
+        [NotMapped]
         public virtual DateTime CreatedTime { get; set; } = DateTime.Now;
+
+
         /// <summary>
         /// 修改时间
         /// </summary>
@@ -51,11 +57,14 @@ namespace AllModel.Code
         /// <summary>
         /// 操作人名称
         /// </summary>
+        [NotMapped]
         public virtual string OperatorName { get; set; }
+       
         /// <summary>
         /// 软删除
         /// </summary>
         [DefaultValue(0)]
+        [NotMapped]
         public virtual int Deleted { get; set; }
     }
 }

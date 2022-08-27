@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 using AllDto.Services.IService;
 
 namespace AllDto.Common.Auth.Jwt

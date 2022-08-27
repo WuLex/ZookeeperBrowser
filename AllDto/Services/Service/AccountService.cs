@@ -7,11 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using yrjw.ORM.Chimp;
-using yrjw.ORM.Chimp.Result;
 using AllDto.Services;
 using AllModel;
 using AllDto.Services.IService;
+using AllModel.MyOrm;
+using AllModel.MyOrm.Result;
 
 namespace AllDto.Services.Service
 {

@@ -1,4 +1,4 @@
-﻿using AllDto.Common.yrjw.CommonToolsCore.Attributes;
+﻿using AllDto.Common.CommonToolsCore.Attributes;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

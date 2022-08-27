@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Attributes
+namespace AllDto.Common.CommonToolsCore.Attributes
 {
     /// <summary>
     /// 单例注入(使用该特性的服务系统会自动注入)
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property)]
-    public class ScopedAttribute : Attribute
+    public class SingletonAttribute : Attribute
     {
         /// <summary>
         /// 是否使用自身的类型进行注入
@@ -18,15 +18,16 @@ namespace AllDto.Common.yrjw.CommonToolsCore.Attributes
         /// <summary>
         /// 
         /// </summary>
-        public ScopedAttribute()
+        public SingletonAttribute()
         {
+            Itself = false;
         }
 
         /// <summary>
         /// 是否使用自身的类型进行注入
         /// </summary>
         /// <param name="itself"></param>
-        public ScopedAttribute(bool itself = false)
+        public SingletonAttribute(bool itself)
         {
             Itself = itself;
         }

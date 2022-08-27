@@ -9,7 +9,7 @@ using AllDto.Login;
 using ZookeeperBrowser.HttpApis;
 using ZookeeperBrowser.ViewModels;
 using AllModel.Enums;
-using AllDto.Common.yrjw.CommonToolsCore.Helper;
+using AllDto.Common.CommonToolsCore.Helper;
 
 namespace ZookeeperBrowser.Controllers
 {
@@ -48,6 +48,12 @@ namespace ZookeeperBrowser.Controllers
                 model.Password = vModel.password;
                 model.Platform = EnumPlatform.Web;
                 model.VerifyCode = new VerifyCodeModel() { Id = id.ToString(), Code = vModel.code };
+
+                //获取ip地址
+                model.IP = HttpContext.Connection.RemoteIpAddress.ToString()??"";
+                //获取UserAgent
+                model.UserAgent = HttpContext.Request.Headers["User-Agent"].FirstOrDefault() ?? "";
+
                 var result = await _authApi.Login(model);
                 if (result.Success)
                 {
@@ -67,13 +73,21 @@ namespace ZookeeperBrowser.Controllers
         /// <returns></returns>
         public async Task<IActionResult> GetValidataCodeAsync()
         {
-            var result = await _authApi.GetVerifyCode(4);
-            if (result.Success)
+            try
             {
-                TempData["VerifyCode_ID"] = result.Data.Id;
-                var imgValidateCode = Convert.FromBase64String(result.Data.Code.Replace("data:image/png;base64,",""));
-                return File(imgValidateCode, "image/jpeg");
+                var result = await _authApi.GetVerifyCode(4);
+                if (result.Success)
+                {
+                    TempData["VerifyCode_ID"] = result.Data.Id;
+                    var imgValidateCode = Convert.FromBase64String(result.Data.Code.Replace("data:image/png;base64,", ""));
+                    return File(imgValidateCode, "image/jpeg");
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+         
             return File(ValidateCodeHelper.CreateValidateGraphic(""), "image/jpeg");
         }
 
@@ -117,7 +131,7 @@ namespace ZookeeperBrowser.Controllers
                 IsPersistent = false,
                 ExpiresUtc = null,
                 //AllowRefresh = true,
-                RedirectUri = "/Home/MainPC"
+                RedirectUri = "/Zookeeper/Index"
             });
 
             //如果当前 Http 请求本来登录了用户 A，现在调用 HttpContext.SignInAsync 方法登录用户 B，那么相当于注销用户 A，登录用户 B

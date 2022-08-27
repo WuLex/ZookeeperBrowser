@@ -1,4 +1,4 @@
-﻿using AllDto.Common.yrjw.CommonToolsCore.Helper;
+﻿using AllDto.Common.CommonToolsCore.Helper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;

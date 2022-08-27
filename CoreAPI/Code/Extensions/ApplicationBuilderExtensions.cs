@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using yrjw.ORM.Chimp.Result;
-using AllDto.Common.yrjw.CommonToolsCore.Helper;
+using AllModel.MyOrm.Result;
+using AllDto.Common.CommonToolsCore.Helper;
 
 namespace Microsoft.AspNetCore.Builder
 {

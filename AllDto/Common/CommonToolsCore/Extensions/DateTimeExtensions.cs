@@ -1,4 +1,4 @@
-﻿using AllDto.Common.yrjw.CommonToolsCore.Helper;
+﻿using AllDto.Common.CommonToolsCore.Helper;
 
 namespace System
 {

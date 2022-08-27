@@ -22,4 +22,8 @@
     <ProjectReference Include="..\AllDto\AllDto.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="log\" />
+  </ItemGroup>
+
 </Project>

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 
 namespace CoreAPI.Controllers
 {

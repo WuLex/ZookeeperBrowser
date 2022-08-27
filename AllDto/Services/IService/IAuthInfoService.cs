@@ -1,6 +1,6 @@
-﻿using yrjw.ORM.Chimp;
+﻿using AllModel.MyOrm;
 using System.Threading.Tasks;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 using AllDto;
 using AllDto.Login;
 using System;

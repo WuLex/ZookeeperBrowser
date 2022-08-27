@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Helper
+namespace AllDto.Common.CommonToolsCore.Helper
 {
     /// <summary>
     /// JSON序列化和反序列化

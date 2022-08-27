@@ -8,7 +8,7 @@ using AllDto;
 using AllDto.Services.IService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 
 namespace CoreAPI.Controllers
 {

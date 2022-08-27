@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using AllDto.Common.yrjw.CommonToolsCore.Helper;
+using AllDto.Common.CommonToolsCore.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 
 namespace CoreAPI.Code.Middleware
 {

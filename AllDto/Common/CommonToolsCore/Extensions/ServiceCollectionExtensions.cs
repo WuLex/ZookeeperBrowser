@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllDto.Common.yrjw.CommonToolsCore.Attributes;
-using AllDto.Common.yrjw.CommonToolsCore.Helper;
+using AllDto.Common.CommonToolsCore.Attributes;
+using AllDto.Common.CommonToolsCore.Helper;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Extensions
+namespace AllDto.Common.CommonToolsCore.Extensions
 {
     public static class ServiceCollectionExtensions
     {

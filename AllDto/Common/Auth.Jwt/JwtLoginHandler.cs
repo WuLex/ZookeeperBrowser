@@ -3,9 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using yrjw.ORM.Chimp.Result;
-using AllDto.Common.yrjw.CommonToolsCore.Attributes;
+using AllDto.Common.CommonToolsCore.Attributes;
 using AllDto.Services.IService;
+using AllModel.MyOrm.Result;
 
 namespace AllDto.Common.Auth.Jwt
 {

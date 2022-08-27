@@ -19,9 +19,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebApiClient;
 using AllDto.Profiles;
-using AllDto.Common.yrjw.CommonToolsCore.Extensions;
+using AllDto.Common.CommonToolsCore.Extensions;
 using AllDto.Common.Auth.Jwt;
 using AllModel.Code;
+using AllModel.MyOrm;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -223,7 +224,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddORM(this IServiceCollection services, BasicSetting setting)
         {
-            if (setting.DbType == yrjw.ORM.Chimp.DbType.MYSQL)
+            if (setting.DbType == DbType.MYSQL)
             {
                 //UseLazyLoadingProxies 通过延迟加载获取导航属性数据
                 services.AddChimp<myDbContext>(opt => opt.UseLazyLoadingProxies().UseMySql(setting.ConnectionString, new MySqlServerVersion(new Version(8, 0, 29)),

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AllDto.Common.yrjw.CommonToolsCore.Helper
+namespace AllDto.Common.CommonToolsCore.Helper
 {
     public class DateTimeHelper
     {

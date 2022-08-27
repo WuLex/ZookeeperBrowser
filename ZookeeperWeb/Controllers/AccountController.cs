@@ -7,7 +7,7 @@ using AllDto;
 using ZookeeperBrowser.Code;
 using ZookeeperBrowser.HttpApis;
 using ZookeeperBrowser.ViewModels;
-using yrjw.ORM.Chimp.Result;
+using AllModel.MyOrm.Result;
 using AllDto.Common.Auth.Jwt;
  
 

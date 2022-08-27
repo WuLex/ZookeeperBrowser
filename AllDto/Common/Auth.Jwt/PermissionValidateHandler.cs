@@ -1,4 +1,4 @@
-﻿using AllDto.Common.yrjw.CommonToolsCore.Attributes;
+﻿using AllDto.Common.CommonToolsCore.Attributes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
