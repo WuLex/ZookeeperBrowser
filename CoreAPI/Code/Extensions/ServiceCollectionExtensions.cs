@@ -103,7 +103,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 注册Swagger生成器
+        /// 注册Swagger生成器,可以定义一个或多个 Swagger 文档
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -111,7 +111,6 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddSwaggerGen(c =>
             {
-               
                 //遍历出全部的版本，做文档信息展示
                 typeof(ApiVersions).GetEnumNames().ToList().ForEach(version =>
                 {
@@ -121,13 +120,14 @@ namespace Microsoft.Extensions.DependencyInjection
                         Version = version,
                         Title = $"{BasicSetting.Setting.AssemblyName} 接口文档 - Net6",
                         Description = $"{BasicSetting.Setting.AssemblyName} HTTP API " + version,
-                        Contact = new OpenApiContact { Name = "一如既往", Email = "h_gxi@foxmail.com", Url = new Uri("https://www.cnblogs.com/han1982") },
-                        //License = new OpenApiLicense { Name = BasicSetting.Setting.AssemblyName + " 官方文档", Url = new Uri("https://www.cnblogs.com/han1982") }
+                        Contact = new OpenApiContact { Name = "灵风幻火", Email = "**********@qq.com", Url = new Uri("https://www.cnblogs.com/Wulex/") },
+                        //License = new OpenApiLicense { Name = BasicSetting.Setting.AssemblyName + " 官方文档", Url = new Uri("https://www.cnblogs.com/Wulex/") }
                     });
                     c.OrderActionsBy(o => o.RelativePath);
                 });
-
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, BasicSetting.Setting.AssemblyName + ".xml");
+                
+                //为 Swagger JSON and UI设置xml文档注释路径
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, BasicSetting.Setting.AssemblyName + ".xml"); //获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
                 c.IncludeXmlComments(filePath);
 
                 var securityScheme = new OpenApiSecurityScheme

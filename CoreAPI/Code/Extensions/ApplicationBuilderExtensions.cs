@@ -39,6 +39,8 @@ namespace Microsoft.AspNetCore.Builder
             //启用默认页
             app.UseDefaultPage();
 
+            
+
             //启动文档页
             app.UseDocs();
 
@@ -69,12 +71,17 @@ namespace Microsoft.AspNetCore.Builder
                 endpoints.MapControllers();
             });
 
+            //app.UseStaticFiles();
             //开启Swagger
             if (env.IsDevelopment())
             {
                 app.UseCustomSwagger();
             }
-
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            //}
             return app;
         }
 
@@ -157,11 +164,13 @@ namespace Microsoft.AspNetCore.Builder
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                //路径配置，设置为空，表示直接在根域名（localhost:8001）访问该文件
+                //c.RoutePrefix = "swagger"; // 如果你想换一个路径，直接写名字即可，比如直接写c.RoutePrefix = "swagger"; 则访问路径为 根域名/swagger/index.html
                 c.RoutePrefix = "api-docs";
                 typeof(ApiVersions).GetEnumNames().OrderByDescending(e => e).ToList().ForEach(version =>
                 {
                     version = version.Replace('_', '.');
-                    c.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"{BasicSetting.Setting.AssemblyName} {version}");
+                    c.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"{BasicSetting.Setting.AssemblyName} {version}- Zookeeper服务API文档");
                 });
                 //c.SwaggerEndpoint("/swagger/v1.0/swagger.json", BasicSetting.Setting.AssemblyName + " v1.0");
                 c.DisplayOperationId();
@@ -188,7 +197,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 if(context.HttpContext.Response.StatusCode != 200)
                 {
-                    
+
                     if (context.HttpContext.Request.Path.Value.ToLower().StartsWith("/upload/"))
                     {
                         context.HttpContext.Response.Redirect("/Upload/upload-404.png");
@@ -200,7 +209,7 @@ namespace Microsoft.AspNetCore.Builder
                             JsonHelper.SerializeJSON(ResultModel.Failed($"Status code page, status code: {context.HttpContext.Response.StatusCode}"))
                             );
                     }
-                    
+
                 }
             });
             return app;

@@ -59,13 +59,6 @@ builder.Services.AddWebHost(builder.Environment);
 
 var app = builder.Build();
  
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
-
 app.UseWebHost(app.Environment);
 
 //app.UseAuthorization();
