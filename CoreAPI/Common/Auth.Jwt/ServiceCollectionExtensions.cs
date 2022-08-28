@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AllDto.Common.Auth.Jwt
+namespace CoreAPI.Common.Auth.Jwt
 {
     public static class ServiceCollectionExtensions
     {

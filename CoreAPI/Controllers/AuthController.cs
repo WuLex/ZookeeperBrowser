@@ -4,15 +4,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AllDto.Common.Auth.Jwt;
+using CoreAPI.Common.Auth.Jwt;
 using AllDto.Login;
-using AllDto.Services;
-using AllDto.Services.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using AllModel.MyOrm.Result;
+using CoreAPI.Services.IService;
+using AllDto.Common.Auth.Jwt;
 
 namespace CoreAPI.Controllers
 {

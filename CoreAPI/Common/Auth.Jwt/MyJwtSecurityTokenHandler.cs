@@ -3,9 +3,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AllModel.MyOrm.Result;
-using AllDto.Services.IService;
+using AllDto.Common.Auth.Jwt;
+using AllDto;
+using CoreAPI.Services.IService;
 
-namespace AllDto.Common.Auth.Jwt
+namespace CoreAPI.Common.Auth.Jwt
 {
     /// <summary>
     /// 因为签名的key是动态的，所以需要自定义jwt令牌验证处理器

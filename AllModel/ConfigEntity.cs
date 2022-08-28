@@ -12,7 +12,7 @@ namespace AllModel
     /// 配置表
     /// </summary>
     [Table("Config")]
-    public partial class Config : EntityBaseNoDeleted
+    public partial class ConfigEntity : EntityBaseNoDeleted
     {
         /// <summary>
         /// 配置代码

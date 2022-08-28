@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using org.apache.zookeeper;
 using System.Text;
 using ZookeeperBrowser.Message;
@@ -9,6 +10,7 @@ using ZookeeperBrowser.Utils;
 
 namespace ZookeeperBrowser.Controllers
 {
+    [Authorize]
     public class ZKManagerController : Controller
     {
         private readonly ZooKeeperManager _zkManager;

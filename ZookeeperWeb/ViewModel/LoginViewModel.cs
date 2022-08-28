@@ -35,5 +35,11 @@ namespace ZookeeperBrowser.ViewModels
         /// 有效期(秒)
         /// </summary>
         public int ExpiresIn { get; set; }
+
+        /// <summary>
+        /// 登录账号名称
+        /// </summary>
+        public string AccountName { get; set; }
+
     }
 }

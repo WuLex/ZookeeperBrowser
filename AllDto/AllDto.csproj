@@ -6,30 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-	
-	
   <ItemGroup>
-    <None Remove="Common\Auth.Jwt\Config\authconfig.json" />
-    <None Remove="Common\Logging.Serilog\Config\logging.Development.json" />
-    <None Remove="Common\Logging.Serilog\Config\logging.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Common\Auth.Jwt\Config\authconfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="Common\Logging.Serilog\Config\logging.Development.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="Common\Logging.Serilog\Config\logging.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>

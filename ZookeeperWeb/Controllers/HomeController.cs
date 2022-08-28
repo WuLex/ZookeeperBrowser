@@ -9,6 +9,8 @@ using AllModel.Enums;
 
 namespace ZookeeperBrowser.Controllers
 {
+
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -1,8 +1,9 @@
-﻿using AllDto.Common.CommonToolsCore.Attributes;
+﻿using AllDto.Common.Auth.Jwt;
+using AllDto.Common.CommonToolsCore.Attributes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AllDto.Common.Auth.Jwt
+namespace CoreAPI.Common.Auth.Jwt
 {
     /// <summary>
     /// 权限验证

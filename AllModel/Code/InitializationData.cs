@@ -6,8 +6,8 @@ namespace AllModel.Code
 {
     public class InitializationData
     {
-        public List<Config> Config { get; set; }
-        public List<Account> Account { get; set; }
+        public List<ConfigEntity> ConfigEntity { get; set; }
+        public List<AccountEntity> AccountEntity { get; set; }
         //public List<Depart> Depart { get; set; }
         //public List<StudentInfo> StudentInfo { get; set; }
 

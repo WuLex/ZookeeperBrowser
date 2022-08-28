@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AllModel
 {
     [NotMapped]
-    public partial class Account
+    public partial class AccountEntity
     {
         /// <summary>
         /// 类型展示

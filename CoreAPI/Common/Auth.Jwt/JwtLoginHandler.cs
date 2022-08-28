@@ -3,11 +3,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using AllDto.Common.CommonToolsCore.Attributes;
-using AllDto.Services.IService;
 using AllModel.MyOrm.Result;
+using AllDto.Common.Auth.Jwt;
+using AllDto.Common.CommonToolsCore.Attributes;
+using CoreAPI.Services.IService;
+using AllDto;
 
-namespace AllDto.Common.Auth.Jwt
+namespace CoreAPI.Common.Auth.Jwt
 {
     [Scoped]
     public class JwtLoginHandler : ILoginHandler
@@ -39,7 +41,8 @@ namespace AllDto.Common.Auth.Jwt
             {
                 AccessToken = token,
                 ExpiresIn = jwtConfig.Expires * 60,
-                RefreshToken = extendData
+                RefreshToken = extendData,
+                AccountName= claims.FirstOrDefault(claimRecord => claimRecord.Type == ClaimsName.AccountName).Value
             };
 
             return model;

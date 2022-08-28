@@ -12,7 +12,7 @@ namespace AllModel
     /// 账户表
     /// </summary>
     [Table("Account")]
-    public partial class Account : EntityBaseNoDeleted<Guid>
+    public partial class AccountEntity : EntityBaseNoDeleted<Guid>
     {
         /// <summary>
         /// 账号

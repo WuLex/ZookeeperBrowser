@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AllDto.Common.Auth.Jwt
+namespace CoreAPI.Common.Auth.Jwt
 {
     [Singleton]
     public class IpHelper

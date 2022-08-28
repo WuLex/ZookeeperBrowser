@@ -29,11 +29,19 @@ namespace AllModel.MyOrm
                     .Where(type => !type.Name.StartsWith("EntityBase"))
                     .Where(type => typeof(IEntity).IsAssignableFrom(type));
 
+                //添加表实体类型
                 foreach (var entityType in entityTypes)
                 {
                     if (modelBuilder.Model.FindEntityType(entityType) != null)
                         continue;
                     modelBuilder.Model.AddEntityType(entityType);
+                }
+
+                //表实体类型名称转表名
+                foreach (var entity in modelBuilder.Model.GetEntityTypes())
+                {
+                    string currentTableName = modelBuilder.Entity(entity.Name).Metadata.GetTableName();
+                    modelBuilder.Entity(entity.Name).ToTable(currentTableName);
                 }
             }
             base.OnModelCreating(modelBuilder);

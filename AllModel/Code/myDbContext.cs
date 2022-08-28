@@ -14,13 +14,13 @@ namespace AllModel.Code
         {
         }
 
-        public DbSet<Account> Accounts { get; set; }
+        //public DbSet<AccountEntity> Accounts { get; set; }
 
 
-        public DbSet<AuthInfo> AuthInfos { get; set; }
+        //public DbSet<AuthInfoEntity> AuthInfos { get; set; }
 
 
-        public DbSet<Config> Configs    { get; set; }
+        //public DbSet<ConfigEntity> Configs    { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -40,9 +40,9 @@ namespace AllModel.Code
             modelBuilder.ApplyConfiguration(new ConfigConfiguration());
         }
 
-        internal sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
+        internal sealed class AccountConfiguration : IEntityTypeConfiguration<AccountEntity>
         {
-            public void Configure(EntityTypeBuilder<Account> builder)
+            public void Configure(EntityTypeBuilder<AccountEntity> builder)
             {
                 builder.HasKey(x => x.Id);
                 builder.Property(b => b.UserName);
@@ -58,9 +58,9 @@ namespace AllModel.Code
             }
         }
 
-        internal sealed class AuthInfoConfiguration : IEntityTypeConfiguration<AuthInfo>
+        internal sealed class AuthInfoConfiguration : IEntityTypeConfiguration<AuthInfoEntity>
         {
-            public void Configure(EntityTypeBuilder<AuthInfo> builder)
+            public void Configure(EntityTypeBuilder<AuthInfoEntity> builder)
             {
                 builder.HasKey(x => x.Id);
 
@@ -81,9 +81,9 @@ namespace AllModel.Code
             }
         }
 
-        internal sealed class ConfigConfiguration : IEntityTypeConfiguration<Config>
+        internal sealed class ConfigConfiguration : IEntityTypeConfiguration<ConfigEntity>
         {
-            public void Configure(EntityTypeBuilder<Config> builder)
+            public void Configure(EntityTypeBuilder<ConfigEntity> builder)
             {
                 builder.HasKey(x => x.Id);
                 builder.Property(x => x.Code);

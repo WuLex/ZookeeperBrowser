@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AllDto.Common.Auth.Jwt;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -16,12 +17,14 @@ namespace ZookeeperBrowser.Controllers
     {
         public readonly IZookeeperService _zookeeperService;
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
 
-        public ZookeeperController(IZookeeperService zookeeperService, IConfiguration configuration)
+        public ZookeeperController(IZookeeperService zookeeperService, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _zookeeperService = zookeeperService;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public ActionResult IndexOne()
@@ -31,6 +34,8 @@ namespace ZookeeperBrowser.Controllers
 
         public ActionResult Index()
         {
+           ViewBag.AccountName = _httpContextAccessor.HttpContext.User.FindFirst(nameof(ClaimsName.AccountName)).Value;
+
             return View();
         }
 

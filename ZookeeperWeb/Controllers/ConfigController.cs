@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AllDto.Common.Auth.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +8,7 @@ using AllDto;
 using ZookeeperBrowser.HttpApis;
 using ZookeeperBrowser.ViewModels;
 using AllModel.MyOrm.Result;
+using AllDto.Common.Auth.Jwt;
 using AllDto.Common.CommonToolsCore.Helper;
 
 namespace ZookeeperBrowser.Controllers

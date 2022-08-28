@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AllDto.Common.Auth.Jwt;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace AllDto.Common.Auth.Jwt
+namespace CoreAPI.Common.Auth.Jwt
 {
     /// <summary>
     /// 登录处理

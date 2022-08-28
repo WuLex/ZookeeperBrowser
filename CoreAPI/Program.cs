@@ -1,7 +1,7 @@
-using AllDto.Services;
-using AllDto.Services.IService;
-using AllDto.Services.Service;
+
 using CoreAPI.Config;
+using CoreAPI.Services.IService;
+using CoreAPI.Services.Service;
 
 #region ∞Û∂®≈‰÷√¿‡
 IConfiguration configuration = new ConfigurationBuilder()

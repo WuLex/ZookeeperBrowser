@@ -17,6 +17,26 @@
 </head>
 <body class="layui-layout-body">
 
+<div class="layui-header">
+    <!-- 头部区域（可配合layui 已有的水平导航） -->
+    <ul class="layui-nav"  style="background-color: #009688;">
+      <!-- 移动端显示 -->
+      <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+        <i class="layui-icon layui-icon-spread-left"></i>
+      </li>
+     
+
+      <li class="layui-nav-item layui-hide-xs">
+           欢迎 @ViewBag.AccountName,
+          <a href="/Login/LoginOut" style="display: inline;">
+          <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-demo="">退出</button>
+          </a>
+      </li>
+    </ul>
+  
+</div>
+
+
 <div class="container body-content">
     @RenderBody()
     <hr/>

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AllDto.Common.Cache.MemoryCache;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -19,10 +18,11 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebApiClient;
 using AllDto.Profiles;
-using AllDto.Common.CommonToolsCore.Extensions;
-using AllDto.Common.Auth.Jwt;
+using CoreAPI.Common.Auth.Jwt;
 using AllModel.Code;
 using AllModel.MyOrm;
+using AllDto.Common.Cache.MemoryCache;
+using AllDto.Common.CommonToolsCore.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

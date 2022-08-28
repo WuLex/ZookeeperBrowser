@@ -8,7 +8,6 @@ using ZookeeperBrowser.Code;
 using ZookeeperBrowser.HttpApis;
 using ZookeeperBrowser.ViewModels;
 using AllModel.MyOrm.Result;
-using AllDto.Common.Auth.Jwt;
  
 
 namespace ZookeeperBrowser.Controllers
@@ -16,10 +15,10 @@ namespace ZookeeperBrowser.Controllers
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly AllDto.Common.Auth.Jwt.ILoginInfo _loginInfo;
+        private readonly ILoginInfo _loginInfo;
         public readonly IAccountApi _accountApi;
 
-        public AccountController(ILogger<AccountController> logger, AllDto.Common.Auth.Jwt.ILoginInfo loginInfo, IAccountApi accountApi)
+        public AccountController(ILogger<AccountController> logger, ILoginInfo loginInfo, IAccountApi accountApi)
         {
             _logger = logger;
             _loginInfo = loginInfo;

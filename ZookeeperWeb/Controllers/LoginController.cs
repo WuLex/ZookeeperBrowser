@@ -24,11 +24,15 @@ namespace ZookeeperBrowser.Controllers
             _authApi = authApi;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var userid = TempData["userid"];
             if (userid != null)
+            {
                 return View(new LoginViewModel() { userid = userid.ToString() });
+            }
+
             return View(new LoginViewModel());
         }
 
@@ -112,6 +116,7 @@ namespace ZookeeperBrowser.Controllers
             identity.AddClaim(new Claim("AccessToken", jwt.AccessToken, ClaimValueTypes.String));
             identity.AddClaim(new Claim("RefreshToken", jwt.RefreshToken, ClaimValueTypes.String));
             identity.AddClaim(new Claim("ExpiresIn", jwt.ExpiresIn.ToString(), ClaimValueTypes.Integer32));
+            identity.AddClaim(new Claim("AccountName", jwt.AccountName.ToString(), ClaimValueTypes.String));
 
             //调用 HttpContext.SignInAsync 方法，传入上面创建的 ClaimsPrincipal 对象，完成用户登录
             //HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { ExpiresUtc = DateTime.UtcNow.AddHours(6) });
@@ -131,7 +136,7 @@ namespace ZookeeperBrowser.Controllers
                 IsPersistent = false,
                 ExpiresUtc = null,
                 //AllowRefresh = true,
-                RedirectUri = "/Zookeeper/Index"
+                RedirectUri = "/Home/Index"
             });
 
             //如果当前 Http 请求本来登录了用户 A，现在调用 HttpContext.SignInAsync 方法登录用户 B，那么相当于注销用户 A，登录用户 B

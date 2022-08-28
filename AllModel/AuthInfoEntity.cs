@@ -13,7 +13,7 @@ namespace AllModel
     /// </summary>
     [Table("AuthInfo")]
     [MetadataType(typeof(EntityBaseNoDeleted))]
-    public partial class AuthInfo : EntityBaseNoDeleted
+    public partial class AuthInfoEntity : EntityBaseNoDeleted
     {
         /// <summary>
         /// 账户编号

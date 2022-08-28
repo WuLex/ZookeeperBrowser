@@ -18,16 +18,16 @@ namespace AllDto.Profiles
             //     .ForMember(d => d.GradeName, opt => opt.MapFrom(i => i.GradeDepart.DepartName));
             //CreateMap<DepartDTO, Depart>();
 
-            CreateMap<Account, AccountDTO>()
+            CreateMap<AccountEntity, AccountDTO>()
                 .ForMember(d => d.PassWord, opt => opt.MapFrom(i => "密码保密"));
-            CreateMap<AccountDTO, Account>()
+            CreateMap<AccountDTO, AccountEntity>()
                 .ForMember(d => d.PassWord, opt => opt.MapFrom(i => $"{i.UserName}_{i.PassWord}".ToMd5Hash()));
 
-            CreateMap<AuthInfo, AuthInfoDTO>();
-            CreateMap<AuthInfoDTO, AuthInfo>();
+            CreateMap<AuthInfoEntity, AuthInfoDTO>();
+            CreateMap<AuthInfoDTO, AuthInfoEntity>();
 
-            CreateMap<Config, ConfigDTO>();
-            CreateMap<ConfigDTO, Config>();
+            CreateMap<ConfigEntity, ConfigDTO>();
+            CreateMap<ConfigDTO, ConfigEntity>();
         }
     }
 }
