@@ -1,5 +1,6 @@
 ﻿using org.apache.zookeeper;
 using org.apache.zookeeper.common;
+using org.apache.zookeeper.data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -107,7 +108,17 @@ namespace ZookeeperBrowser.Services
 
             var segments = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
-            return segments.LastOrDefault();
+            return segments?.LastOrDefault();
+        }
+
+        public Task<string> CreateAsync(string path, byte[] data, List<ACL> acl, CreateMode createMode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(string path, int version = -1)
+        {
+            throw new NotImplementedException();
         }
     }
 }
