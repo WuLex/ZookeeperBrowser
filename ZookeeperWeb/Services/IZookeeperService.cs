@@ -19,6 +19,6 @@ namespace ZookeeperBrowser.Services
 
         Task<string> CreateAsync(string path, byte[] data, List<ACL> acl, CreateMode createMode);
        
-        Task DeleteAsync(string path, int version = -1);
+        Task DeleteAsync(string path);
     }
 }

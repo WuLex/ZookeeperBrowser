@@ -17,11 +17,11 @@
         box-sizing: content-box
     }
 
-     /*layui-table 表格内容允许换行*/
-    .layui-table-cell{
-       height: auto;
-        text-overflow:inherit;
-        white-space:normal;
+    /*layui-table 表格内容允许换行*/
+    .layui-table-cell {
+        height: auto;
+        text-overflow: inherit;
+        white-space: normal;
     }
 </style>
 <link href="~/lib/zTreev3/css/metroStyle/metroStyle.css" rel="stylesheet" />
@@ -33,8 +33,7 @@
 </div>
 <div class="layui-container">
     <div class="layui-row layui-col-space30">
-
-        <div class="layui-col-lg12 layui-col-md12 layui-header" style="text-align: center;margin-top:30px;">
+        margin-top <div class="layui-col-lg12 layui-col-md12 layui-header" style="text-align: center;margin-top:30px;">
             <h1>Zookeeper简单管理工具</h1>
         </div>
 
@@ -66,6 +65,7 @@
                 </div>*@
         </div>
         <div class="layui-col-lg10 layui-col-md10">
+
             <form class="layui-form layui-form-pane" action="">
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">Data值</label>
@@ -73,15 +73,18 @@
                         <textarea placeholder="" readonly="readonly" id="zkdata" class="layui-textarea"></textarea>
                     </div>
                 </div>
+                <button type="button" class="layui-btn" lay-crud="delete" id="btnDelete">删除节点</button>
+
             </form>
-            
-             
-                   <blockquote class="layui-elem-quote">
-               状态信息表格
-              </blockquote>
+
+
+            <blockquote class="layui-elem-quote" style="margin-top:20px;">
+                状态信息表格
+            </blockquote>
             <table id="zktable" lay-filter="tabledemo">
-               
+
             </table>
+
         </div>
     </div>
     <hr />
@@ -101,7 +104,7 @@
         async: {
             enable: true,//开启异步加载处理
             url: "/Zookeeper/GetZTreeData",
-            autoParam: ["id","level"],
+            autoParam: ["id", "level"],
             type: "post"
             //dataFilter: filter//用于对 Ajax 返回数据进行预处理的函数
         },
@@ -156,25 +159,6 @@
 
     // 每次点击节点后， 弹出该节点的 tId、name 的信息
     function identValueOnClick(event, treeId, treeNode) {
-        //alert("identValueOnClick=" + treeNode.tId + ", " + treeNode.name);
-        // $.ajax({
-        //   type: "post",        // 请求方式
-        //   url: "/Zookeeper/GetDataViewModel", // 请求路径
-        //   data:{nodepath:treeNode.id},
-        //   dataType: "json",   // 预期返回一个 json 类型数据
-        //   success: function (nodeinfo) {   // nodedata是形参名，代表返回的数据
-        //       //console.log(nodeinfo);
-        //       $("#zkdata").text(nodeinfo.data);
-
-        //       $("#zktable tbody").empty();
-        //       $.each(nodeinfo,function(name,value) {
-        //            if(name!="data")
-        //            { 
-        //                $("#zktable tbody").prepend('<tr><td>'+name+'</td><td>'+value+'</td></tr>');
-        //            }
-        //       });
-        //   }
-        //});
 
         layui.use('table', function () {
             var table = layui.table;
@@ -188,7 +172,7 @@
                 where: { nodepath: treeNode.id },
                 parseData: function (res) { //res 即为原始返回的数据
 
-                   $("#zkdata").text(res.data[0].data);
+                    $("#zkdata").text(res.data[0].data);
 
                     return {
                         "code": res.code, //解析接口状态
@@ -213,6 +197,25 @@
             });
         });
 
+        //alert("identValueOnClick=" + treeNode.tId + ", " + treeNode.name);
+        // $.ajax({
+        //   type: "post",        // 请求方式
+        //   url: "/Zookeeper/GetDataViewModel", // 请求路径
+        //   data:{nodepath:treeNode.id},
+        //   dataType: "json",   // 预期返回一个 json 类型数据
+        //   success: function (nodeinfo) {   // nodedata是形参名，代表返回的数据
+        //       //console.log(nodeinfo);
+        //       $("#zkdata").text(nodeinfo.data);
+
+        //       $("#zktable tbody").empty();
+        //       $.each(nodeinfo,function(name,value) {
+        //            if(name!="data")
+        //            { 
+        //                $("#zktable tbody").prepend('<tr><td>'+name+'</td><td>'+value+'</td></tr>');
+        //            }
+        //       });
+        //   }
+        //});
     };
 
     function filter(treeId, parentNode, childNodes) {
@@ -239,7 +242,6 @@
             //按钮事件
             util.event('lay-demo',
                 {
-                    
                     getChecked: function (othis) {
                         //var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
 
@@ -257,6 +259,46 @@
 
                     }
                 });
+
+            //按钮事件
+            util.event('lay-crud',
+                {
+                    delete: function (othis) {
+                        var treeObj = $.fn.zTree.getZTreeObj("zookeepertree");
+                        //获取选中节点
+                        var nodes = treeObj.getSelectedNodes();
+                        if (nodes != undefined && nodes.length > 0) {
+                            var queryobj = {
+                                nodepath: nodes[0].id
+                            };
+                            $.ajax({
+                                type: "POST",
+                                url: "/Zookeeper/DeleteNode",
+                                data: JSON.stringify(queryobj),
+                                contentType: "application/json; charset=utf-8"
+                            }).done(function (data) {
+                                if (data) {
+                                    layer.alert("删除成功");
+                                } else {
+                                    layer.alert("后台删除失败");
+                                }
+
+                            }).fail(function (XMLHttpRequest, status, e) {
+                                layer.alert("后台异常,删除失败");
+                            });
+                        }
+                        else {
+                            layer.alert("请选中一个节点");
+                        }
+
+                    },
+                    create: function () {
+                    },
+                    update: function () {
+                    }
+                });
+
+
 
             $.get('/Zookeeper/GetLayuiTreeData',
                 function (data) {

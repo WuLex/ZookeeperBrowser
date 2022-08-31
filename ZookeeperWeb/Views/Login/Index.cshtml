@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@ViewData["Title"]</title>
@@ -32,18 +33,24 @@
                 <div class="login-logo" alt="Zookeeper管理"></div>
                 <div class="login-form" style="padding: 20px 30px">
                     <div class="col">
-                        @Html.TextBoxFor(model => model.userid, new { @id = "userid", @class = "login-input", @placeholder = "用户名", @lay_verify = "required", @lay_verType = "tips" })
-                        @*<input name="username" lay-verify="required" placeholder="用户名" type="text" class="login-input">*@
+                        @Html.TextBoxFor(model => model.userid, new { @id = "userid", @class = "login-input",
+                        @placeholder = "用户名", @lay_verify = "required", @lay_verType = "tips" })
+                        @*<input name="username" lay-verify="required" placeholder="用户名" type="text"
+                            class="login-input">*@
                         <label class="icon user" for="txtUserName"></label>
                     </div>
                     <div class="col">
-                        <input name="password" lay-verify="required" placeholder="密码" type="password" lay-verType="tips" class="login-input">
+                        <input name="password" lay-verify="required" placeholder="密码" type="password" lay-verType="tips"
+                            class="login-input">
                         <label class="icon pwd" for="txtPassword"></label>
                     </div>
                     <div class="col">
-                        <input name="code" lay-verify="required|number" placeholder="验证码" type="text" lay-verType="tips" class="login-input login-input2">
+                        <input name="code" lay-verify="required|number" placeholder="验证码" type="text" lay-verType="tips"
+                            class="login-input login-input2">
                         <label class="icon code" for="txtPassword"></label>
-                        <label class="login-code" for="txtPassword"><img src="/Login/GetValidataCode" title="看不清楚换一张" alt="验证码" onclick="this.src='/Login/GetValidataCode?'+Math.round(Math.random() * 100000)"></label>
+                        <label class="login-code" for="txtPassword"><img src="/Login/GetValidataCode" title="看不清楚换一张"
+                                alt="验证码"
+                                onclick="this.src='/Login/GetValidataCode?'+Math.round(Math.random() * 100000)"></label>
                     </div>
                     <div class="col">
                         <input type="submit" value="登录" lay-submit="" lay-filter="login" class="login-btn">
@@ -51,7 +58,8 @@
                     <span style="color:firebrick;word-break: break-all;">@Html.ValidationSummary()</span>
                 </div>
             </div>
-            <div class="login-left"><img src="~/images/leftimg.png" style="width:500px;height:445px;" asp-append-version="true" /></div>
+            <div class="login-left"><img src="~/images/leftimg.png" style="width:500px;height:445px;"
+                    asp-append-version="true" /></div>
         </div>
         <div class="footer ">
             <div class=" layui-row" style="width:980px; margin:0 auto;">
@@ -69,4 +77,5 @@
         })
     </script>
 </body>
+
 </html>

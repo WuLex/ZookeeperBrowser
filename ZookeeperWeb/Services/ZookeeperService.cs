@@ -13,6 +13,18 @@ namespace ZookeeperBrowser.Services
 {
     public class ZookeeperService : IZookeeperService
     {
+        private readonly IConfiguration _configuration;
+
+        public ZookeeperService(IConfiguration configuration)
+        {
+            _configuration=configuration;
+
+            //设置默认连接
+            _cnnString = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList().FirstOrDefault() ?? "127.0.0.1";
+        }
+
+
+
         private string _cnnString;
         
         public string CnnString
@@ -113,12 +125,14 @@ namespace ZookeeperBrowser.Services
 
         public Task<string> CreateAsync(string path, byte[] data, List<ACL> acl, CreateMode createMode)
         {
-            throw new NotImplementedException();
+            ValidatePath(path);
+            return Task.FromResult("没写方法逻辑");
         }
 
-        public Task DeleteAsync(string path, int version = -1)
+        public async Task DeleteAsync(string path)
         {
-            throw new NotImplementedException();
+            ValidatePath(path);
+            await Api.deleteAsync(path);
         }
     }
 }

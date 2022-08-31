@@ -11,7 +11,6 @@ using ZookeeperBrowser.ViewModel;
 
 namespace ZookeeperBrowser.Controllers
 {
-
     [Authorize]
     public class ZookeeperController : Controller
     {
@@ -34,7 +33,7 @@ namespace ZookeeperBrowser.Controllers
 
         public ActionResult Index()
         {
-           ViewBag.AccountName = _httpContextAccessor.HttpContext.User.FindFirst(nameof(ClaimsName.AccountName)).Value;
+            ViewBag.AccountName = _httpContextAccessor.HttpContext.User.FindFirst(nameof(ClaimsName.AccountName)).Value;
 
             return View();
         }
@@ -64,8 +63,8 @@ namespace ZookeeperBrowser.Controllers
         {
             string nodePath = WebUtility.HtmlDecode(nodepath);
             TreeDataModel treeDataModel = null;
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+            //var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            //_zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
             if (nodepath == "/")
             {
                 treeDataModel = new TreeDataModel()
@@ -127,8 +126,8 @@ namespace ZookeeperBrowser.Controllers
             ZTreeDataModel treeDataModel = null;
             List<ZTreeDataModel> datalist = new List<ZTreeDataModel>();
 
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+            //var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            //_zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
 
             if (string.IsNullOrEmpty(Id))
             {
@@ -166,7 +165,7 @@ namespace ZookeeperBrowser.Controllers
             else
             {
                 var childnodes = await _zookeeperService.GetChildrenAsync(nodePath);
-               
+
                 if (childnodes != null)
                 {
                     var childnodelist = childnodes.ToList();
@@ -200,8 +199,7 @@ namespace ZookeeperBrowser.Controllers
         {
             string nodePath = WebUtility.HtmlDecode(zKQueryData.nodepath);
 
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+         
             var dataViewModel = await _zookeeperService.GetDataAsync(nodePath);
             //return dataViewModel;
 
@@ -222,8 +220,7 @@ namespace ZookeeperBrowser.Controllers
         //生成树的方法
         public void GetTheTree(TreeDataModel dataModel)
         {
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+
             //获取
             var nodes = _zookeeperService.GetChildrenAsync("/").Result;
             //如果没有字节点了，那就返回空
@@ -252,10 +249,32 @@ namespace ZookeeperBrowser.Controllers
             }
         }
 
+        #region 删除节点
+
+        [HttpPost]
+        public async Task<bool> DeleteNodeAsync([FromBody] ZKQueryData zKQueryData)
+        {
+            string nodePath = WebUtility.HtmlDecode(zKQueryData.nodepath);
+            try
+            {
+                await _zookeeperService.DeleteAsync(nodePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        #endregion 删除节点
+
+        #region 刷新
+
         private async Task ReloadAsync()
         {
-            var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
-            _zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
+            //var connList = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList();
+            //_zookeeperService.CnnString = connList.FirstOrDefault() ?? "127.0.0.1";
             BusyOn();
             var nodes = await _zookeeperService.GetChildrenAsync("/");
             Nodes = new ObservableCollection<NodeViewModel>(nodes);
@@ -303,5 +322,7 @@ namespace ZookeeperBrowser.Controllers
 
             IsBusy = _busyQueue.Count > 0;
         }
+
+        #endregion 刷新
     }
 }
