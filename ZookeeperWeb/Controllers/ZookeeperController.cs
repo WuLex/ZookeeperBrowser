@@ -257,7 +257,7 @@ namespace ZookeeperBrowser.Controllers
             string nodePath = WebUtility.HtmlDecode(zKQueryData.nodepath);
             try
             {
-                await _zookeeperService.DeleteAsync(nodePath);
+                var deleteFlag = await _zookeeperService.DeleteRecursiveAsync(nodePath);
                 return true;
             }
             catch (Exception ex)

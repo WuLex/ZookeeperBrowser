@@ -1,11 +1,6 @@
 ﻿using org.apache.zookeeper;
 using org.apache.zookeeper.common;
 using org.apache.zookeeper.data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ZooBrowser.ViewModel;
 using ZookeeperBrowser.Utils;
 using ZookeeperBrowser.ViewModel;
 
@@ -17,16 +12,14 @@ namespace ZookeeperBrowser.Services
 
         public ZookeeperService(IConfiguration configuration)
         {
-            _configuration=configuration;
+            _configuration = configuration;
 
             //设置默认连接
             _cnnString = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList().FirstOrDefault() ?? "127.0.0.1";
         }
 
-
-
         private string _cnnString;
-        
+
         public string CnnString
         {
             private get
@@ -44,7 +37,7 @@ namespace ZookeeperBrowser.Services
 
         //会话超时时间,单位毫秒
         private int sessionTimeOut = 10000;
-       
+
         private ZooKeeper Api
         {
             get
@@ -68,7 +61,6 @@ namespace ZookeeperBrowser.Services
 
                 if (_api == null || _api.getState() == ZooKeeper.States.NOT_CONNECTED)
                 {
-                    
                     _api = new ZooKeeper(CnnString, sessionTimeOut, watcher, true);
                     Thread.Sleep(1000);//停一秒，等待连接完成
                 }
@@ -107,7 +99,7 @@ namespace ZookeeperBrowser.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("节点路径 '{0}' 是无效的. {1}", path, ex.Message)); 
+                throw new Exception(string.Format("节点路径 '{0}' 是无效的. {1}", path, ex.Message));
             }
         }
 
@@ -133,6 +125,30 @@ namespace ZookeeperBrowser.Services
         {
             ValidatePath(path);
             await Api.deleteAsync(path);
+        }
+
+        public async Task<bool> DeleteRecursiveAsync(string path)
+        {
+            ValidatePath(path);
+            List<string> children;
+            try
+            {
+                children = (await Api.getChildrenAsync(path)).Children;
+            }
+            catch (KeeperException.NoNodeException)
+            {
+                return true;
+            }
+
+            foreach (var subPath in children)
+            {
+                if (!await this.DeleteRecursiveAsync(path + "/" + subPath))
+                {
+                    return false;
+                }
+            }
+            await this.DeleteAsync(path);
+            return true;
         }
     }
 }
