@@ -15,10 +15,12 @@ namespace CoreAPI.Common.Auth.Jwt
     public class MyJwtSecurityTokenHandler : JwtSecurityTokenHandler, ISecurityTokenValidator
     {
         private readonly IConfigService _configService;
+
         public MyJwtSecurityTokenHandler(IConfigService configService)
         {
             _configService = configService;
         }
+
         public override ClaimsPrincipal ValidateToken(string token, TokenValidationParameters validationParameters,
             out SecurityToken validatedToken)
         {
@@ -28,6 +30,7 @@ namespace CoreAPI.Common.Auth.Jwt
             {
                 _authConfig = config.Data.Value.ToJson<AuthConfigData>();
             }
+
             var jwtConfig = _authConfig.Jwt;
 
             validationParameters.ValidIssuer = jwtConfig.Issuer;

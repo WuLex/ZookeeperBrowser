@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-   @* <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    @* <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-treeview/bootstrap-treeview.min.css" rel="stylesheet" />*@
-    <link rel="stylesheet" href="~/css/indextwo.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="~/css/indextwo.min.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/layui/css/layui.css" media="all"/>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -19,33 +19,33 @@
 
 <div class="layui-header">
     <!-- 头部区域（可配合layui 已有的水平导航） -->
-    <ul class="layui-nav"  style="background-color: #009688;text-align:right;">
-      <!-- 移动端显示 -->
-      <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
-        <i class="layui-icon layui-icon-spread-left"></i>
-      </li>
-     
+    <ul class="layui-nav" style="background-color: #009688; text-align: right;">
+        <!-- 移动端显示 -->
+        <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+            <i class="layui-icon layui-icon-spread-left"></i>
+        </li>
 
-      <li class="layui-nav-item layui-hide-xs">
-           欢迎 @ViewBag.AccountName 
-          <a href="/Login/LoginOut" style="display: inline;">
-          <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-demo="">退出</button>
-          </a>
-      </li>
+
+        <li class="layui-nav-item layui-hide-xs">
+            欢迎 @ViewBag.AccountName
+            <a href="/Login/LoginOut" style="display: inline;">
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-demo="">退出</button>
+            </a>
+        </li>
     </ul>
-  
+
 </div>
 
 
 <div class="container body-content">
     @RenderBody()
     <hr/>
-    <div  class="layui-footer" style="text-align:center;padding:10px; " >
+    <div class="layui-footer" style="text-align: center; padding: 10px;">
         <footer style="">
-        <p>&copy; @DateTime.Now.Year - <a href="https://github.com/WuLex/ZookeeperBrowser">ZookeeperBrowser</a></p>
-       </footer>
+            <p>&copy; @DateTime.Now.Year - <a href="https://github.com/WuLex/ZookeeperBrowser">ZookeeperBrowser</a></p>
+        </footer>
     </div>
-    
+
 </div>
 
 

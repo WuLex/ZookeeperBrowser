@@ -23,7 +23,7 @@ namespace CoreAPI.Code.Attributes
                 return;
 
             var config = AuthConfigData.AuthConfig;
-            
+
 
             //是否启用单账户登录
             if (config.SingleAccount)
@@ -49,7 +49,6 @@ namespace CoreAPI.Code.Attributes
                     context.Result = new ForbidResult();
                 }
             }
-            
         }
     }
 }

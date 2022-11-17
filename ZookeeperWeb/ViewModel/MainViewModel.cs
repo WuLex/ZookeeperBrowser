@@ -10,7 +10,6 @@ using ZooBrowser.ViewModel;
 
 namespace ZookeeperBrowser.ViewModel
 {
-    
     public class MainViewModel
     {
         private readonly IZookeeperService _service;
@@ -29,6 +28,7 @@ namespace ZookeeperBrowser.ViewModel
         }
 
         private CnnString _selectedCnnString;
+
         public CnnString SelectedCnnString
         {
             get { return _selectedCnnString; }
@@ -41,6 +41,7 @@ namespace ZookeeperBrowser.ViewModel
         }
 
         private ObservableCollection<NodeViewModel> _nodes;
+
         public ObservableCollection<NodeViewModel> Nodes
         {
             get { return _nodes; }
@@ -52,7 +53,8 @@ namespace ZookeeperBrowser.ViewModel
         }
 
         private NodeViewModel _selectedNode;
-        public  NodeViewModel SelectedNode
+
+        public NodeViewModel SelectedNode
         {
             get { return _selectedNode; }
             set
@@ -61,8 +63,9 @@ namespace ZookeeperBrowser.ViewModel
                 //RaisePropertyChanged(() => SelectedNode);
             }
         }
-         
+
         private ICommand _selectedItemChangedCommand;
+
         public ICommand SelectedItemChangedCommand
         {
             get
@@ -83,6 +86,7 @@ namespace ZookeeperBrowser.ViewModel
         }
 
         private ICommand _loadedCommand;
+
         public ICommand LoadedCommand
         {
             get
@@ -92,6 +96,7 @@ namespace ZookeeperBrowser.ViewModel
         }
 
         private ICommand _refreshCommand;
+
         public ICommand RefreshCommand
         {
             get
@@ -101,6 +106,7 @@ namespace ZookeeperBrowser.ViewModel
         }
 
         private bool _isBusy;
+
         public bool IsBusy
         {
             get { return _isBusy; }
@@ -144,7 +150,7 @@ namespace ZookeeperBrowser.ViewModel
             IsBusy = true;
         }
 
-        
+
         private void BusyOff(bool cancelAll = false)
         {
             if (_busyQueue == null)

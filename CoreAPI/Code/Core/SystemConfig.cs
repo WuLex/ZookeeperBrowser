@@ -21,6 +21,7 @@ namespace CoreAPI.Code.Core
             {
                 Directory.CreateDirectory(photosPath);
             }
+
             return photosPath;
         }
 
@@ -38,7 +39,8 @@ namespace CoreAPI.Code.Core
         /// <param name="fileExt">后缀名</param>
         /// <param name="cancellationToken">取消token</param>
         /// <returns></returns>
-        public static async Task<string> UploadSave(IFormFile formFile, string uploadPath, bool guidname = false, FileExt fileExt =  FileExt.jpg, CancellationToken cancellationToken = default)
+        public static async Task<string> UploadSave(IFormFile formFile, string uploadPath, bool guidname = false,
+            FileExt fileExt = FileExt.jpg, CancellationToken cancellationToken = default)
         {
             var date = DateTime.Now;
             var fileroot = Path.Combine(date.ToString("yyyy"), date.ToString("MM"), date.ToString("dd"));
@@ -62,6 +64,7 @@ namespace CoreAPI.Code.Core
                     name = $"{name.Substring(0, index)}.{fileExt.ToString()}";
                 }
             }
+
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -73,6 +76,7 @@ namespace CoreAPI.Code.Core
             {
                 await formFile.CopyToAsync(stream, cancellationToken);
             }
+
             return Path.Combine(fileroot, name);
         }
 

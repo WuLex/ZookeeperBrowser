@@ -23,7 +23,6 @@ namespace ZookeeperBrowser.HttpApis
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("api/Config")]
-        ITask<ResultModel<ConfigDTO>> UpdateAsync([JsonContent]ConfigDTO model);
-
+        ITask<ResultModel<ConfigDTO>> UpdateAsync([JsonContent] ConfigDTO model);
     }
 }

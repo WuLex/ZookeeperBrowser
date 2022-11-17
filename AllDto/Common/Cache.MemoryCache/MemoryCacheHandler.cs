@@ -118,6 +118,7 @@ namespace AllDto.Common.Cache.MemoryCache
             {
                 keys.Add(cacheItem.Key.ToString());
             }
+
             return keys;
         }
     }

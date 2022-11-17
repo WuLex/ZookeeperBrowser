@@ -13,6 +13,7 @@ namespace AllDto.Common.Auth.Jwt
         /// 启用验证码功能
         /// </summary>
         public bool VerifyCode { get; set; }
+
         /// <summary>
         /// 开启权限验证
         /// </summary>

@@ -11,7 +11,6 @@ namespace CoreAPI.Code.Core
 {
     public class MyHostBuilder
     {
-
         /// <summary>
         /// 创建主机
         /// </summary>
@@ -40,8 +39,8 @@ namespace CoreAPI.Code.Core
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<TStartup>()
-                    .UseLogging()
-                    .UseUrls(BasicSetting.Setting.Urls);
+                        .UseLogging()
+                        .UseUrls(BasicSetting.Setting.Urls);
                 });
         }
     }

@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace AllModel.MyOrm
 {
-
-
     /// <summary>
     /// EfCoreRepository
     /// </summary>
@@ -20,6 +18,7 @@ namespace AllModel.MyOrm
     {
         private readonly DbContext _context;
         private DbSet<TEntity> _entities;
+
         public EfCoreRepository(DbContext context)
         {
             _context = context;
@@ -32,6 +31,7 @@ namespace AllModel.MyOrm
 
             return Entities.Find(id);
         }
+
         public ValueTask<TEntity> GetByIdAsync(object id)
         {
             if (id == null)
@@ -88,7 +88,6 @@ namespace AllModel.MyOrm
                 throw new ArgumentNullException("entities");
 
             _context.UpdateRange(entities);
-
         }
 
         public void Update(TEntity entity, params Expression<Func<TEntity, object>>[] properties)
@@ -100,8 +99,8 @@ namespace AllModel.MyOrm
                 {
                     propertyName = GetPropertyName(property.Body.ToString());
                 }
-                _context.Entry(entity).Property(propertyName).IsModified = true;
 
+                _context.Entry(entity).Property(propertyName).IsModified = true;
             }
         }
 
@@ -125,7 +124,6 @@ namespace AllModel.MyOrm
                 throw new ArgumentNullException("entities");
 
             _context.RemoveRange(entities);
-
         }
 
         public void Delete(Expression<Func<TEntity, bool>> predicate)
@@ -153,6 +151,7 @@ namespace AllModel.MyOrm
         protected virtual DbSet<TEntity> Entities => _entities ?? (_entities = _context.Set<TEntity>());
 
         #endregion
+
         private void AttachIfNot(TEntity entity)
         {
             var entry = _context.ChangeTracker.Entries().FirstOrDefault(ent => ent.Entity == entity);
@@ -160,6 +159,7 @@ namespace AllModel.MyOrm
             {
                 return;
             }
+
             _context.Attach(entity);
         }
     }

@@ -57,7 +57,7 @@ namespace AllModel
 
         //[NotMapped]
         //public new DateTime CreatedTime { get ; set ; }
-       
+
         //[NotMapped]
         //public new string OperatorName { get ; set; }
     }

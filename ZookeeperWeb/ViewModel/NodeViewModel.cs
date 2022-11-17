@@ -8,9 +8,10 @@ namespace ZookeeperBrowser.ViewModel
     {
         private readonly IZookeeperService _service;
         private readonly string _root;
-        
+
 
         private string _name;
+
         public string Name
         {
             get { return _name; }
@@ -23,13 +24,11 @@ namespace ZookeeperBrowser.ViewModel
 
         public string Path
         {
-            get
-            {
-                return string.Format("{0}/{1}", _root, Name).Replace("//", "/").TrimEnd('/');
-            }
+            get { return string.Format("{0}/{1}", _root, Name).Replace("//", "/").TrimEnd('/'); }
         }
 
         private DataViewModel _data;
+
         public DataViewModel Data
         {
             get { return _data; }
@@ -41,6 +40,7 @@ namespace ZookeeperBrowser.ViewModel
         }
 
         private ObservableCollection<NodeViewModel> _children;
+
         public ObservableCollection<NodeViewModel> Children
         {
             get { return _children; }

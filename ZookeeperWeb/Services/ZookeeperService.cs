@@ -15,17 +15,15 @@ namespace ZookeeperBrowser.Services
             _configuration = configuration;
 
             //设置默认连接
-            _cnnString = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList().FirstOrDefault() ?? "127.0.0.1";
+            _cnnString = _configuration["ZooKeeperConn:ConnectionString"].Split(",").ToList().FirstOrDefault() ??
+                         "127.0.0.1";
         }
 
         private string _cnnString;
 
         public string CnnString
         {
-            private get
-            {
-                return _cnnString;
-            }
+            private get { return _cnnString; }
             set
             {
                 _api = null;
@@ -62,7 +60,7 @@ namespace ZookeeperBrowser.Services
                 if (_api == null || _api.getState() == ZooKeeper.States.NOT_CONNECTED)
                 {
                     _api = new ZooKeeper(CnnString, sessionTimeOut, watcher, true);
-                    Thread.Sleep(1000);//停一秒，等待连接完成
+                    Thread.Sleep(1000); //停一秒，等待连接完成
                 }
 
                 return _api;
@@ -147,6 +145,7 @@ namespace ZookeeperBrowser.Services
                     return false;
                 }
             }
+
             await this.DeleteAsync(path);
             return true;
         }

@@ -47,6 +47,7 @@ namespace ZookeeperBrowser.Controllers
                 {
                     ModelState.AddModelError("error", "验证码错误，请刷新验证码！");
                 }
+
                 var model = new LoginModel();
                 model.UserName = vModel.userid;
                 model.Password = vModel.password;
@@ -54,7 +55,7 @@ namespace ZookeeperBrowser.Controllers
                 model.VerifyCode = new VerifyCodeModel() { Id = id.ToString(), Code = vModel.code };
 
                 //获取ip地址
-                model.IP = HttpContext.Connection.RemoteIpAddress.ToString()??"";
+                model.IP = HttpContext.Connection.RemoteIpAddress.ToString() ?? "";
                 //获取UserAgent
                 model.UserAgent = HttpContext.Request.Headers["User-Agent"].FirstOrDefault() ?? "";
 
@@ -68,6 +69,7 @@ namespace ZookeeperBrowser.Controllers
                     ModelState.AddModelError("error", result.Msg);
                 }
             }
+
             return View(vModel);
         }
 
@@ -83,7 +85,8 @@ namespace ZookeeperBrowser.Controllers
                 if (result.Success)
                 {
                     TempData["VerifyCode_ID"] = result.Data.Id;
-                    var imgValidateCode = Convert.FromBase64String(result.Data.Code.Replace("data:image/png;base64,", ""));
+                    var imgValidateCode =
+                        Convert.FromBase64String(result.Data.Code.Replace("data:image/png;base64,", ""));
                     return File(imgValidateCode, "image/jpeg");
                 }
             }
@@ -91,7 +94,7 @@ namespace ZookeeperBrowser.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-         
+
             return File(ValidateCodeHelper.CreateValidateGraphic(""), "image/jpeg");
         }
 
@@ -130,17 +133,17 @@ namespace ZookeeperBrowser.Controllers
 
 
             //调用 HttpContext.SignInAsync 方法，传入上面创建的 ClaimsPrincipal 对象，完成用户登录
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties
-            {
-                //获取或设置身份验证会话是否跨多个持久化要求
-                IsPersistent = false,
-                ExpiresUtc = null,
-                //AllowRefresh = true,
-                RedirectUri = "/Home/Index"
-            });
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity),
+                new AuthenticationProperties
+                {
+                    //获取或设置身份验证会话是否跨多个持久化要求
+                    IsPersistent = false,
+                    ExpiresUtc = null,
+                    //AllowRefresh = true,
+                    RedirectUri = "/Home/Index"
+                });
 
             //如果当前 Http 请求本来登录了用户 A，现在调用 HttpContext.SignInAsync 方法登录用户 B，那么相当于注销用户 A，登录用户 B
         }
-
     }
 }

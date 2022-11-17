@@ -18,13 +18,14 @@
     }
 
     /*layui-table 表格内容允许换行*/
+
     .layui-table-cell {
         height: auto;
         text-overflow: inherit;
         white-space: normal;
     }
 </style>
-<link href="~/lib/zTreev3/css/metroStyle/metroStyle.css" rel="stylesheet" />
+<link href="~/lib/zTreev3/css/metroStyle/metroStyle.css" rel="stylesheet"/>
 
 <div class="layui-btn-container">
     @* <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">获取选中节点数据</button>
@@ -33,7 +34,8 @@
 </div>
 <div class="layui-container">
     <div class="layui-row layui-col-space30">
-        margin-top <div class="layui-col-lg12 layui-col-md12 layui-header" style="text-align: center;margin-top:30px;">
+        margin-top
+        <div class="layui-col-lg12 layui-col-md12 layui-header" style="text-align: center; margin-top: 30px;">
             <h1>Zookeeper简单管理工具</h1>
         </div>
 
@@ -49,7 +51,7 @@
                 </div>*@
 
             @* ztree用法*@
-            <div class="" style="height:500px">
+            <div class="" style="height: 500px">
                 <ul id="zookeepertree" class="ztree"></ul>
             </div>
             @* ztree用法*@
@@ -78,7 +80,7 @@
             </form>
 
 
-            <blockquote class="layui-elem-quote" style="margin-top:20px;">
+            <blockquote class="layui-elem-quote" style="margin-top: 20px;">
                 状态信息表格
             </blockquote>
             <table id="zktable" lay-filter="tabledemo">
@@ -87,7 +89,7 @@
 
         </div>
     </div>
-    <hr />
+    <hr/>
 </div>
 
 <script src="~/lib/layui/layui.js" charset="utf-8"></script>
@@ -97,26 +99,26 @@
 <script src="~/lib/zTreev3/js/jquery.ztree.all.js"></script>
 
 <script>
-    var setting = {//树设置
+    var setting = { //树设置
         //treeId: "",  //zTree 的唯一标识，初始化后，等于 用户定义的 zTree 容器的 id 属性值。
 
         //区划树设置
         async: {
-            enable: true,//开启异步加载处理
+            enable: true, //开启异步加载处理
             url: "/Zookeeper/GetZTreeData",
             autoParam: ["id", "level"],
             type: "post"
             //dataFilter: filter//用于对 Ajax 返回数据进行预处理的函数
         },
         edit: {
-            enable: false,//true / false 分别表示 可以 / 不可以 编辑
-            showRemoveBtn: false,//true / false 分别表示 显示 / 隐藏 删除按钮
+            enable: false, //true / false 分别表示 可以 / 不可以 编辑
+            showRemoveBtn: false, //true / false 分别表示 显示 / 隐藏 删除按钮
             drag: {
-                isCopy: true,//是否可复制
-                isMove: false,//是否可移动
-                prev: false,//拖拽到目标节点时，设置是否允许移动到目标节点前面的操作
-                next: false,//拖拽到目标节点时，设置是否允许移动到目标节点后面的操作
-                inner: false//拖拽到目标节点时，设置是否允许成为目标节点的子节点。
+                isCopy: true, //是否可复制
+                isMove: false, //是否可移动
+                prev: false, //拖拽到目标节点时，设置是否允许移动到目标节点前面的操作
+                next: false, //拖拽到目标节点时，设置是否允许移动到目标节点后面的操作
+                inner: false //拖拽到目标节点时，设置是否允许成为目标节点的子节点。
             }
         },
         data: {
@@ -139,15 +141,15 @@
 
         },
         callback: {
-            onExpand: onExpandIdentValueTree,//节点被展开的事件回调函数
+            onExpand: onExpandIdentValueTree, //节点被展开的事件回调函数
 
-            onClick: identValueOnClick,//节点被点击的事件回调函数
+            onClick: identValueOnClick, //节点被点击的事件回调函数
 
         },
 
         view: {
-            showIcon: true,//设置 zTree 是否显示节点的图标。
-            showLine: true//设置 zTree 是否显示节点的连线。
+            showIcon: true, //设置 zTree 是否显示节点的图标。
+            showLine: true //设置 zTree 是否显示节点的连线。
         }
 
     }
@@ -160,42 +162,36 @@
     // 每次点击节点后， 弹出该节点的 tId、name 的信息
     function identValueOnClick(event, treeId, treeNode) {
 
-        layui.use('table', function () {
-            var table = layui.table;
-            table.render({
-                elem: '#zktable',
-                method: "post",
-                loading: true
-                , url: '/Zookeeper/GetDataViewModel'
-                , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                , contentType: 'application/json',
-                where: { nodepath: treeNode.id },
-                parseData: function (res) { //res 即为原始返回的数据
+        layui.use('table',
+            function() {
+                var table = layui.table;
+                table.render({
+                    elem: '#zktable',
+                    method: "post",
+                    loading: true,
+                    url: '/Zookeeper/GetDataViewModel',
+                    cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    ,
+                    contentType: 'application/json',
+                    where: { nodepath: treeNode.id },
+                    parseData: function(res) { //res 即为原始返回的数据
 
-                    $("#zkdata").text(res.data[0].data);
+                        $("#zkdata").text(res.data[0].data);
 
-                    return {
-                        "code": res.code, //解析接口状态
-                        "msg": res.msg, //解析提示文本
-                        "count": res.count, //解析数据长度
-                        "data": res.data //解析数据列表
-                    };
-                }
-                , cols: [[
-                    { field: 'version', title: 'version' }
-                    , { field: 'pzxid', title: 'pzxid' }
-                    , { field: 'numChildren', title: 'numChildren', width: 180 }
-                    , { field: 'mzxid', title: 'mzxid' }
-                    , { field: 'mtime', title: 'mtime', width: 180 }
-                    , { field: 'ephemeralOwner', title: 'ephemeralOwner', width: 180 }
-                    , { field: 'dataLength', title: 'dataLength', width: 180 }
-                    , { field: 'czxid', title: 'czxid' }
-                    , { field: 'cversion', title: 'cversion' }
-                    , { field: 'ctime', title: 'ctime', width: 180 }
-                    , { field: 'aversion', title: 'aversion', width: 180 }
-                ]]
+                        return {
+                            "code": res.code, //解析接口状态
+                            "msg": res.msg, //解析提示文本
+                            "count": res.count, //解析数据长度
+                            "data": res.data //解析数据列表
+                        };
+                    },
+                    cols: [
+                        [
+                            { field: 'version', title: 'version' }, { field: 'pzxid', title: 'pzxid' }, { field: 'numChildren', title: 'numChildren', width: 180 }, { field: 'mzxid', title: 'mzxid' }, { field: 'mtime', title: 'mtime', width: 180 }, { field: 'ephemeralOwner', title: 'ephemeralOwner', width: 180 }, { field: 'dataLength', title: 'dataLength', width: 180 }, { field: 'czxid', title: 'czxid' }, { field: 'cversion', title: 'cversion' }, { field: 'ctime', title: 'ctime', width: 180 }, { field: 'aversion', title: 'aversion', width: 180 }
+                        ]
+                    ]
+                });
             });
-        });
 
         //alert("identValueOnClick=" + treeNode.tId + ", " + treeNode.name);
         // $.ajax({
@@ -226,7 +222,7 @@
         return childNodes;
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         zTree = $.fn.zTree.init($("#zookeepertree"), setting,);
     });
 </script>
@@ -234,7 +230,7 @@
 <script src="~/js/jsondata.js" charset="utf-8"></script>
 <script>
     layui.use(['tree', 'util'],
-        function () {
+        function() {
             var tree = layui.tree,
                 layer = layui.layer,
                 util = layui.util;
@@ -242,16 +238,16 @@
             //按钮事件
             util.event('lay-demo',
                 {
-                    getChecked: function (othis) {
+                    getChecked: function(othis) {
                         //var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
 
                         //layer.alert(JSON.stringify(checkedData), { shade: 0 });
                         //console.log(checkedData);
                     },
-                    setChecked: function () {
+                    setChecked: function() {
                         //tree.setChecked('demoId1', [12, 16]); //勾选指定节点
                     },
-                    reload: function () {
+                    reload: function() {
                         //重载实例
                         //tree.reload('demoId1',
                         //    {
@@ -263,7 +259,7 @@
             //按钮事件
             util.event('lay-crud',
                 {
-                    delete: function (othis) {
+                    delete: function(othis) {
                         var treeObj = $.fn.zTree.getZTreeObj("zookeepertree");
                         //获取选中节点
                         var nodes = treeObj.getSelectedNodes();
@@ -276,32 +272,30 @@
                                 url: "/Zookeeper/DeleteNode",
                                 data: JSON.stringify(queryobj),
                                 contentType: "application/json; charset=utf-8"
-                            }).done(function (data) {
+                            }).done(function(data) {
                                 if (data) {
                                     layer.alert("删除成功");
                                 } else {
                                     layer.alert("后台删除失败");
                                 }
 
-                            }).fail(function (XMLHttpRequest, status, e) {
+                            }).fail(function(XMLHttpRequest, status, e) {
                                 layer.alert("后台异常,删除失败");
                             });
-                        }
-                        else {
+                        } else {
                             layer.alert("请选中一个节点");
                         }
 
                     },
-                    create: function () {
+                    create: function() {
                     },
-                    update: function () {
+                    update: function() {
                     }
                 });
 
 
-
             $.get('/Zookeeper/GetLayuiTreeData',
-                function (data) {
+                function(data) {
                     //基本演示
                     //tree.render({
                     //    elem: '#test12'
@@ -318,7 +312,8 @@
                     //常规用法
                     tree.render({
                         elem: '#zookeepertest' //默认是点击节点可进行收缩
-                        , data: data
+                        ,
+                        data: data
                     });
 
                 });

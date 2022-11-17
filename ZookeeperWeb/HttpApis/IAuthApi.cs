@@ -24,7 +24,7 @@ namespace ZookeeperBrowser.HttpApis
         /// </summary>
         /// <returns></returns>
         [HttpPost("api/Auth/Login")]
-        ITask<ResultModel<JwtTokenModel>> Login([JsonContent]LoginModel model);
+        ITask<ResultModel<JwtTokenModel>> Login([JsonContent] LoginModel model);
 
         /// <summary>
         /// 刷新令牌

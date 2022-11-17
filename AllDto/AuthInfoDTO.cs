@@ -50,6 +50,5 @@ namespace AllDto
         /// </summary>
         [Description("最后登录IP")]
         public string LoginIP { get; set; } = string.Empty;
-
     }
 }

@@ -50,6 +50,7 @@ namespace CoreAPI.Common.Auth.Jwt
                                 context.Request.Headers.Remove("Authorization");
                                 context.Request.Headers.Add("Authorization", $"Bearer {token}");
                             }
+
                             return Task.CompletedTask;
                         }
                     };

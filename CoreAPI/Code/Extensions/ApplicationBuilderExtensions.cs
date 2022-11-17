@@ -39,7 +39,6 @@ namespace Microsoft.AspNetCore.Builder
             //启用默认页
             app.UseDefaultPage();
 
-            
 
             //启动文档页
             app.UseDocs();
@@ -66,10 +65,7 @@ namespace Microsoft.AspNetCore.Builder
             app.UseAuthorization();
 
             //配置端点
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             //app.UseStaticFiles();
             //开启Swagger
@@ -77,6 +73,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 app.UseCustomSwagger();
             }
+
             //if (app.Environment.IsDevelopment())
             //{
             //    app.UseSwagger();
@@ -145,6 +142,7 @@ namespace Microsoft.AspNetCore.Builder
             {
                 Directory.CreateDirectory(path);
             }
+
             var options = new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(path),
@@ -170,12 +168,13 @@ namespace Microsoft.AspNetCore.Builder
                 typeof(ApiVersions).GetEnumNames().OrderByDescending(e => e).ToList().ForEach(version =>
                 {
                     version = version.Replace('_', '.');
-                    c.SwaggerEndpoint($"/swagger/{version}/swagger.json", $"{BasicSetting.Setting.AssemblyName} {version}- Zookeeper服务API文档");
+                    c.SwaggerEndpoint($"/swagger/{version}/swagger.json",
+                        $"{BasicSetting.Setting.AssemblyName} {version}- Zookeeper服务API文档");
                 });
                 //c.SwaggerEndpoint("/swagger/v1.0/swagger.json", BasicSetting.Setting.AssemblyName + " v1.0");
                 c.DisplayOperationId();
                 c.DefaultModelExpandDepth(1); //模型示例部分中模型的默认扩展深度。
-                c.DefaultModelsExpandDepth(1);//模型的默认扩展深度（设置为-1将完全隐藏模型）
+                c.DefaultModelsExpandDepth(1); //模型的默认扩展深度（设置为-1将完全隐藏模型）
                 //c.DefaultModelRendering(ModelRendering.Model); //控制首次呈现API时如何显示模型。
                 c.DisplayRequestDuration(); //控制Try-It-Out请求的请求持续时间（以毫秒为单位）的显示。
                 c.DocExpansion(DocExpansion.None); //控制操作和标签的默认扩展设置。
@@ -195,9 +194,8 @@ namespace Microsoft.AspNetCore.Builder
             app.UseMiddleware<ExceptionHandleMiddleware>();
             app.UseStatusCodePages(async context =>
             {
-                if(context.HttpContext.Response.StatusCode != 200)
+                if (context.HttpContext.Response.StatusCode != 200)
                 {
-
                     if (context.HttpContext.Request.Path.Value.ToLower().StartsWith("/upload/"))
                     {
                         context.HttpContext.Response.Redirect("/Upload/upload-404.png");
@@ -206,10 +204,10 @@ namespace Microsoft.AspNetCore.Builder
                     {
                         context.HttpContext.Response.ContentType = "application/json";
                         await context.HttpContext.Response.WriteAsync(
-                            JsonHelper.SerializeJSON(ResultModel.Failed($"Status code page, status code: {context.HttpContext.Response.StatusCode}"))
-                            );
+                            JsonHelper.SerializeJSON(ResultModel.Failed(
+                                $"Status code page, status code: {context.HttpContext.Response.StatusCode}"))
+                        );
                     }
-
                 }
             });
             return app;

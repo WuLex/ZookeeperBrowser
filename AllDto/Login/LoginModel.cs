@@ -31,10 +31,8 @@ namespace AllDto.Login
         /// </summary>
         public EnumPlatform Platform { get; set; }
 
-        [IgnoreProperty]
-        public string IP { get; set; }
+        [IgnoreProperty] public string IP { get; set; }
 
-        [IgnoreProperty]
-        public string UserAgent { get; set; }
+        [IgnoreProperty] public string UserAgent { get; set; }
     }
 }

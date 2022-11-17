@@ -15,7 +15,7 @@ namespace ZookeeperBrowser.Code
             _contextAccessor = contextAccessor;
         }
 
-        public string AccessToken 
+        public string AccessToken
         {
             get
             {
@@ -25,6 +25,7 @@ namespace ZookeeperBrowser.Code
                 {
                     return "";
                 }
+
                 return accessToken.Value;
             }
         }
@@ -39,6 +40,7 @@ namespace ZookeeperBrowser.Code
                 {
                     return "";
                 }
+
                 return refreshToken.Value;
             }
         }
@@ -53,6 +55,7 @@ namespace ZookeeperBrowser.Code
                 {
                     return "";
                 }
+
                 return expiresIn.Value;
             }
         }

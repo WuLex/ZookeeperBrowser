@@ -19,7 +19,8 @@ namespace ZookeeperBrowser.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
 
-        public ZookeeperController(IZookeeperService zookeeperService, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public ZookeeperController(IZookeeperService zookeeperService, IHttpContextAccessor httpContextAccessor,
+            IConfiguration configuration)
         {
             _zookeeperService = zookeeperService;
             _configuration = configuration;
@@ -88,6 +89,7 @@ namespace ZookeeperBrowser.Controllers
                         });
                     }
                 }
+
                 treeDataModel.children = childdatalist;
                 List<TreeDataModel> treeDatalist = new List<TreeDataModel>();
                 treeDatalist.Add(treeDataModel);
@@ -110,6 +112,7 @@ namespace ZookeeperBrowser.Controllers
                         });
                     }
                 }
+
                 return childdatalist;
             }
         }
@@ -186,6 +189,7 @@ namespace ZookeeperBrowser.Controllers
                     }
                 }
             }
+
             return datalist;
         }
 
@@ -199,7 +203,7 @@ namespace ZookeeperBrowser.Controllers
         {
             string nodePath = WebUtility.HtmlDecode(zKQueryData.nodepath);
 
-         
+
             var dataViewModel = await _zookeeperService.GetDataAsync(nodePath);
             //return dataViewModel;
 
@@ -208,6 +212,7 @@ namespace ZookeeperBrowser.Controllers
             {
                 list.Add(dataViewModel);
             }
+
             return new PageDataResult<DataViewModel>()
             {
                 Msg = "success",
@@ -220,7 +225,6 @@ namespace ZookeeperBrowser.Controllers
         //生成树的方法
         public void GetTheTree(TreeDataModel dataModel)
         {
-
             //获取
             var nodes = _zookeeperService.GetChildrenAsync("/").Result;
             //如果没有字节点了，那就返回空
@@ -241,6 +245,7 @@ namespace ZookeeperBrowser.Controllers
                     GetTheTree(childnode);
                     childdatalist.Add(childnode);
                 }
+
                 dataModel.children = childdatalist;
             }
             else
@@ -281,11 +286,7 @@ namespace ZookeeperBrowser.Controllers
             BusyOff();
         }
 
-        public bool IsBusy
-        {
-            get;
-            set;
-        } = false;
+        public bool IsBusy { get; set; } = false;
 
         public ObservableCollection<NodeViewModel> Nodes { get; set; }
 

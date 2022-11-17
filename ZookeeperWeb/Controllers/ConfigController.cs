@@ -37,6 +37,7 @@ namespace ZookeeperBrowser.Controllers
                     model.AuthConfigData = config.Data.Value.ToJson<AuthConfigData>();
                 }
             }
+
             return View(model);
         }
 
@@ -52,6 +53,7 @@ namespace ZookeeperBrowser.Controllers
                 config.Value = JsonHelper.SerializeJSON(model.AuthConfigData, true);
                 IResultModel<ConfigDTO> result = await _configApi.UpdateAsync(config);
             }
+
             return View("Index", model);
         }
     }

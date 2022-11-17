@@ -14,8 +14,8 @@ namespace AllModel.MyOrm
     /// <typeparam name="TEntity">Main Entity type this repository works on</typeparam>
     public interface IRepository<TEntity> where TEntity : class
     {
-
         #region Select/Get/Query
+
         /// <summary>
         /// GetById
         /// </summary>
@@ -43,6 +43,7 @@ namespace AllModel.MyOrm
         #endregion
 
         #region Insert
+
         /// <summary>
         /// Insert
         /// </summary>
@@ -54,6 +55,7 @@ namespace AllModel.MyOrm
         /// </summary>
         /// <param name="entities">Inserted entity</param>
         void Insert(IEnumerable<TEntity> entities);
+
         /// <summary>
         /// 添加实体
         /// </summary>
@@ -65,9 +67,11 @@ namespace AllModel.MyOrm
         /// </summary>
         /// <param name="entities">Inserted entity</param>
         Task InsertAsync(IEnumerable<TEntity> entities);
+
         #endregion
 
         #region Update
+
         /// <summary>
         /// Update
         /// </summary>
@@ -87,9 +91,11 @@ namespace AllModel.MyOrm
         /// <param name="properties">Action that can be used to change values of the entity</param>
         /// <returns>Updated entity</returns>
         void Update(TEntity entity, params Expression<Func<TEntity, object>>[] properties);
+
         #endregion
 
         #region Delete
+
         /// <summary>
         /// Delete
         /// </summary>
@@ -109,7 +115,7 @@ namespace AllModel.MyOrm
         /// </summary>
         /// <param name="predicate">A condition to filter entities</param>
         void Delete(Expression<Func<TEntity, bool>> predicate);
-        #endregion
 
+        #endregion
     }
 }

@@ -22,13 +22,14 @@ namespace AllModel.MyOrm
             var list = new List<Assembly>();
             DependencyContext dependencyContext = DependencyContext.Default;
             IEnumerable<CompilationLibrary> libs = dependencyContext.CompileLibraries.Where(s => !s.Serviceable &&
-                                                              s.Type == "project" && s.Name != ".CommonToolsCore" && 
-                                                              s.Name != "AllModel.MyOrm" && !s.Name.EndsWith(".Model"));
+                s.Type == "project" && s.Name != ".CommonToolsCore" &&
+                s.Name != "AllModel.MyOrm" && !s.Name.EndsWith(".Model"));
             foreach (var lib in libs)
             {
                 Assembly assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(lib.Name));
                 list.Add(assembly);
             }
+
             return list.ToArray();
         }
     }

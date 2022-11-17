@@ -120,14 +120,18 @@ namespace Microsoft.Extensions.DependencyInjection
                         Version = version,
                         Title = $"{BasicSetting.Setting.AssemblyName} 接口文档 - Net6",
                         Description = $"{BasicSetting.Setting.AssemblyName} HTTP API " + version,
-                        Contact = new OpenApiContact { Name = "灵风幻火", Email = "**********@qq.com", Url = new Uri("https://www.cnblogs.com/Wulex/") },
+                        Contact = new OpenApiContact
+                        {
+                            Name = "灵风幻火", Email = "**********@qq.com", Url = new Uri("https://www.cnblogs.com/Wulex/")
+                        },
                         //License = new OpenApiLicense { Name = BasicSetting.Setting.AssemblyName + " 官方文档", Url = new Uri("https://www.cnblogs.com/Wulex/") }
                     });
                     c.OrderActionsBy(o => o.RelativePath);
                 });
-                
+
                 //为 Swagger JSON and UI设置xml文档注释路径
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, BasicSetting.Setting.AssemblyName + ".xml"); //获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
+                var filePath = Path.Combine(System.AppContext.BaseDirectory,
+                    BasicSetting.Setting.AssemblyName + ".xml"); //获取应用程序所在目录（绝对，不受工作目录影响，建议采用此方法获取路径）
                 c.IncludeXmlComments(filePath);
 
                 var securityScheme = new OpenApiSecurityScheme
@@ -156,7 +160,6 @@ namespace Microsoft.Extensions.DependencyInjection
                             Scheme = "oauth2",
                             Name = "Bearer",
                             In = ParameterLocation.Header,
-
                         },
                         new List<string>()
                     }
@@ -196,9 +199,9 @@ namespace Microsoft.Extensions.DependencyInjection
                         builder =>
                         {
                             builder.WithOrigins(setting.WithOrigins)
-                            .SetPreflightMaxAge(new TimeSpan(0, 0, 180))
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
+                                .SetPreflightMaxAge(new TimeSpan(0, 0, 180))
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
                         });
                 });
             }
@@ -213,6 +216,7 @@ namespace Microsoft.Extensions.DependencyInjection
                             .AllowAnyHeader());
                 });
             }
+
             return services;
         }
 
@@ -227,7 +231,8 @@ namespace Microsoft.Extensions.DependencyInjection
             if (setting.DbType == DbType.MYSQL)
             {
                 //UseLazyLoadingProxies 通过延迟加载获取导航属性数据
-                services.AddChimp<myDbContext>(opt => opt.UseLazyLoadingProxies().UseMySql(setting.ConnectionString, new MySqlServerVersion(new Version(8, 0, 29)),
+                services.AddChimp<myDbContext>(opt => opt.UseLazyLoadingProxies().UseMySql(setting.ConnectionString,
+                    new MySqlServerVersion(new Version(8, 0, 29)),
                     b => b.MigrationsAssembly(setting.AssemblyName)));
             }
             else
@@ -235,6 +240,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddChimp<myDbContext>(opt => opt.UseLazyLoadingProxies().UseSqlServer(setting.ConnectionString,
                     b => b.MigrationsAssembly(setting.AssemblyName)));
             }
+
             return services;
         }
 

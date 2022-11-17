@@ -1,7 +1,6 @@
-﻿
-namespace ZookeeperBrowser.ViewModel
+﻿namespace ZookeeperBrowser.ViewModel
 {
-    public class CnnString 
+    public class CnnString
     {
         public string Name { get; set; }
 
@@ -11,6 +10,6 @@ namespace ZookeeperBrowser.ViewModel
         {
             Name = name;
             Value = value;
-        }   
+        }
     }
 }

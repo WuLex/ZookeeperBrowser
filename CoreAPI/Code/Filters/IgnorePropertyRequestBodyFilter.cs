@@ -20,7 +20,8 @@ namespace CoreAPI.Code.Filters
         {
             if (requestBody.Content.Keys.Contains("multipart/form-data"))
             {
-                var pro = typeof(SchemaRepository).GetField("_reservedIds", BindingFlags.NonPublic | BindingFlags.Instance);
+                var pro = typeof(SchemaRepository).GetField("_reservedIds",
+                    BindingFlags.NonPublic | BindingFlags.Instance);
                 if (pro == null)
                     return;
 
@@ -31,17 +32,23 @@ namespace CoreAPI.Code.Filters
                 {
                     var s = context.FormParameterDescriptions.FirstOrDefault(p => p.Name == schema.Key);
                     var displayAttr = s?.ModelMetadata.DisplayName;
-                    var descAttr = (DescriptionAttribute)Attribute.GetCustomAttribute(s.PropertyInfo(), typeof(DescriptionAttribute));
-                    var defaultValue = (DefaultValueAttribute)Attribute.GetCustomAttribute(s.PropertyInfo(), typeof(DefaultValueAttribute));
-                    var ignoreProperties = (IgnorePropertyAttribute)Attribute.GetCustomAttribute(s.PropertyInfo(), typeof(IgnorePropertyAttribute));
-                    
+                    var descAttr =
+                        (DescriptionAttribute)Attribute.GetCustomAttribute(s.PropertyInfo(),
+                            typeof(DescriptionAttribute));
+                    var defaultValue =
+                        (DefaultValueAttribute)Attribute.GetCustomAttribute(s.PropertyInfo(),
+                            typeof(DefaultValueAttribute));
+                    var ignoreProperties =
+                        (IgnorePropertyAttribute)Attribute.GetCustomAttribute(s.PropertyInfo(),
+                            typeof(IgnorePropertyAttribute));
+
                     if (ignoreProperties != null)
                     {
                         pros.Remove(schema.Key);
                         continue;
                     }
 
-                    if(defaultValue != null)
+                    if (defaultValue != null)
                     {
                         schema.Value.Default = new Microsoft.OpenApi.Any.OpenApiString(defaultValue.Value?.ToString());
                     }
@@ -55,16 +62,17 @@ namespace CoreAPI.Code.Filters
                             schema.Value.Type = values.Type;
                             schema.Value.Reference = null;
                         }
+
                         schema.Value.Description = displayAttr;
                         continue;
                     }
+
                     if (descAttr != null && descAttr.Description.NotNull())
                     {
                         schema.Value.Description = descAttr.Description;
                     }
                 }
             }
-            
         }
     }
 }

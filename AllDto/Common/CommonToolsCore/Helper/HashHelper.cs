@@ -17,6 +17,7 @@ namespace AllDto.Common.CommonToolsCore.Helper
             {
                 encoding = Encoding.UTF8;
             }
+
             byte[] bytes = encoding.GetBytes(value);
             return GetMd5(bytes);
         }
@@ -33,6 +34,7 @@ namespace AllDto.Common.CommonToolsCore.Helper
             {
                 sb.AppendFormat("{0:x2}", b);
             }
+
             return sb.ToString();
         }
 
@@ -47,11 +49,13 @@ namespace AllDto.Common.CommonToolsCore.Helper
             {
                 encoding = Encoding.UTF8;
             }
+
             byte[] bytes = hash.ComputeHash(encoding.GetBytes(value));
             foreach (byte b in bytes)
             {
                 sb.AppendFormat("{0:x2}", b);
             }
+
             return sb.ToString();
         }
 
@@ -66,11 +70,13 @@ namespace AllDto.Common.CommonToolsCore.Helper
             {
                 encoding = Encoding.UTF8;
             }
+
             byte[] bytes = hash.ComputeHash(encoding.GetBytes(value));
             foreach (byte b in bytes)
             {
                 sb.AppendFormat("{0:x2}", b);
             }
+
             return sb.ToString();
         }
 
@@ -85,11 +91,13 @@ namespace AllDto.Common.CommonToolsCore.Helper
             {
                 encoding = Encoding.UTF8;
             }
+
             byte[] bytes = hash.ComputeHash(encoding.GetBytes(value));
             foreach (byte b in bytes)
             {
                 sb.AppendFormat("{0:x2}", b);
             }
+
             return sb.ToString();
         }
     }

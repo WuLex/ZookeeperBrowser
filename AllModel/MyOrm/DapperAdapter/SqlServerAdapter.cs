@@ -18,9 +18,11 @@ namespace AllModel.MyOrm.DapperAdapter
                 partedSql.Select = partedSql.Select.Substring("DISTINCT".Length);
                 select = "SELECT DISTINCT";
             }
+
             if (skip <= 0)
             {
-                var sbSql = StringBuilderCache.Allocate().AppendFormat("{0} TOP {1} {2}", select, take, partedSql.Select)
+                var sbSql = StringBuilderCache.Allocate()
+                    .AppendFormat("{0} TOP {1} {2}", select, take, partedSql.Select)
                     .Append(" FROM ").Append(partedSql.Body).Append(" order by ").Append(partedSql.OrderBy);
                 return StringBuilderCache.ReturnAndFree(sbSql);
             }
@@ -35,6 +37,5 @@ namespace AllModel.MyOrm.DapperAdapter
                 return StringBuilderCache.ReturnAndFree(sbSql);
             }
         }
-
     }
 }

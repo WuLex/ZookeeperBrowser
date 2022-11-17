@@ -10,6 +10,7 @@ namespace AllModel.MyOrm.DapperAdapter
     public struct PartedSql
     {
         public string Raw;
+
         /// <summary>
         /// select eg：distinct Id, name
         /// </summary>

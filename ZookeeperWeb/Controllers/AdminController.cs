@@ -12,11 +12,8 @@ namespace ZookeeperBrowser.Controllers
     [Route("[controller]/[action]")]
     public class AdminController : Controller
     {
-      
         public AdminController()
         {
-            
         }
-
     }
 }

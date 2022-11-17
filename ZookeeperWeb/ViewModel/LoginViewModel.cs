@@ -8,12 +8,9 @@ namespace ZookeeperBrowser.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
-        public string userid { get; set; }
-        [Required]
-        public string password { get; set; }
-        [Required]
-        public string code { get; set; }
+        [Required] public string userid { get; set; }
+        [Required] public string password { get; set; }
+        [Required] public string code { get; set; }
     }
 
     /// <summary>
@@ -40,6 +37,5 @@ namespace ZookeeperBrowser.ViewModels
         /// 登录账号名称
         /// </summary>
         public string AccountName { get; set; }
-
     }
 }

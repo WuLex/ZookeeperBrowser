@@ -13,10 +13,11 @@ namespace ZookeeperBrowser.Code
     {
         public override Task OnBeginRequestAsync(ApiActionContext context)
         {
-            if(context.Exception != null)
+            if (context.Exception != null)
             {
                 return Task.CompletedTask;
             }
+
             try
             {
                 var _loginInfo = context.GetService<ILoginInfo>();
@@ -26,8 +27,8 @@ namespace ZookeeperBrowser.Code
             {
                 return Task.CompletedTask;
             }
+
             return base.OnBeginRequestAsync(context);
         }
     }
-
 }

@@ -7,7 +7,6 @@ namespace ZookeeperBrowser.Message
 {
     public class RequestMessage : RequestMessage<object>
     {
-
     }
 
     public class RequestMessage<T>

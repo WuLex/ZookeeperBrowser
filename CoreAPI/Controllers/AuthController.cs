@@ -23,7 +23,8 @@ namespace CoreAPI.Controllers
         private readonly IpHelper _ipHelper;
         private readonly Lazy<IAuthInfoService> AuthInfoService;
 
-        public AuthController(ILogger<ControllerAbstract> logger, ILoginHandler loginHandler, IpHelper ipHelper, Lazy<IAuthInfoService> authInfoService) : base(logger)
+        public AuthController(ILogger<ControllerAbstract> logger, ILoginHandler loginHandler, IpHelper ipHelper,
+            Lazy<IAuthInfoService> authInfoService) : base(logger)
         {
             _loginHandler = loginHandler;
             _ipHelper = ipHelper;
@@ -70,13 +71,14 @@ namespace CoreAPI.Controllers
                 var jwtmodel = _loginHandler.Hand(claims, loginInfo.RefreshToken);
                 return ResultModel.Success(jwtmodel);
             }
+
             return ResultModel.Failed(result.Msg);
         }
 
         [HttpGet("RefreshToken")]
         [AllowAnonymous]
         [Description("刷新令牌")]
-        public async Task<IResultModel> RefreshToken([BindRequired]string refreshToken)
+        public async Task<IResultModel> RefreshToken([BindRequired] string refreshToken)
         {
             var result = await AuthInfoService.Value.RefreshToken(refreshToken);
             return LoginHandle(result);

@@ -8,7 +8,7 @@ using ZookeeperBrowser.Code;
 using ZookeeperBrowser.HttpApis;
 using ZookeeperBrowser.ViewModels;
 using AllModel.MyOrm.Result;
- 
+
 
 namespace ZookeeperBrowser.Controllers
 {
@@ -50,6 +50,7 @@ namespace ZookeeperBrowser.Controllers
             {
                 return View();
             }
+
             return View(result.Data);
         }
 
@@ -70,6 +71,7 @@ namespace ZookeeperBrowser.Controllers
                 {
                     result = await _accountApi.UpdateAsync(model);
                 }
+
                 if (result.Success)
                 {
                     var _msg = model.Id == Guid.Empty ? "添加成功！" : "修改成功！";
@@ -87,10 +89,12 @@ namespace ZookeeperBrowser.Controllers
                     }
                 }
             }
+
             if (model.Id == Guid.Empty)
             {
                 return View("Create", model);
             }
+
             return View("Edit", model);
         }
 
@@ -113,6 +117,7 @@ namespace ZookeeperBrowser.Controllers
             {
                 return Json(new Table() { data = result.Data, count = result.Data.Count });
             }
+
             return Json(new Table() { data = null, count = 0 });
         }
     }

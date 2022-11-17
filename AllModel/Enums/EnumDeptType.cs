@@ -14,14 +14,13 @@ namespace AllModel.Enums
         /// <summary>
         /// 年组
         /// </summary>
-        [Description("年组")]
-        [Display(Name = "年组")]
+        [Description("年组")] [Display(Name = "年组")]
         grade,
+
         /// <summary>
         /// 班级
         /// </summary>
-        [Description("班级")]
-        [Display(Name = "班级")]
+        [Description("班级")] [Display(Name = "班级")]
         classes
     }
 }

@@ -4,7 +4,6 @@
     {
         public PageDataResult()
         {
-
         }
 
         public PageDataResult(List<T> data, int totalCount)

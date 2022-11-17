@@ -62,7 +62,8 @@ namespace ZookeeperBrowser.Controllers
             };
         }
 
-        public async void ReTry(string connStr, Action<org.apache.zookeeper.ZooKeeper> run, int maxReTries = 5, int sleep = 100)
+        public async void ReTry(string connStr, Action<org.apache.zookeeper.ZooKeeper> run, int maxReTries = 5,
+            int sleep = 100)
         {
             int retries = 1;
             while (true)
@@ -79,6 +80,7 @@ namespace ZookeeperBrowser.Controllers
                     {
                         throw new Exception("try max times", ex);
                     }
+
                     await _zkManager.Remove(connStr);
                     System.Threading.Thread.Sleep(sleep);
                 }
@@ -88,6 +90,7 @@ namespace ZookeeperBrowser.Controllers
                     {
                         throw new Exception("try max times", ex);
                     }
+
                     await _zkManager.Remove(connStr);
                     System.Threading.Thread.Sleep(sleep);
                 }
@@ -97,6 +100,7 @@ namespace ZookeeperBrowser.Controllers
                     {
                         throw new Exception("try max times", ex);
                     }
+
                     System.Threading.Thread.Sleep(sleep);
                 }
                 finally
@@ -107,7 +111,8 @@ namespace ZookeeperBrowser.Controllers
         }
 
         [HttpPost]
-        public async Task<ResponseMessage<GetChildrenResponse>> GetChildren([FromBody] RequestMessage<GetChildrenRequest> reqMsg)
+        public async Task<ResponseMessage<GetChildrenResponse>> GetChildren(
+            [FromBody] RequestMessage<GetChildrenRequest> reqMsg)
         {
             var zk = await _zkManager.Get(reqMsg.Header.ConnectString);
             Node rootNode = null;
@@ -150,11 +155,13 @@ namespace ZookeeperBrowser.Controllers
                     {
                         childNode.Path = node.Path + child;
                     }
+
                     await LoadNode(zk, childNode);
                     if (node.Nodes == null)
                     {
                         node.Nodes = new List<Node>();
                     }
+
                     node.Nodes.Add(childNode);
                 }
             }
@@ -169,6 +176,7 @@ namespace ZookeeperBrowser.Controllers
             {
                 data = Encoding.UTF8.GetBytes(reqMsg.Body.Data);
             }
+
             string result = await zk.createAsync(reqMsg.Body.Path, data, reqMsg.Body.ZACL, reqMsg.Body.ZCreateMode);
 
             return new ResponseMessage<string>
@@ -218,7 +226,5 @@ namespace ZookeeperBrowser.Controllers
             _zkManager.Dispose();
             base.Dispose(disposing);
         }
-
-
     }
 }

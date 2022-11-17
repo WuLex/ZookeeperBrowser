@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace AllModel.MyOrm
 {
-    public class BaseDbContext: DbContext
+    public class BaseDbContext : DbContext
     {
         protected BaseDbContext()
         {
@@ -44,6 +44,7 @@ namespace AllModel.MyOrm
                     modelBuilder.Entity(entity.Name).ToTable(currentTableName);
                 }
             }
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -64,6 +65,7 @@ namespace AllModel.MyOrm
                     }
                 }
             }
+
             return list;
         }
     }

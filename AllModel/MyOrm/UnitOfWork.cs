@@ -26,7 +26,6 @@ namespace AllModel.MyOrm
         }
 
 
-
         public int SaveChanges()
         {
             return _context.SaveChanges();
@@ -39,11 +38,11 @@ namespace AllModel.MyOrm
         }
 
 
-        public Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string sql, object param = null, IDbContextTransaction trans = null) where TEntity : class
+        public Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string sql, object param = null,
+            IDbContextTransaction trans = null) where TEntity : class
         {
             var conn = GetConnection();
             return conn.QueryAsync<TEntity>(sql, param, trans?.GetDbTransaction());
-
         }
 
 
@@ -51,12 +50,11 @@ namespace AllModel.MyOrm
         {
             var conn = GetConnection();
             return await conn.ExecuteAsync(sql, param, trans?.GetDbTransaction());
-
         }
 
 
-
-        public async Task<PagedList<TEntity>> QueryPagedListAsync<TEntity>(int pageIndex, int pageSize, string pageSql, object pageSqlArgs = null) where TEntity : class
+        public async Task<PagedList<TEntity>> QueryPagedListAsync<TEntity>(int pageIndex, int pageSize, string pageSql,
+            object pageSqlArgs = null) where TEntity : class
         {
             if (pageSize < 1 || pageSize > 5000)
                 throw new ArgumentOutOfRangeException(nameof(pageSize));
@@ -87,7 +85,6 @@ namespace AllModel.MyOrm
         }
 
 
-
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -107,6 +104,7 @@ namespace AllModel.MyOrm
                     _context.Dispose();
                 }
             }
+
             _disposed = true;
         }
 

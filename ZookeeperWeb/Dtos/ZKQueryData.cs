@@ -2,12 +2,12 @@
 {
     public class ZKQueryData
     {
-            /// <summary>
-            /// zookeeper节点路径
-            /// </summary>
-       public string nodepath { get; set; }
+        /// <summary>
+        /// zookeeper节点路径
+        /// </summary>
+        public string nodepath { get; set; }
 
-       /// <summary>
+        /// <summary>
         /// 当前页码
         /// </summary>
         public int Page { get; set; }

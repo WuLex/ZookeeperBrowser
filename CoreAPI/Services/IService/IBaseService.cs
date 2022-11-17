@@ -15,7 +15,9 @@ namespace CoreAPI.Services.IService
     /// <typeparam name="TEntity">数据库模型</typeparam>
     /// <typeparam name="TEntityDTO">DTO模型</typeparam>
     /// <typeparam name="TKey">主键类型</typeparam>
-    public interface IBaseService<TEntity, TEntityDTO, TKey> where TEntityDTO : class where TEntity : EntityBase<TKey>, new() where TKey : struct
+    public interface IBaseService<TEntity, TEntityDTO, TKey> where TEntityDTO : class
+        where TEntity : EntityBase<TKey>, new()
+        where TKey : struct
     {
         /// <summary>
         /// 工作单元

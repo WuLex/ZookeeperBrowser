@@ -8,7 +8,8 @@ namespace AllModel.Code
 {
     public static class EnumExtensions
     {
-        private static readonly ConcurrentDictionary<string, string> DescriptionCache = new ConcurrentDictionary<string, string>();
+        private static readonly ConcurrentDictionary<string, string> DescriptionCache =
+            new ConcurrentDictionary<string, string>();
 
         /// <summary>
         /// 获取枚举类型的Description说明

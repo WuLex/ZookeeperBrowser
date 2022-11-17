@@ -9,7 +9,6 @@ using AllModel.Enums;
 
 namespace ZookeeperBrowser.Controllers
 {
-
     [Authorize]
     public class HomeController : Controller
     {
@@ -44,6 +43,7 @@ namespace ZookeeperBrowser.Controllers
                     return View();
                 }
             }
+
             return View();
         }
 
@@ -65,6 +65,5 @@ namespace ZookeeperBrowser.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }

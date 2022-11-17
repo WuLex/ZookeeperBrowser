@@ -17,7 +17,8 @@ namespace CoreAPI.Services.Service
 {
     public class AccountService : BaseService<AccountEntity, AccountDTO, Guid>, IAccountService, IDependency
     {
-        public AccountService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<AccountService> logger, Lazy<ILoginInfo> loginInfo,
+        public AccountService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<AccountService> logger,
+            Lazy<ILoginInfo> loginInfo,
             Lazy<IRepository<AccountEntity>> _repository) : base(mapper, unitOfWork, logger, loginInfo, _repository)
         {
         }
@@ -27,18 +28,21 @@ namespace CoreAPI.Services.Service
             //检查用户名是否唯一
             if (model.UserName.NotNull())
             {
-                var isusername = await _repository.Value.TableNoTracking.AnyAsync(p => p.UserName == model.UserName.Trim());
+                var isusername =
+                    await _repository.Value.TableNoTracking.AnyAsync(p => p.UserName == model.UserName.Trim());
                 if (isusername)
                 {
                     _logger.LogError($"error：UserName {model.UserName} already exists");
                     return ResultModel.Failed("用户名已存在", "UserName");
                 }
             }
+
             //默认密码
             if (model.PassWord.IsNull())
             {
                 model.PassWord = "123456";
             }
+
             //调用父类方法
             return await base.InsertAsync(model);
         }
@@ -48,21 +52,24 @@ namespace CoreAPI.Services.Service
             //检查用户名是否唯一
             if (model.UserName.NotNull())
             {
-                var isusername = await _repository.Value.TableNoTracking.AnyAsync(p => p.UserName == model.UserName.Trim() && p.Id != model.Id);
+                var isusername =
+                    await _repository.Value.TableNoTracking.AnyAsync(p =>
+                        p.UserName == model.UserName.Trim() && p.Id != model.Id);
                 if (isusername)
                 {
                     _logger.LogError($"error：UserName {model.UserName} already exists");
                     return ResultModel.Failed("用户名已存在", "UserName");
                 }
             }
+
             //密码空则保留原密码
             if (model.PassWord.IsNull())
             {
                 var entity = await _repository.Value.GetByIdAsync(model.Id);
                 if (entity != null)
                     model.PassWord = entity.PassWord;
-
             }
+
             //调用父类方法
             return await base.UpdateAsync(model);
         }
@@ -74,6 +81,7 @@ namespace CoreAPI.Services.Service
             {
                 return ResultModel.Failed("初始化数据不能删除");
             }
+
             //调用父类方法
             return await base.RemoveAsync(id);
         }
@@ -87,11 +95,13 @@ namespace CoreAPI.Services.Service
                 _logger.LogError($"error：entity AccountId {model.AccountId} does not exist");
                 return ResultModel.NotExists;
             }
+
             //原密码验证
             if (!entity.PassWord.Equals($"{entity.UserName}_{model.OldPassword}".ToMd5Hash()))
             {
                 return ResultModel.Failed("原密码错误", "OldPassword");
             }
+
             entity.PassWord = $"{entity.UserName}_{model.NewPassword}".ToMd5Hash();
             _repository.Value.Update(entity);
 
@@ -99,6 +109,7 @@ namespace CoreAPI.Services.Service
             {
                 return ResultModel.Success();
             }
+
             _logger.LogError($"error：UpdatePassword failed");
             return ResultModel.Failed("error：UpdatePassword failed", 500);
         }

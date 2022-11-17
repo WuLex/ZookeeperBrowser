@@ -11,7 +11,7 @@ namespace AllModel.Code
     /// <summary>
     /// 包含通用模型实体基类，主键int类型自增
     /// </summary>
-    public class EntityBase: EntityBase<int> 
+    public class EntityBase : EntityBase<int>
     {
     }
 
@@ -38,9 +38,7 @@ namespace AllModel.Code
     /// <typeparam name="TKey">主键类型</typeparam>
     public class EntityBase<TKey> : IEntity where TKey : struct
     {
-        [Key]
-        public TKey Id { get; set; }
-
+        [Key] public TKey Id { get; set; }
 
 
         /// <summary>
@@ -54,12 +52,13 @@ namespace AllModel.Code
         /// 修改时间
         /// </summary>
         public virtual DateTime ModifiedTime { get; set; } = DateTime.Now;
+
         /// <summary>
         /// 操作人名称
         /// </summary>
         [NotMapped]
         public virtual string OperatorName { get; set; }
-       
+
         /// <summary>
         /// 软删除
         /// </summary>

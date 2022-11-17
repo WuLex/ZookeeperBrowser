@@ -30,6 +30,7 @@ namespace System
             {
                 return false;
             }
+
             return isContains
                 ? Regex.IsMatch(value, pattern)
                 : Regex.Match(value, pattern).Success;
@@ -47,6 +48,7 @@ namespace System
             {
                 return null;
             }
+
             return Regex.Match(value, pattern).Value;
         }
 
@@ -62,6 +64,7 @@ namespace System
             {
                 return new string[] { };
             }
+
             MatchCollection matches = Regex.Matches(value, pattern);
             return from Match match in matches select match.Value;
         }
@@ -76,6 +79,7 @@ namespace System
             {
                 return string.Empty;
             }
+
             return matches[0].Value;
         }
 
@@ -89,6 +93,7 @@ namespace System
             {
                 return string.Empty;
             }
+
             return matches[matches.Count - 1].Value;
         }
 
@@ -130,6 +135,7 @@ namespace System
             {
                 return string.Empty;
             }
+
             int startIndex = 0;
             if (!string.IsNullOrEmpty(startString))
             {
@@ -138,8 +144,10 @@ namespace System
                 {
                     throw new InvalidOperationException(string.Format("在源字符串中无法找到“{0}”的子串位置", startString));
                 }
+
                 startIndex = startIndex + startString.Length;
             }
+
             int endIndex = source.Length;
             endStrings = endStrings.OrderByDescending(m => m.Length).ToArray();
             foreach (string endString in endStrings)
@@ -149,17 +157,21 @@ namespace System
                     endIndex = source.Length;
                     break;
                 }
+
                 endIndex = source.IndexOf(endString, startIndex, StringComparison.Ordinal);
                 if (endIndex < 0 || endIndex < startIndex)
                 {
                     continue;
                 }
+
                 break;
             }
+
             if (endIndex < 0 || endIndex < startIndex)
             {
                 throw new InvalidOperationException("在源字符串中无法找到子串位置");
             }
+
             int length = endIndex - startIndex;
             return source.Substring(startIndex, length);
         }
@@ -187,6 +199,7 @@ namespace System
             {
                 return string.Empty;
             }
+
             string inner = containsEmpty ? "\\s\\S" : "\\S";
             string result = source.Match(string.Format("(?<={0})([{1}]+?)(?={2})", startString, inner, endString));
             return result.IsNull() ? null : result;
@@ -206,7 +219,8 @@ namespace System
         /// </summary>
         public static bool IsIpAddress(this string value)
         {
-            const string pattern = @"^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$";
+            const string pattern =
+                @"^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$";
             return value.IsMatch(pattern);
         }
 
@@ -233,7 +247,8 @@ namespace System
         /// </summary>
         public static bool IsUrl(this string value)
         {
-            const string pattern = @"^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#!]*[\w\-\@?^=%&amp;/~\+#!])?$";
+            const string pattern =
+                @"^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#!]*[\w\-\@?^=%&amp;/~\+#!])?$";
             return value.IsMatch(pattern);
         }
 
@@ -249,6 +264,7 @@ namespace System
             {
                 return false;
             }
+
             Regex regex;
             string[] array;
             DateTime time;
@@ -259,19 +275,23 @@ namespace System
                 {
                     return false;
                 }
+
                 array = regex.Split(value);
                 return DateTime.TryParse(string.Format("{0}-{1}-{2}", "19" + array[2], array[3], array[4]), out time);
             }
+
             regex = new Regex(@"^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9Xx])$");
             if (!regex.Match(value).Success)
             {
                 return false;
             }
+
             array = regex.Split(value);
             if (!DateTime.TryParse(string.Format("{0}-{1}-{2}", array[2], array[3], array[4]), out time))
             {
                 return false;
             }
+
             //校验最后一位
             string[] chars = value.ToCharArray().Select(m => m.ToString()).ToArray();
             int[] weights = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
@@ -281,8 +301,9 @@ namespace System
                 int num = int.Parse(chars[i]);
                 sum = sum + num * weights[i];
             }
+
             int mod = sum % 11;
-            string vCode = "10X98765432";//检验码字符串
+            string vCode = "10X98765432"; //检验码字符串
             string last = vCode.ToCharArray().ElementAt(mod).ToString();
             return chars.Last().ToUpper() == last;
         }
@@ -406,11 +427,13 @@ namespace System
             {
                 return false;
             }
+
             byte[] filedata = File.ReadAllBytes(filename);
             if (filedata.Length == 0)
             {
                 return false;
             }
+
             ushort code = BitConverter.ToUInt16(filedata, 0);
             switch (code)
             {
@@ -433,7 +456,8 @@ namespace System
         /// <returns>分割后的数据</returns>
         public static string[] Split(this string value, string strSplit, bool removeEmptyEntries = false)
         {
-            return value.Split(new[] { strSplit }, removeEmptyEntries ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
+            return value.Split(new[] { strSplit },
+                removeEmptyEntries ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
         }
 
         /// <summary>
@@ -465,6 +489,7 @@ namespace System
                     tempLen += 1;
                 }
             }
+
             return tempLen;
         }
 
@@ -489,6 +514,7 @@ namespace System
 
                 url = url + query;
             }
+
             return url;
         }
 
@@ -503,15 +529,17 @@ namespace System
             {
                 return string.Empty;
             }
+
             query = query.TrimStart('?');
             var dict = (from m in query.Split("&", true)
-                        let strs = m.Split("=")
-                        select new KeyValuePair<string, string>(strs[0], strs[1]))
+                    let strs = m.Split("=")
+                    select new KeyValuePair<string, string>(strs[0], strs[1]))
                 .ToDictionary(m => m.Key, m => m.Value);
             if (dict.ContainsKey(key))
             {
                 return dict[key];
             }
+
             return string.Empty;
         }
 
@@ -540,6 +568,7 @@ namespace System
             {
                 encoding = Encoding.UTF8;
             }
+
             return encoding.GetBytes(value);
         }
 
@@ -552,6 +581,7 @@ namespace System
             {
                 encoding = Encoding.UTF8;
             }
+
             return encoding.GetString(bytes);
         }
 
@@ -564,12 +594,14 @@ namespace System
             {
                 throw new ArgumentException("参数不是中文字符串", "cnString");
             }
+
             int length = cnString.Length;
             string result = null;
             for (int i = 0; i < length; i++)
             {
                 result += GetChineseSpell(cnString[i]);
             }
+
             return result;
         }
 
@@ -586,7 +618,11 @@ namespace System
                 int area = (short)bytes[0];
                 int pos = (short)bytes[1];
                 int code = (area << 8) + pos;
-                int[] areacode = { 45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 48119, 48119, 49062, 49324, 49896, 50371, 50614, 50622, 50906, 51387, 51446, 52218, 52698, 52698, 52698, 52980, 53689, 54481 };
+                int[] areacode =
+                {
+                    45217, 45253, 45761, 46318, 46826, 47010, 47297, 47614, 48119, 48119, 49062, 49324, 49896, 50371,
+                    50614, 50622, 50906, 51387, 51446, 52218, 52698, 52698, 52698, 52980, 53689, 54481
+                };
 
                 for (int i = 0; i < 26; i++)
                 {
@@ -595,13 +631,16 @@ namespace System
                     {
                         max = areacode[i + 1];
                     }
+
                     if (areacode[i] <= code && code < max)
                     {
                         return Encoding.Default.GetString(new byte[] { (byte)(97 + i) }).ToUpper();
                     }
                 }
+
                 return "*";
             }
+
             return cnChar.ToString();
         }
 
@@ -625,10 +664,12 @@ namespace System
                 m =>
                 {
                     short s;
-                    if (short.TryParse(m.Groups[1].Value, NumberStyles.HexNumber, CultureInfo.InstalledUICulture, out s))
+                    if (short.TryParse(m.Groups[1].Value, NumberStyles.HexNumber, CultureInfo.InstalledUICulture,
+                            out s))
                     {
                         return "" + (char)s;
                     }
+
                     return m.Value;
                 });
         }
@@ -691,6 +732,7 @@ namespace System
         #endregion
 
         #region 字符串格式化
+
         /// <summary>
         /// Format格式化字符串
         /// </summary>
@@ -701,22 +743,27 @@ namespace System
         {
             return string.Format(format, args);
         }
+
         public static string Format(this string format, object arg0)
         {
             return string.Format(format, arg0);
         }
+
         public static string Format(this string format, object arg0, object arg1)
         {
             return string.Format(format, arg0, arg1);
         }
+
         public static string Format(this string format, object arg0, object arg1, object arg2)
         {
             return string.Format(format, arg0, arg1, arg2);
         }
+
         public static string Format(this IFormatProvider provider, string format, params object[] args)
         {
             return string.Format(provider, format, args);
         }
+
         #endregion
     }
 }

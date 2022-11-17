@@ -10,7 +10,7 @@ using AllModel.MyOrm.Result;
 namespace CoreAPI.Code.WebApi
 {
     [JsonReturn]
-    public interface IWebApiHelper: IHttpApi
+    public interface IWebApiHelper : IHttpApi
     {
         [HttpGet("api/StudentInfo")]
         ITask<StudentInfoListResultModel> GetStudentInfoListAsync();
@@ -19,7 +19,7 @@ namespace CoreAPI.Code.WebApi
     /// <summary>
     /// 接口返回模型
     /// </summary>
-    public class StudentInfoListResultModel: IResultModel
+    public class StudentInfoListResultModel : IResultModel
     {
         public bool Success { get; set; }
 

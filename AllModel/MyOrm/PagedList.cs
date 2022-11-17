@@ -10,6 +10,7 @@ namespace AllModel.MyOrm
         public PagedList()
         {
         }
+
         public PagedList(IList<T> items, int pageIndex, int pageSize, int totalCount)
         {
             Current = pageIndex;

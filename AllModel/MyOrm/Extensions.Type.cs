@@ -37,10 +37,11 @@ namespace AllModel.MyOrm
                     }
                 }
             }
+
             return list;
         }
 
-       
+
         public static bool HasImplementedRawGeneric(this Type type, Type generic)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
@@ -53,6 +54,7 @@ namespace AllModel.MyOrm
                 if (isTheRawGenericType) return true;
                 type = type.BaseType;
             }
+
             return false;
 
             bool IsTheRawGenericType(Type test)

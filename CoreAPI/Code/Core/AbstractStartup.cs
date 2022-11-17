@@ -10,6 +10,7 @@ namespace CoreAPI.Code.Core
         {
             Env = env;
         }
+
         protected readonly IWebHostEnvironment Env;
 
         public virtual void ConfigureServices(IServiceCollection services)

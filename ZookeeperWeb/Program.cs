@@ -9,9 +9,9 @@ using ZookeeperBrowser.Utils;
 #region 获取配置信息
 
 var configuration = new ConfigurationBuilder()
-               .SetBasePath(Environment.CurrentDirectory)
-               .AddJsonFile("appsettings.json")
-               .Build();
+    .SetBasePath(Environment.CurrentDirectory)
+    .AddJsonFile("appsettings.json")
+    .Build();
 configuration.GetSection("Setting").Bind(AppSetting.Setting);
 
 if (AppSetting.Setting.Urls.IsNull())
@@ -39,34 +39,31 @@ builder.Services.AddSingleton<ILoginInfo, LoginInfo>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-  .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-  {
-      options.LoginPath = new PathString("/Login/Index");
-      options.LogoutPath = new PathString("/Login/Logout");
-      options.AccessDeniedPath = new PathString("/Home/Error");
-      options.Cookie.Name = "_AdminTicketCookie";
-      //options.Cookie.SameSite = SameSiteMode.None;
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.LoginPath = new PathString("/Login/Index");
+        options.LogoutPath = new PathString("/Login/Logout");
+        options.AccessDeniedPath = new PathString("/Home/Error");
+        options.Cookie.Name = "_AdminTicketCookie";
+        //options.Cookie.SameSite = SameSiteMode.None;
 
-      //当Cookie 过期时间已达一半时，是否重置为ExpireTimeSpan
-      options.SlidingExpiration = true;
-      options.Cookie.HttpOnly = true;
-  });
+        //当Cookie 过期时间已达一半时，是否重置为ExpireTimeSpan
+        options.SlidingExpiration = true;
+        options.Cookie.HttpOnly = true;
+    });
 
 //添加HttpClient相关
 var types = typeof(Program).Assembly.GetTypes()
-            .Where(type => type.IsInterface
-            && ((System.Reflection.TypeInfo)type).ImplementedInterfaces != null
-            && type.GetInterfaces().Any(a => a.FullName == typeof(IHttpApi).FullName));
+    .Where(type => type.IsInterface
+                   && ((System.Reflection.TypeInfo)type).ImplementedInterfaces != null
+                   && type.GetInterfaces().Any(a => a.FullName == typeof(IHttpApi).FullName));
 foreach (var type in types)
 {
     builder.Services.AddHttpApi(type);
-    builder.Services.ConfigureHttpApi(type, o =>
-    {
-        o.HttpHost = new Uri(AppSetting.Setting.ApiUrl);
-    });
+    builder.Services.ConfigureHttpApi(type, o => { o.HttpHost = new Uri(AppSetting.Setting.ApiUrl); });
 }
 
-#endregion 
+#endregion
 
 #region 添加swagger注释
 
@@ -120,6 +117,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 app.UseStaticFiles();
 
 app.UseCors(p =>

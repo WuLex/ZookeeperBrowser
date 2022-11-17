@@ -23,6 +23,7 @@ namespace AllDto.Common.CommonToolsCore.Helper
             {
                 list = DependencyContext.Default.RuntimeLibraries.Where(predicate).ToList();
             }
+
             return list.Select(m =>
             {
                 try

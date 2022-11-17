@@ -32,14 +32,14 @@ namespace ZookeeperBrowser.HttpApis
         /// </summary>
         /// <returns></returns>
         [HttpPost("api/Account")]
-        ITask<ResultModel<AccountDTO>> AddAsync([JsonContent]AccountDTO model);
+        ITask<ResultModel<AccountDTO>> AddAsync([JsonContent] AccountDTO model);
 
         /// <summary>
         /// 修改账户信息
         /// </summary>
         /// <returns></returns>
         [HttpPut("api/Account")]
-        ITask<ResultModel<AccountDTO>> UpdateAsync([JsonContent]AccountDTO model);
+        ITask<ResultModel<AccountDTO>> UpdateAsync([JsonContent] AccountDTO model);
 
         /// <summary>
         /// 删除账户信息

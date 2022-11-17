@@ -18,8 +18,8 @@ namespace AllModel.MyOrm
 
             //注册Service和Controller
             builder.RegisterAssemblyTypes(assemblies).Where(t => t.Name.EndsWith("Service") |
-                                                      t.HasImplementedRawGeneric(typeof(IDependency)) && t.IsClass)
-                                                      .PublicOnly().AsImplementedInterfaces();
+                    t.HasImplementedRawGeneric(typeof(IDependency)) && t.IsClass)
+                .PublicOnly().AsImplementedInterfaces();
             builder.RegisterAssemblyTypes(assemblies).Where(t => t.Name.EndsWith("Controller")).PropertiesAutowired();
         }
     }

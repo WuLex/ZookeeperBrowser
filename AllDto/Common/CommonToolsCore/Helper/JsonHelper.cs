@@ -41,6 +41,7 @@ namespace AllDto.Common.CommonToolsCore.Helper
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 });
             }
+
             return JsonConvert.SerializeObject(data);
         }
 

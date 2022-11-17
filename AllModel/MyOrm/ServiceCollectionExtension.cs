@@ -19,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
             AddDefault(services);
             return services;
         }
+
         public static IServiceCollection AddChimp<T>(this IServiceCollection services,
             Action<DbContextOptionsBuilder> options) where T : BaseDbContext
         {
@@ -29,12 +30,14 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         #region private function
+
         private static void AddDefault(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AutoDi();
             services.AddScoped(typeof(IRepository<>), typeof(EfCoreRepository<>));
         }
+
         //auto di
         private static IServiceCollection AutoDi(this IServiceCollection services)
         {
@@ -54,6 +57,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         interfaceType = type;
                     }
+
                     ServiceDescriptor serviceDescriptor =
                         new ServiceDescriptor(interfaceType, type, ServiceLifetime.Scoped);
                     if (!services.Contains(serviceDescriptor))
@@ -65,6 +69,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
+
         #endregion
     }
 }

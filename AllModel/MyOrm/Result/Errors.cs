@@ -14,6 +14,7 @@ namespace AllModel.MyOrm.Result
         /// </summary>
         [Description("错误字段")]
         public string Id { get; set; }
+
         /// <summary>
         /// 错误信息
         /// </summary>

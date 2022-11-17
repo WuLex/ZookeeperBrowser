@@ -17,17 +17,20 @@ namespace Microsoft.Extensions.Hosting
         /// <param name="optional">是否忽略检查文件，true忽略</param>
         /// <param name="reloadOnChange">支持热更新</param>
         /// <returns></returns>
-        public static IHostBuilder Configure(this IHostBuilder hostBuilder, string filename, bool optional = false, bool reloadOnChange = false)
+        public static IHostBuilder Configure(this IHostBuilder hostBuilder, string filename, bool optional = false,
+            bool reloadOnChange = false)
         {
             return hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
             {
                 var env = hostingContext.HostingEnvironment;
                 var filePath = Path.Combine(AppContext.BaseDirectory, "Config");
                 //config.SetBasePath(filePath);
-                config.AddJsonFile(filePath + $"/{filename.ToLower()}.json", optional: optional, reloadOnChange: reloadOnChange);
+                config.AddJsonFile(filePath + $"/{filename.ToLower()}.json", optional: optional,
+                    reloadOnChange: reloadOnChange);
                 if (env.IsDevelopment())
                 {
-                    config.AddJsonFile(filePath + $"/{filename.ToLower()}.{env.EnvironmentName}.json", optional: true, reloadOnChange: reloadOnChange);
+                    config.AddJsonFile(filePath + $"/{filename.ToLower()}.{env.EnvironmentName}.json", optional: true,
+                        reloadOnChange: reloadOnChange);
                 }
             });
         }

@@ -19,7 +19,6 @@ namespace ZookeeperBrowser.ViewModels
         public string label { get; set; }
         public bool isLeaf { get; set; }
         public List<Tree> children { get; set; }
-
     }
 
     public class Result

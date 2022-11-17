@@ -19,10 +19,12 @@ namespace CoreAPI.Controllers
     public abstract class ControllerAbstract : ControllerBase
     {
         protected readonly ILogger<ControllerAbstract> _logger;
+
         public ControllerAbstract(ILogger<ControllerAbstract> logger)
         {
             _logger = logger;
         }
+
         /// <summary>
         /// 导出Excel
         /// </summary>
@@ -35,7 +37,9 @@ namespace CoreAPI.Controllers
             {
                 fileName = DateTime.Now.ToString("yyyyMMddHHmmss");
             }
-            return PhysicalFile(filePath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", HttpUtility.UrlEncode(fileName), true);
+
+            return PhysicalFile(filePath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                HttpUtility.UrlEncode(fileName), true);
         }
     }
 }

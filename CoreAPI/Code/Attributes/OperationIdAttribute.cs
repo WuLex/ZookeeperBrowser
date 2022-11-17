@@ -9,11 +9,15 @@ namespace System.ComponentModel
     /// 
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class OperationIdAttribute: Attribute
+    public class OperationIdAttribute : Attribute
     {
         private string Default = null;
 
-        public string OperationId { get { return Default; } }
+        public string OperationId
+        {
+            get { return Default; }
+        }
+
         public OperationIdAttribute()
         {
         }

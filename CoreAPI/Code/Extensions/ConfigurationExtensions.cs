@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.Configuration
         /// <param name="configuration"></param>
         /// <param name="key">key与配置项模型中静态属性名称要一致</param>
         /// <returns></returns>
-        public static IConfiguration Binding<T>(this IConfiguration configuration, string key) where T: class
+        public static IConfiguration Binding<T>(this IConfiguration configuration, string key) where T : class
         {
             var pro = typeof(T).GetProperty(key);
             if (pro != null)
@@ -28,6 +28,7 @@ namespace Microsoft.Extensions.Configuration
             {
                 Console.WriteLine($"To: error Binding<T> T={typeof(T).Name} key={key}");
             }
+
             return configuration;
         }
 
@@ -44,7 +45,7 @@ namespace Microsoft.Extensions.Configuration
                 foreach (object item in pms)
                 {
                     var pro = item.GetType().GetProperties().FirstOrDefault(p => p.SetMethod.IsStatic);
-                    if(pro != null)
+                    if (pro != null)
                     {
                         pro.SetValue(pro, configuration.GetSection(pro.Name).Get(item.GetType()));
                         Console.WriteLine($"To:{JsonHelper.SerializeJSON(pro.GetValue(pro.Name))}");

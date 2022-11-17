@@ -36,7 +36,8 @@ namespace CoreAPI.Code.Filters
             {
                 if (apiDescription.TryGetMethodInfo(out MethodInfo methodInfo) && methodInfo.DeclaringType != null)
                 {
-                    var descAttr = (DescriptionAttribute)Attribute.GetCustomAttribute(methodInfo.DeclaringType, typeof(DescriptionAttribute));
+                    var descAttr = (DescriptionAttribute)Attribute.GetCustomAttribute(methodInfo.DeclaringType,
+                        typeof(DescriptionAttribute));
                     if (descAttr != null && descAttr.Description.NotNull())
                     {
                         var controllerName = methodInfo.DeclaringType.Name;
@@ -73,8 +74,9 @@ namespace CoreAPI.Code.Filters
                             operation.Value.OperationId = oper.OperationId ?? oper.Description;
                             foreach (var param in oper.Parameters)
                             {
-                                var obj = operation.Value.Parameters.FirstOrDefault(p => p.Name.ToLower() == param.Name.ToLower());
-                                if(obj != null)
+                                var obj = operation.Value.Parameters.FirstOrDefault(p =>
+                                    p.Name.ToLower() == param.Name.ToLower());
+                                if (obj != null)
                                 {
                                     obj.Description = param.Description;
                                 }
@@ -104,26 +106,31 @@ namespace CoreAPI.Code.Filters
                 if (type == null || type.IsEnum)
                     continue;
 
-                var attr =  (DescriptionAttribute)Attribute.GetCustomAttribute(type, typeof(DescriptionAttribute));
+                var attr = (DescriptionAttribute)Attribute.GetCustomAttribute(type, typeof(DescriptionAttribute));
                 if (attr != null && attr.Description.NotNull())
                 {
                     schema.Value.Description = attr.Description;
                 }
-    
+
                 var properties = type.GetProperties();
                 foreach (var propertyInfo in properties)
                 {
-                    var propertySchema = schema.Value.Properties.FirstOrDefault(m => m.Key.EqualsIgnoreCase(propertyInfo.Name)).Value;
+                    var propertySchema = schema.Value.Properties
+                        .FirstOrDefault(m => m.Key.EqualsIgnoreCase(propertyInfo.Name)).Value;
                     if (propertySchema != null)
                     {
-                        var descAttr = (DescriptionAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(DescriptionAttribute));
-                        var displayAttr = (DisplayAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(DisplayAttribute));
+                        var descAttr =
+                            (DescriptionAttribute)Attribute.GetCustomAttribute(propertyInfo,
+                                typeof(DescriptionAttribute));
+                        var displayAttr =
+                            (DisplayAttribute)Attribute.GetCustomAttribute(propertyInfo, typeof(DisplayAttribute));
                         if (descAttr != null && descAttr.Description.NotNull())
                         {
                             propertySchema.Title = descAttr.Description;
                             continue;
                         }
-                        if(displayAttr != null && displayAttr.Name.NotNull())
+
+                        if (displayAttr != null && displayAttr.Name.NotNull())
                         {
                             propertySchema.Title = displayAttr.Name;
                         }
@@ -135,23 +142,28 @@ namespace CoreAPI.Code.Filters
         /// <summary>
         /// 获取说明
         /// </summary>
-        private bool TryGetActionDescription(string path, OperationType type, DocumentFilterContext context, out OpenApiOperation oper)
+        private bool TryGetActionDescription(string path, OperationType type, DocumentFilterContext context,
+            out OpenApiOperation oper)
         {
             oper = new OpenApiOperation();
             foreach (var apiDescription in context.ApiDescriptions)
             {
                 var apiPath = "/" + apiDescription.RelativePath.ToLower();
                 var method = apiDescription.HttpMethod.ToLower();
-                if (apiPath.Equals(path.ToLower()) && method.Equals(type.ToString().ToLower()) && apiDescription.TryGetMethodInfo(out MethodInfo methodInfo))
+                if (apiPath.Equals(path.ToLower()) && method.Equals(type.ToString().ToLower()) &&
+                    apiDescription.TryGetMethodInfo(out MethodInfo methodInfo))
                 {
-                    var descAttr = (DescriptionAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(DescriptionAttribute));
-                    var operAttr = (OperationIdAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(OperationIdAttribute));
+                    var descAttr =
+                        (DescriptionAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(DescriptionAttribute));
+                    var operAttr =
+                        (OperationIdAttribute)Attribute.GetCustomAttribute(methodInfo, typeof(OperationIdAttribute));
                     var paramAttrs = Attribute.GetCustomAttributes(methodInfo, typeof(ParametersAttribute));
                     if (descAttr != null && descAttr.Description.NotNull())
                     {
                         oper.Description = descAttr.Description;
                     }
-                    if (operAttr !=null && operAttr.OperationId.NotNull())
+
+                    if (operAttr != null && operAttr.OperationId.NotNull())
                     {
                         oper.OperationId = operAttr.OperationId;
                     }
@@ -160,12 +172,15 @@ namespace CoreAPI.Code.Filters
                     {
                         if (paramAttr != null && paramAttr.name.NotNull())
                         {
-                            oper.Parameters.Add(new OpenApiParameter() { Name = paramAttr.name, Description = paramAttr.param });
+                            oper.Parameters.Add(new OpenApiParameter()
+                                { Name = paramAttr.name, Description = paramAttr.param });
                         }
                     }
+
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -192,6 +207,7 @@ namespace CoreAPI.Code.Filters
                     {
                         list.Add((Microsoft.OpenApi.Any.OpenApiInteger)val);
                     }
+
                     sa.Value.Description += DescribeEnum(schema.Key, list);
                 }
             }
@@ -210,10 +226,11 @@ namespace CoreAPI.Code.Filters
                     enumDescriptions.Add($"{item.Value.ToString()}:{Enum.GetName(type, value)}; ");
                 else
                     enumDescriptions.Add($"{item.Value.ToString()}:{Enum.GetName(type, value)},{desc}; ");
-
             }
+
             return $"<br/>{Environment.NewLine}{string.Join("<br/>" + Environment.NewLine, enumDescriptions)}";
         }
+
         private static string GetDescription(Type t, object value)
         {
             foreach (MemberInfo mInfo in t.GetMembers())
@@ -229,6 +246,7 @@ namespace CoreAPI.Code.Filters
                     }
                 }
             }
+
             return string.Empty;
         }
     }

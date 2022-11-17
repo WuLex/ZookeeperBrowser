@@ -36,6 +36,5 @@ namespace CoreAPI.Services.IService
         /// </summary>
         /// <returns></returns>
         Task<IResultModel> GetAuthInfo();
-
     }
 }

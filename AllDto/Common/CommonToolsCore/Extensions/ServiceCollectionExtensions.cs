@@ -19,7 +19,8 @@ namespace AllDto.Common.CommonToolsCore.Extensions
         /// <returns></returns>
         public static IServiceCollection AddServicesFromAssembly(this IServiceCollection services, Assembly assembly)
         {
-            foreach (var type in assembly.GetTypes().Where(t => !t.IsInterface && !t.IsSealed && !t.IsAbstract && !t.Name.StartsWith("myDbContext")))
+            foreach (var type in assembly.GetTypes().Where(t =>
+                         !t.IsInterface && !t.IsSealed && !t.IsAbstract && !t.Name.StartsWith("myDbContext")))
             {
                 #region ==单例注入==
 
@@ -75,12 +76,14 @@ namespace AllDto.Common.CommonToolsCore.Extensions
                     {
                         services.AddTransient(type);
                     }
+
                     continue;
                 }
 
                 #endregion
 
                 #region ==Scoped注入==
+
                 var scopedAttr = (ScopedAttribute)Attribute.GetCustomAttribute(type, typeof(ScopedAttribute));
                 if (scopedAttr != null)
                 {
@@ -118,11 +121,12 @@ namespace AllDto.Common.CommonToolsCore.Extensions
         /// <returns></returns>
         public static IServiceCollection AddNetModularServices(this IServiceCollection services)
         {
-            var assemblies = AssemblyHelper.Load(m => m.Name.Equals("CoreAPI")|| m.Name.Equals("AllDto"));
+            var assemblies = AssemblyHelper.Load(m => m.Name.Equals("CoreAPI") || m.Name.Equals("AllDto"));
             foreach (var assembly in assemblies)
             {
                 services.AddServicesFromAssembly(assembly);
             }
+
             return services;
         }
     }

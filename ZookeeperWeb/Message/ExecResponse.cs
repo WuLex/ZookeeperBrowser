@@ -8,7 +8,6 @@ namespace ZookeeperBrowser.Message
 {
     public class ExecResponse
     {
-
         public NodeState NodeState { get; set; }
     }
 

@@ -23,7 +23,6 @@ namespace AllDto.Login
         /// 组件配置
         /// </summary>
         public ComponentConfig Component { get; set; }
-
     }
 
     /// <summary>
@@ -82,7 +81,6 @@ namespace AllDto.Login
         /// 工具栏
         /// </summary>
         public Toolbar Toolbar { get; set; } = new Toolbar();
-
     }
 
     /// <summary>

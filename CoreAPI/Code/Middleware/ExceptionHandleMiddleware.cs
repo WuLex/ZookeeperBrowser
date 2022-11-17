@@ -14,7 +14,9 @@ namespace CoreAPI.Code.Middleware
         private readonly RequestDelegate _next;
         private readonly IHostEnvironment _env;
         private readonly ILogger _logger;
-        public ExceptionHandleMiddleware(RequestDelegate next, IHostEnvironment env, ILogger<ExceptionHandleMiddleware> logger)
+
+        public ExceptionHandleMiddleware(RequestDelegate next, IHostEnvironment env,
+            ILogger<ExceptionHandleMiddleware> logger)
         {
             _next = next;
             _env = env;

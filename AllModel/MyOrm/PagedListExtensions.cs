@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -8,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AllModel.MyOrm
 {
-
     public static class PagedListExtensions
     {
         /// <summary>
@@ -39,7 +37,8 @@ namespace AllModel.MyOrm
 
             return new PagedList<T>(items, pageIndex, pageSize, count);
         }
-        public static  PagedList<T> ToPagedList<T>(
+
+        public static PagedList<T> ToPagedList<T>(
             this IQueryable<T> query,
             int pageIndex,
             int pageSize,
@@ -49,9 +48,10 @@ namespace AllModel.MyOrm
             {
                 throw new ArgumentOutOfRangeException(nameof(pageIndex));
             }
+
             int realIndex = pageIndex - 1;
             int count = query.Count();
-            List<T> items =  query.Skip(realIndex * pageSize)
+            List<T> items = query.Skip(realIndex * pageSize)
                 .Take(pageSize).ToList();
 
             return new PagedList<T>(items, pageIndex, pageSize, count);

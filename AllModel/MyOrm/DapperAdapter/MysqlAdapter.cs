@@ -11,6 +11,5 @@ namespace AllModel.MyOrm.DapperAdapter
             var pageSql = $"{partedSql.Raw} LIMIT {take} OFFSET {skip}";
             return pageSql;
         }
-
     }
 }

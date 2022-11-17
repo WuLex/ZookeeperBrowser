@@ -22,7 +22,8 @@ namespace AllModel.MyOrm
         /// <param name="param">参数</param>
         /// <param name="trans"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string sql, object param = null, IDbContextTransaction trans = null) where TEntity : class;
+        Task<IEnumerable<TEntity>> QueryAsync<TEntity>(string sql, object param = null,
+            IDbContextTransaction trans = null) where TEntity : class;
 
         /// <summary>
         /// ExecuteAsync
@@ -43,7 +44,8 @@ namespace AllModel.MyOrm
         /// <param name="pageSql"></param>
         /// <param name="pageSqlArgs"></param>
         /// <returns></returns>
-        Task<PagedList<TEntity>> QueryPagedListAsync<TEntity>(int pageIndex, int pageSize, string pageSql, object pageSqlArgs = null) where TEntity : class;
+        Task<PagedList<TEntity>> QueryPagedListAsync<TEntity>(int pageIndex, int pageSize, string pageSql,
+            object pageSqlArgs = null) where TEntity : class;
 
         /// <summary>
         /// BeginTransaction

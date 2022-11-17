@@ -19,8 +19,11 @@ namespace CoreAPI.Services.Service
     {
         private readonly Lazy<IRepository<AccountEntity>> repAccount;
 
-        public AuthInfoService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<AuthInfoService> logger, Lazy<ICacheHandler> cacheHandler,
-            Lazy<IRepository<AuthInfoEntity>> _repository, Lazy<ILoginInfo> loginInfo, Lazy<IRepository<AccountEntity>> repAccount) : base(mapper, unitOfWork, logger, loginInfo, cacheHandler, _repository)
+        public AuthInfoService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<AuthInfoService> logger,
+            Lazy<ICacheHandler> cacheHandler,
+            Lazy<IRepository<AuthInfoEntity>> _repository, Lazy<ILoginInfo> loginInfo,
+            Lazy<IRepository<AccountEntity>> repAccount) : base(mapper, unitOfWork, logger, loginInfo, cacheHandler,
+            _repository)
         {
             this.repAccount = repAccount;
         }
@@ -38,7 +41,8 @@ namespace CoreAPI.Services.Service
                 }
 
                 //检查账户密码
-                var entity = await repAccount.Value.TableNoTracking.FirstAsync(p => p.UserName == model.UserName.Trim());
+                var entity =
+                    await repAccount.Value.TableNoTracking.FirstAsync(p => p.UserName == model.UserName.Trim());
                 if (entity == null)
                 {
                     return ResultModel.Failed("用户名密码错误"); //用户不存在
@@ -56,6 +60,7 @@ namespace CoreAPI.Services.Service
                 {
                     return ResultModel.Success(resultModel);
                 }
+
                 return ResultModel.Failed("更新认证信息失败");
             }
             catch (Exception ex)
@@ -63,7 +68,6 @@ namespace CoreAPI.Services.Service
                 Console.WriteLine(ex.ToString());
                 return ResultModel.Failed("更新认证信息失败");
             }
-          
         }
 
         public async Task<IResultModel> CreateVerifyCode(int length = 4)
@@ -91,7 +95,8 @@ namespace CoreAPI.Services.Service
             var _cachekey = $"{CacheKeys.AUTH_REFRESH_TOKEN}:{refreshToken}";
             if (!_cacheHandler.Value.TryGetValue(_cachekey, out AuthInfoDTO authInfoDTO))
             {
-                var authInfo = await _repository.Value.TableNoTracking.FirstOrDefaultAsync(p => p.RefreshToken == refreshToken);
+                var authInfo =
+                    await _repository.Value.TableNoTracking.FirstOrDefaultAsync(p => p.RefreshToken == refreshToken);
                 if (authInfo == null)
                     return ResultModel.Failed("身份认证信息无效，请重新登录");
                 authInfoDTO = _mapper.Value.Map<AuthInfoDTO>(authInfo);
@@ -128,7 +133,8 @@ namespace CoreAPI.Services.Service
             var _cachekey = $"{CacheKeys.AUTH_INFO}:{_loginInfo.Value.AccountId}:{_loginInfo.Value.Platform}";
             if (!_cacheHandler.Value.TryGetValue(_cachekey, out AuthInfoDTO authInfoDTO))
             {
-                var authInfo = await _repository.Value.TableNoTracking.FirstOrDefaultAsync(p => p.AccountId == _loginInfo.Value.AccountId && p.Platform == (EnumPlatform)_loginInfo.Value.Platform);
+                var authInfo = await _repository.Value.TableNoTracking.FirstOrDefaultAsync(p =>
+                    p.AccountId == _loginInfo.Value.AccountId && p.Platform == (EnumPlatform)_loginInfo.Value.Platform);
                 if (authInfo == null)
                     return ResultModel.Failed("身份认证信息无效，请重新登录");
                 authInfoDTO = _mapper.Value.Map<AuthInfoDTO>(authInfo);
@@ -186,11 +192,13 @@ namespace CoreAPI.Services.Service
                 LoginTime = DateTime.Now.ToTimestamp(),
                 LoginIP = model.IP,
                 RefreshToken = GenerateRefreshToken(),
-                RefreshTokenExpiredTime = DateTime.Now.AddDays(7)//默认刷新令牌有效期7天
+                RefreshTokenExpiredTime = DateTime.Now.AddDays(7) //默认刷新令牌有效期7天
             };
 
             IResultModel result;
-            var entity = _repository.Value.TableNoTracking.FirstOrDefault(p => p.AccountId == account.Id && p.Platform == model.Platform);
+            var entity =
+                _repository.Value.TableNoTracking.FirstOrDefault(p =>
+                    p.AccountId == account.Id && p.Platform == model.Platform);
             if (entity != null)
             {
                 authInfo.Id = entity.Id;
@@ -215,6 +223,7 @@ namespace CoreAPI.Services.Service
                     AuthInfo = authInfo
                 };
             }
+
             return null;
         }
 

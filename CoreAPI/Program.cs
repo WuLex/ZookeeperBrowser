@@ -1,13 +1,13 @@
-
 using CoreAPI.Config;
 using CoreAPI.Services.IService;
 using CoreAPI.Services.Service;
 
 #region 绑定配置类
+
 IConfiguration configuration = new ConfigurationBuilder()
-                    .SetBasePath(Environment.CurrentDirectory)
-                    .AddJsonFile("appsettings.json")
-                    .Build();
+    .SetBasePath(Environment.CurrentDirectory)
+    .AddJsonFile("appsettings.json")
+    .Build();
 configuration.GetSection("Setting").Bind(BasicSetting.Setting);
 if (BasicSetting.Setting.Urls.IsNull())
     BasicSetting.Setting.Urls = "http://*:5000";
@@ -25,12 +25,12 @@ var builder = WebApplication.CreateBuilder(args);
 //配置 IHostBuilder 和 IWebHostBuilder
 
 
-
 #region 配置 IHostBuilder 和 IWebHostBuilder
 
 #endregion
 
 #region Startup可选
+
 //try
 //{
 //    builder.WebHost.UseStartup<Startup>();
@@ -40,9 +40,11 @@ var builder = WebApplication.CreateBuilder(args);
 //    Console.WriteLine(ex.Message);
 //    throw;
 //} 
+
 #endregion
 
 #region 添加服务
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -51,21 +53,26 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IConfigService, ConfigService>();
 
 builder.Services.AddWebHost(builder.Environment);
+
 #endregion
 
 #region 改变端口方式一
+
 //builder.WebHost.UseUrls("http://localhost:3045");
+
 #endregion
 
 var app = builder.Build();
- 
+
 app.UseWebHost(app.Environment);
 
 //app.UseAuthorization();
 //app.MapControllers();
 
 #region 改变端口方式二
+
 //app.Run("http://localhost:6054");
+
 #endregion
 
 app.Run();

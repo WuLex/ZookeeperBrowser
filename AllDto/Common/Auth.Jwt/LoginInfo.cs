@@ -15,6 +15,7 @@ namespace AllDto.Common.Auth.Jwt
         {
             _contextAccessor = contextAccessor;
         }
+
         public Guid AccountId
         {
             get
@@ -25,6 +26,7 @@ namespace AllDto.Common.Auth.Jwt
                 {
                     return new Guid(accountId.Value);
                 }
+
                 return Guid.Empty;
             }
         }
@@ -39,10 +41,12 @@ namespace AllDto.Common.Auth.Jwt
                 {
                     return "";
                 }
+
                 return accountName.Value;
             }
         }
-        public int AccountType 
+
+        public int AccountType
         {
             get
             {
@@ -82,7 +86,7 @@ namespace AllDto.Common.Auth.Jwt
             }
         }
 
-        public string IPv4 
+        public string IPv4
         {
             get
             {

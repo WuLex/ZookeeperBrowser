@@ -8,10 +8,14 @@ namespace AllModel.MyOrm.DapperAdapter
     public class PagingUtil
     {
         //private static readonly Regex _rexSelect = new Regex(@"^\s*SELECT\s+(.+?)\sFROM\s", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex _rexSelect = new Regex(@"^\s*SELECT\s+(.+?)\sFROM\s", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex _rexSelect = new Regex(@"^\s*SELECT\s+(.+?)\sFROM\s",
+            RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex _rexSelect1 = new Regex(@"^\s*SELECT\s+(.+?)\sFROM\s*\(+\s*", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex _rexOrderBy = new Regex(@"\s+ORDER\s+BY\s+([^\s]+(?:\s+ASC|\s+DESC)?)\s*$", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex _rexSelect1 = new Regex(@"^\s*SELECT\s+(.+?)\sFROM\s*\(+\s*",
+            RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+
+        private static readonly Regex _rexOrderBy = new Regex(@"\s+ORDER\s+BY\s+([^\s]+(?:\s+ASC|\s+DESC)?)\s*$",
+            RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// 分割SQL
@@ -34,7 +38,8 @@ namespace AllModel.MyOrm.DapperAdapter
                     sql = sql.Substring(0, s.Index);
                     parts.OrderBy = s.Groups[1].Value;
                 }
-                parts.Body = "("+sql;
+
+                parts.Body = "(" + sql;
 
                 return parts;
             }
@@ -43,7 +48,7 @@ namespace AllModel.MyOrm.DapperAdapter
             if (!m.Success)
                 throw new ArgumentException("Unable to parse SQL statement for select");
             parts.Select = m.Groups[1].Value;
-                
+
 
             sql = sql.Substring(m.Length);
             m = _rexOrderBy.Match(sql);
@@ -52,6 +57,7 @@ namespace AllModel.MyOrm.DapperAdapter
                 sql = sql.Substring(0, m.Index);
                 parts.OrderBy = m.Groups[1].Value;
             }
+
             parts.Body = sql;
 
             return parts;

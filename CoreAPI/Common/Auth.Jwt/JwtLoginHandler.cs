@@ -31,6 +31,7 @@ namespace CoreAPI.Common.Auth.Jwt
             {
                 _authConfig = config.Data.Value.ToJson<AuthConfigData>();
             }
+
             var jwtConfig = _authConfig.Jwt;
 
             var token = Build(claims, jwtConfig);
@@ -42,7 +43,7 @@ namespace CoreAPI.Common.Auth.Jwt
                 AccessToken = token,
                 ExpiresIn = jwtConfig.Expires * 60,
                 RefreshToken = extendData,
-                AccountName= claims.FirstOrDefault(claimRecord => claimRecord.Type == ClaimsName.AccountName).Value
+                AccountName = claims.FirstOrDefault(claimRecord => claimRecord.Type == ClaimsName.AccountName).Value
             };
 
             return model;
@@ -53,7 +54,8 @@ namespace CoreAPI.Common.Auth.Jwt
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Key));
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(config.Issuer, config.Audience, claims, DateTime.Now, DateTime.Now.AddMinutes(config.Expires), signingCredentials);
+            var token = new JwtSecurityToken(config.Issuer, config.Audience, claims, DateTime.Now,
+                DateTime.Now.AddMinutes(config.Expires), signingCredentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

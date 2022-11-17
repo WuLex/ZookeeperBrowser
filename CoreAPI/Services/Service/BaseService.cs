@@ -18,7 +18,8 @@ using AllDto.Common.Auth.Jwt;
 
 namespace CoreAPI.Services.Service
 {
-    public class BaseService<TEntity, TEntityDTO, TKey> : IBaseService<TEntity, TEntityDTO, TKey> where TEntityDTO : class where TEntity : EntityBase<TKey>, new() where TKey: struct
+    public class BaseService<TEntity, TEntityDTO, TKey> : IBaseService<TEntity, TEntityDTO, TKey>
+        where TEntityDTO : class where TEntity : EntityBase<TKey>, new() where TKey : struct
     {
         protected readonly ILogger<BaseService<TEntity, TEntityDTO, TKey>> _logger;
         protected readonly Lazy<IMapper> _mapper;
@@ -29,13 +30,15 @@ namespace CoreAPI.Services.Service
         /// TEntity仓储
         /// </summary>
         protected readonly Lazy<IRepository<TEntity>> _repository;
+
         /// <summary>
         /// 工作单元
         /// </summary>
         public IUnitOfWork UnitOfWork { get; }
 
-        public BaseService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<BaseService<TEntity, TEntityDTO, TKey>> logger, Lazy<ILoginInfo> loginInfo,
-           Lazy<IRepository<TEntity>> repository)
+        public BaseService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork,
+            ILogger<BaseService<TEntity, TEntityDTO, TKey>> logger, Lazy<ILoginInfo> loginInfo,
+            Lazy<IRepository<TEntity>> repository)
         {
             _logger = logger;
             _mapper = mapper;
@@ -44,7 +47,9 @@ namespace CoreAPI.Services.Service
             this._repository = repository;
         }
 
-        public BaseService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<BaseService<TEntity, TEntityDTO, TKey>> logger, Lazy<ILoginInfo> loginInfo, Lazy<ICacheHandler> cacheHandler, 
+        public BaseService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork,
+            ILogger<BaseService<TEntity, TEntityDTO, TKey>> logger, Lazy<ILoginInfo> loginInfo,
+            Lazy<ICacheHandler> cacheHandler,
             Lazy<IRepository<TEntity>> repository)
         {
             _logger = logger;
@@ -63,11 +68,15 @@ namespace CoreAPI.Services.Service
 
         public virtual async Task<IResultModel> GetListAllAsync(bool isDescending = false)
         {
-            if (isDescending) {
-                var Descendinglist = await _repository.Value.TableNoTracking.OrderByDescending(k => k.Id).ProjectTo<TEntityDTO>(_mapper.Value.ConfigurationProvider).ToListAsync();
+            if (isDescending)
+            {
+                var Descendinglist = await _repository.Value.TableNoTracking.OrderByDescending(k => k.Id)
+                    .ProjectTo<TEntityDTO>(_mapper.Value.ConfigurationProvider).ToListAsync();
                 return ResultModel.Success(Descendinglist);
             }
-            var list = await _repository.Value.TableNoTracking.OrderBy(k => k.Id).ProjectTo<TEntityDTO>(_mapper.Value.ConfigurationProvider).ToListAsync();
+
+            var list = await _repository.Value.TableNoTracking.OrderBy(k => k.Id)
+                .ProjectTo<TEntityDTO>(_mapper.Value.ConfigurationProvider).ToListAsync();
             return ResultModel.Success(list);
         }
 
@@ -80,12 +89,14 @@ namespace CoreAPI.Services.Service
             {
                 entity.OperatorName = _loginInfo.Value.AccountName;
             }
+
             await _repository.Value.InsertAsync(entity);
 
             if (await UnitOfWork.SaveChangesAsync() > 0)
             {
                 return ResultModel.Success(_mapper.Value.Map<TEntityDTO>(entity));
             }
+
             _logger.LogError($"error：Insert Save failed");
             return ResultModel.Failed("error：Insert Save failed", 500);
         }
@@ -99,18 +110,21 @@ namespace CoreAPI.Services.Service
                 _logger.LogError($"error：entity Id {((dynamic)model).Id} does not exist");
                 return ResultModel.NotExists;
             }
+
             _mapper.Value.Map(model, entity);
             entity.ModifiedTime = DateTime.Now;
             if (_loginInfo != null && _loginInfo.Value != null)
             {
                 entity.OperatorName = _loginInfo.Value.AccountName;
             }
+
             _repository.Value.Update(entity);
 
             if (await UnitOfWork.SaveChangesAsync() > 0)
             {
                 return ResultModel.Success(entity);
             }
+
             _logger.LogError($"error：Update Save failed");
             return ResultModel.Failed("error：Update Save failed", 500);
         }
@@ -127,14 +141,17 @@ namespace CoreAPI.Services.Service
                     _logger.LogError($"error：entity Id {((dynamic)model).Id} does not exist");
                     return ResultModel.NotExists;
                 }
+
                 entitys.Add(entity);
             }
+
             _repository.Value.Update(entitys);
 
             if (await UnitOfWork.SaveChangesAsync() > 0)
             {
                 return ResultModel.Success();
             }
+
             _logger.LogError($"error：Updates Save failed");
             return ResultModel.Failed("error：Updates Save failed", 500);
         }
@@ -148,22 +165,26 @@ namespace CoreAPI.Services.Service
                 _logger.LogError($"error：entity Id：{id} does not exist");
                 return ResultModel.NotExists;
             }
+
             //判断模型是否拥有软删除字段
-            if(entity is EntityBaseNoDeleted<TKey>)
+            if (entity is EntityBaseNoDeleted<TKey>)
             {
                 _logger.LogError($"error：not inheritance for EntityBaseNoDeleted");
                 return ResultModel.Failed("error：not inheritance for EntityBaseNoDeleted", 500);
             }
+
             //软删除
             if (entity.Deleted == 0)
             {
                 entity.Deleted = 1;
                 _repository.Value.Update(entity);
             }
+
             if (await UnitOfWork.SaveChangesAsync() > 0)
             {
                 return ResultModel.Success();
             }
+
             _logger.LogError($"error：Delete failed");
             return ResultModel.Failed("error：Delete failed", 500);
         }
@@ -179,17 +200,20 @@ namespace CoreAPI.Services.Service
                     _logger.LogError($"error：entity Id：{id} does not exist");
                     return ResultModel.NotExists;
                 }
+
                 //软删除
                 if (entity.Deleted == 0)
                 {
                     entity.Deleted = 1;
                     _repository.Value.Update(entity);
-                } 
+                }
             }
+
             if (await UnitOfWork.SaveChangesAsync() > 0)
             {
                 return ResultModel.Success();
             }
+
             _logger.LogError($"error：Delete failed");
             return ResultModel.Failed("error：Delete failed", 500);
         }
@@ -203,11 +227,13 @@ namespace CoreAPI.Services.Service
                 _logger.LogError($"error：entity Id：{id} does not exist");
                 return ResultModel.NotExists;
             }
+
             _repository.Value.Delete(entity);
             if (await UnitOfWork.SaveChangesAsync() > 0)
             {
                 return ResultModel.Success();
             }
+
             _logger.LogError($"error：Remove failed");
             return ResultModel.Failed("error：Remove failed", 500);
         }
@@ -223,12 +249,15 @@ namespace CoreAPI.Services.Service
                     _logger.LogError($"error：entity Id：{id} does not exist");
                     return ResultModel.NotExists;
                 }
+
                 _repository.Value.Delete(entity);
             }
+
             if (await UnitOfWork.SaveChangesAsync() > 0)
             {
                 return ResultModel.Success();
             }
+
             _logger.LogError($"error：Remove failed");
             return ResultModel.Failed("error：Remove failed", 500);
         }

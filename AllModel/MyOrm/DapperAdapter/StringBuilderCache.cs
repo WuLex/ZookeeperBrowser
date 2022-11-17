@@ -6,8 +6,7 @@ namespace AllModel.MyOrm.DapperAdapter
 {
     public static class StringBuilderCache
     {
-        [ThreadStatic]
-        private static StringBuilder _cache;
+        [ThreadStatic] private static StringBuilder _cache;
 
         public static StringBuilder Allocate()
         {

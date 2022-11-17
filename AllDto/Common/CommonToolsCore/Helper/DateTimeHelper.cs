@@ -32,6 +32,7 @@ namespace AllDto.Common.CommonToolsCore.Helper
             {
                 return true;
             }
+
             return false;
         }
 
@@ -67,6 +68,7 @@ namespace AllDto.Common.CommonToolsCore.Helper
                     week = "星期六";
                     break;
             }
+
             return week;
         }
     }

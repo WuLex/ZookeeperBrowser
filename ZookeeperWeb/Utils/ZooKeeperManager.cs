@@ -5,13 +5,14 @@ namespace ZookeeperBrowser.Utils
     public class ZooKeeperManager : IDisposable
     {
         private ZooKeeperManager()
-        { 
+        {
         }
 
         public static readonly ZooKeeperManager Instance = new ZooKeeperManager();
         private const int SESSION_TIMEOUT = 4000;
 
-        public Dictionary<String, org.apache.zookeeper.ZooKeeper> MappedZooKeepers { get; set; } = new Dictionary<string, org.apache.zookeeper.ZooKeeper>();
+        public Dictionary<String, org.apache.zookeeper.ZooKeeper> MappedZooKeepers { get; set; } =
+            new Dictionary<string, org.apache.zookeeper.ZooKeeper>();
 
         public async Task<org.apache.zookeeper.ZooKeeper> Get(String connStr)
         {
@@ -24,14 +25,16 @@ namespace ZookeeperBrowser.Utils
                 if (zkState == org.apache.zookeeper.ZooKeeper.States.CLOSED
                     ||
                     zkState == org.apache.zookeeper.ZooKeeper.States.NOT_CONNECTED
-                    )
+                   )
                 {
                     await Remove(connStr);
                     zk = new org.apache.zookeeper.ZooKeeper(connStr, SESSION_TIMEOUT, NoneWatcher.Instance);
                     MappedZooKeepers.Add(connStr, zk);
                 }
+
                 return zk;
             }
+
             zk = new org.apache.zookeeper.ZooKeeper(connStr, SESSION_TIMEOUT, NoneWatcher.Instance);
             MappedZooKeepers.Add(connStr, zk);
             return zk;
@@ -44,6 +47,7 @@ namespace ZookeeperBrowser.Utils
             {
                 return true;
             }
+
             var zk = MappedZooKeepers[connStr];
             await zk.closeAsync();
             return MappedZooKeepers.Remove(connStr);
@@ -55,6 +59,7 @@ namespace ZookeeperBrowser.Utils
             {
                 await zk.closeAsync();
             }
+
             MappedZooKeepers.Clear();
         }
     }
@@ -64,7 +69,8 @@ namespace ZookeeperBrowser.Utils
         public static readonly NoneWatcher Instance = new NoneWatcher();
 
         private NoneWatcher()
-        { }
+        {
+        }
 
         public override Task process(WatchedEvent @event)
         {
