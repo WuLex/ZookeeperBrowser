@@ -2,7 +2,6 @@
 using org.apache.zookeeper.data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ZooBrowser.ViewModel;
 using ZookeeperBrowser.ViewModel;
 
 namespace ZookeeperBrowser.Services

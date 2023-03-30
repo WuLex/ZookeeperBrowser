@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Common\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

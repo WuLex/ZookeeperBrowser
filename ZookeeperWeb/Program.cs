@@ -1,3 +1,4 @@
+using Autofac.Core;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.OpenApi.Models;
 using WebApiClient;
@@ -24,19 +25,19 @@ if (AppSetting.Setting.Urls.IsNull())
 var builder = WebApplication.CreateBuilder(args);
 
 #region 注册各种服务
-
-// Add services to the container.
-
 builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 //使用Session
 builder.Services.AddSession();
 
+#region 注册zookeeper服务一
 builder.Services.AddScoped<IZookeeperService, ZookeeperService>();
-builder.Services.AddSingleton<ZooKeeperManager>(ZooKeeperManager.Instance);
 
+#endregion
+#region 注册zookeeper服务二
+builder.Services.AddSingleton<ZooKeeperManager>(ZooKeeperManager.Instance);
+#endregion
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ILoginInfo, LoginInfo>();
-
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>

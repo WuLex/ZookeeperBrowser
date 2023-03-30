@@ -56,7 +56,6 @@ namespace ZookeeperBrowser.Services
                 // CLOSED = 3,　　　　//已关闭连接
                 // AUTH_FAILED = 4,　　　　//认证失败
                 // NOT_CONNECTED = 5　　//未连接
-
                 if (_api == null || _api.getState() == ZooKeeper.States.NOT_CONNECTED)
                 {
                     _api = new ZooKeeper(CnnString, sessionTimeOut, watcher, true);
