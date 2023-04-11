@@ -36,6 +36,14 @@ builder.Services.AddScoped<IZookeeperService, ZookeeperService>();
 #region 注册zookeeper服务二
 builder.Services.AddSingleton<ZooKeeperManager>(ZooKeeperManager.Instance);
 #endregion
+
+//添加HttpClient相关
+builder.Services.AddHttpClient("myHttpClient", c =>
+{
+    c.BaseAddress = new Uri("http://localhost:8080/");
+    //c.DefaultRequestHeaders.Add("User-Agent", "My HttpClient");
+});
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<ILoginInfo, LoginInfo>();
 
@@ -53,7 +61,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
     });
 
-//添加HttpClient相关
+//添加WebApiClient相关
 var types = typeof(Program).Assembly.GetTypes()
     .Where(type => type.IsInterface
                    && ((System.Reflection.TypeInfo)type).ImplementedInterfaces != null
@@ -135,6 +143,12 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//       name: "monitor",
+//       pattern: "Home/monitor",
+//       defaults: new { controller = "Home", action = "GetMonitorAsync" }
+//   );
+
 
 #region 启用swaggerUI
 

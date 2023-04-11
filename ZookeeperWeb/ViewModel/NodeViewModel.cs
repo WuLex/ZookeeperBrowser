@@ -35,7 +35,6 @@ namespace ZookeeperBrowser.ViewModel
             private set
             {
                 _data = value;
-                //RaisePropertyChanged(() => Data);
             }
         }
 
@@ -47,7 +46,6 @@ namespace ZookeeperBrowser.ViewModel
             private set
             {
                 _children = value;
-                //RaisePropertyChanged(() => Children);
             }
         }
 
