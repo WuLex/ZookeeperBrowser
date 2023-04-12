@@ -1,34 +1,33 @@
 ﻿@{
-    Layout = null;
-    ViewBag.Title = "Manager";
+    Layout = "/Views/Shared/_LayoutTwo.cshtml";
+    ViewBag.Title = "AdminServer";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Page</title>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/layui/2.6.8/css/layui.min.css">
-</head>
-<body>
-    <div class="layui-container">
+<div class="layui-container">
         <h2>监控信息</h2>
         <table id="monitorTable"></table>
 
         <h2>配置信息</h2>
         <table id="configurationTable"></table>
 
-        <h2>服务器状态</h2>
-        <table id="serverStatsTable"></table>
-
         <h2>统计信息</h2>
-        <table id="statsTable"></table>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top:30px;">
+            <legend>统计信息</legend>
+        </fieldset>
+        <div id="statsTree" class=""></div>
+        @* <table id="statsTable"></table>*@
+        @*  <table id="statsTable2" lay-filter="statsTable"></table>*@
+        @*<h2>服务器状态</h2>
+        <table id="serverStatsTable"></table>*@
     </div>
-
-    <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/layui/2.6.8/layui.min.js"></script>
-    <script>
-        layui.use(['table'], function () {
+<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/layui/2.6.8/layui.min.js"></script>
+<script>
+        layui.config({
+            // treeTable.js 的根目录
+            base: '/js/'
+        }).use(['table','tree'], function () {
             var table = layui.table;
+            var tree = layui.tree;
             var $ = layui.jquery;
 
             // 请求monitor数据
@@ -41,12 +40,12 @@
                     table.render({
                         elem: '#monitorTable',
                         cols: [[
-                            { field: 'requestCount', title: '请求次数', sort: true },
-                            { field: 'averageLatency', title: '平均延迟', sort: true },
-                            { field: 'minLatency', title: '最小延迟', sort: true },
-                            { field: 'maxLatency', title: '最大延迟', sort: true },
-                            { field: 'receivedBytes', title: '接收字节数', sort: true },
-                            { field: 'sentBytes', title: '发送字节数', sort: true }
+                            { field: 'version', title: '版本号', sort: true },
+                            { field: 'server_state', title: 'Zookeeper的状态', sort: true },
+                            { field: 'znode_count', title: 'Znode节点数', sort: true },
+                            { field: 'approximate_data_size', title: '数据大小的估计值', sort: true },
+                            { field: 'ephemerals_count', title: '临时节点数', sort: true },
+                            { field: 'watch_count', title: 'Watcher数量', sort: true }
                         ]],
                         data: [data],
                         page: false
@@ -64,9 +63,17 @@
                     table.render({
                         elem: '#configurationTable',
                         cols: [[
-                            { field: 'version', title: '版本号' },
-                            { field: 'buildDate', title: '构建日期' },
-                            { field: 'gitHash', title: 'Git哈希值' }
+                            { field: 'client_port', title: '客户端端口' },
+                            { field: 'data_dir', title: '数据目录' },
+                            { field: 'data_log_dir', title: '数据日志目录' },
+                            { field: 'tick_time', title: '心跳时间' },
+                            { field: 'max_client_cnxns', title: '最大客户端连接数' },
+                            { field: 'min_session_timeout', title: '最小会话超时时间' },
+                            { field: 'max_session_timeout', title: '最大会话超时时间' },
+                            { field: 'server_id', title: '服务器ID' },
+                            { field: 'client_port_listen_backlog', title: '客户端端口监听backlog' },
+                            { field: 'command', title: '命令' },
+                            { field: 'error', title: '错误' }
                         ]],
                         data: [data],
                         page: false
@@ -74,57 +81,149 @@
                 }
             });
 
-            // 请求serverStats数据
-            //$.ajax({
+            // 请求stats数据
+            $.ajax({
+                type: 'GET',
+                url: '/Commands/stats',
+                dataType: 'json',
+                success: function (data) {
+                    // 转换为树状结构
+                    const treeData = formatStatsData(data);
+                    
+                    // 渲染树
+                    tree.render({
+                        elem: '#statsTree' //默认是点击节点可进行收缩
+                        , data: treeData
+                    });
+
+                    // 渲染表格
+                    table.render({
+                        elem: '#statsTable2',
+                        cols: [[
+                            { field: 'version', title: '版本' },
+                            { field: 'read_only', title: '只读模式' },
+                            { field: 'server_stats.packets_sent', title: '发送数据包数' },
+                            { field: 'server_stats.packets_received', title: '接收数据包数' },
+                            { field: 'server_stats.fsync_threshold_exceed_count', title: 'FSync 阈值超出次数' },
+                            { field: 'server_stats.client_response_stats.last_buffer_size', title: '客户端响应最后缓存大小' },
+                            { field: 'server_stats.client_response_stats.min_buffer_size', title: '客户端响应最小缓存大小' },
+                            { field: 'server_stats.client_response_stats.max_buffer_size', title: '客户端响应最大缓存大小' },
+                            { field: 'server_stats.log_dir_size', title: '日志目录大小' },
+                            { field: 'server_stats.data_dir_size', title: '数据目录大小' },
+                            { field: 'server_stats.server_state', title: '服务器状态' },
+                            { field: 'server_stats.uptime', title: '运行时间' },
+                            { field: 'server_stats.avg_latency', title: '平均延迟' },
+                            { field: 'server_stats.auth_failed_count', title: '认证失败次数' },
+                            { field: 'server_stats.min_latency', title: '最小延迟' },
+                            { field: 'server_stats.max_latency', title: '最大延迟' },
+                            { field: 'server_stats.provider_null', title: '服务提供者是否为 null' },
+                            { field: 'server_stats.outstanding_requests', title: '未完成请求数' },
+                            { field: 'server_stats.last_processed_zxid', title: '最后处理的 zxid' },
+                            { field: 'server_stats.non_mtlslocal_conn_count', title: '非 mtls 本地连接数' },
+                            { field: 'server_stats.non_mtlsremote_conn_count', title: '非 mtls 远程连接数' },
+                            { field: 'server_stats.num_alive_client_connections', title: '存活的客户端连接数' },
+                            { field: 'node_count', title: '节点数量' },
+                            { field: 'command', title: '命令' },
+                            { field: 'error', title: '错误信息' }
+                        ]],
+                        data: [data],
+                        page: false
+                    });
+                }
+            });
+             
+
+            function formatStatsData(data) {
+
+                if (!data) {
+                    console.error('Invalid data');
+                    return [];
+                }
+
+                const treeData = [];
+                // 定义递归函数
+                function buildTreeNode(obj, title) {
+                    const node = {
+                        title,
+                        children: [],
+                    };
+                   
+                    if (typeof obj !== 'object' || obj === null) {
+                        // 处理无效参数
+                        console.error('Invalid data');
+                        return node;
+                    }
+                    for (const [key, value] of Object.entries(obj)) {
+                        if (typeof value === 'object') {
+                            const childNode = buildTreeNode(value, key);
+                            node.children.push(childNode);
+                        } else {
+                            const statNode = {
+                                title: `${key}: ${value}`,
+                            };
+                            node.children.push(statNode);
+                        }
+                    }
+
+                    return node;
+                }
+                // 定义根节点
+                const rootNode = buildTreeNode(data, 'Server Stats');
+                treeData.push(rootNode);
+
+                return treeData;
+            }
+            
+            //function formatStatsData(data) {
+            //    // 定义根节点
+            //    const root = {
+            //        name: 'Stats Data',
+            //        children: []
+            //    };
+
+            //    // 定义递归函数
+            //    function processNode(node, obj) {
+            //        for (const key in obj) {
+            //            if (typeof obj[key] === 'object') {
+            //                const childNode = {
+            //                    name: key,
+            //                    children: []
+            //                };
+            //                node.children.push(childNode);
+            //                processNode(childNode, obj[key]);
+            //            } else {
+            //                node.children.push({
+            //                    name: key,
+            //                    value: obj[key]
+            //                });
+            //            }
+            //        }
+            //    }
+
+            //    // 处理根节点
+            //    processNode(root, data);
+
+            //    // 返回根节点
+            //    return [root];
+            //}
+
+             //$.ajax({
             //    type: 'GET',
-            //    url: 'http://localhost:8080/commands/server_stats',
+            //    url: 'http://localhost:8080/commands/stats',
             //    dataType: 'json',
             //    success: function (data) {
             //        // 渲染表格
             //        table.render({
-            //            elem: '#serverStatsTable',
+            //            elem: '#statsTable',
             //            cols: [[
-            //                { field: 'connections', title: '连接数', sort: true },
-            //                { field: 'outstandingRequests', title: '未完成请求数',sort: true },
-            // 请求serverStats数据
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8080/commands/server_stats',
-                dataType: 'json',
-                success: function (data) {
-                    // 渲染表格
-                    table.render({
-                        elem: '#serverStatsTable',
-                        cols: [[
-                            { field: 'connections', title: '连接数', sort: true },
-                            { field: 'outstandingRequests', title: '未完成请求数', sort: true }
-                        ]],
-                        data: [data],
-                        page: false
-                    });
-                }
-            });
-          
-            // 请求stats数据
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:8080/commands/stats',
-                dataType: 'json',
-                success: function (data) {
-                    // 渲染表格
-                    table.render({
-                        elem: '#statsTable',
-                        cols: [[
-                            { field: 'nodeCount', title: '节点数', sort: true },
-                            {field: 'watchCount', title: '监视数', sort: trueS },
-                            { field: 'ephemeralsCount', title: '临时节点数', sort: true }
-                        ]],
-                        data: [data],
-                        page: false
-                    });
-                }
-            });
+            //                { field: 'nodeCount', title: '节点数', sort: true },
+            //                {field: 'watchCount', title: '监视数', sort: true },
+            //                { field: 'ephemeralsCount', title: '临时节点数', sort: true }
+            //            ]],
+            //            data: [data],
+            //            page: false
+            //        });
+            //    }
+            //});
         });
       </script>
-</body>
-</html>

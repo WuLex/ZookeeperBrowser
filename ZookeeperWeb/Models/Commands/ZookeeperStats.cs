@@ -12,7 +12,7 @@ namespace ZookeeperBrowser.Models.Commands
         public string Version { get; set; }
 
         /// <summary>
-        /// 是否只读模式
+        /// 当前 Zookeeper 服务器是否以只读模式运行
         /// </summary>
         [JsonProperty("read_only")]
         public bool IsReadOnly { get; set; }
@@ -30,31 +30,31 @@ namespace ZookeeperBrowser.Models.Commands
         public ClientResponse ClientResponse { get; set; }
 
         /// <summary>
-        /// 节点数量
+        /// 当前 Zookeeper 集合中节点的数量
         /// </summary>
         [JsonProperty("node_count")]
         public int NodeCount { get; set; }
 
         /// <summary>
-        /// 连接列表
+        /// 当前客户端连接的详细信息列表
         /// </summary>
         [JsonProperty("connections")]
         public List<object> Connections { get; set; }
 
         /// <summary>
-        /// 安全连接列表
+        /// 当前使用安全套接字层 (SSL) 连接的客户端的详细信息列表
         /// </summary>
         [JsonProperty("secure_connections")]
         public List<object> SecureConnections { get; set; }
 
         /// <summary>
-        /// 命令
+        /// 原始请求的命令名称，本例中为 "stats"
         /// </summary>
         [JsonProperty("command")]
         public string Command { get; set; }
 
         /// <summary>
-        /// 错误信息
+        /// 错误信息，如果请求成功则为 null
         /// </summary>
         [JsonProperty("error")]
         public string Error { get; set; }
@@ -105,7 +105,7 @@ namespace ZookeeperBrowser.Models.Commands
         public long DataDirectorySize { get; set; }
 
         /// <summary>
-        /// 日志目录大小
+        /// Zookeeper 服务器的日志目录大小
         /// </summary>
         [JsonProperty("log_dir_size")]
         public long LogDirectorySize { get; set; }
@@ -115,31 +115,46 @@ namespace ZookeeperBrowser.Models.Commands
         /// </summary>
         [JsonProperty("server_state")]
         public string ServerState { get; set; }
-
-        /// <summary>
-        ///
     }
 
     public class ClientResponseStats
     {
+        /// <summary>
+        /// 最近一次响应的缓冲区大小
+        /// </summary>
         [JsonPropertyName("last_buffer_size")]
         public int LastBufferSize { get; set; }
 
+        /// <summary>
+        /// 所有响应中最小的缓冲区大小
+        /// </summary>
         [JsonPropertyName("min_buffer_size")]
         public int MinBufferSize { get; set; }
 
+        /// <summary>
+        /// 所有响应中最大的缓冲区大小
+        /// </summary>
         [JsonPropertyName("max_buffer_size")]
         public int MaxBufferSize { get; set; }
     }
 
     public class ClientResponse
     {
+        /// <summary>
+        /// 最近一次响应的缓冲区大小
+        /// </summary>
         [JsonPropertyName("last_buffer_size")]
         public int LastBufferSize { get; set; }
 
+        /// <summary>
+        /// 所有响应中最小的缓冲区大小
+        /// </summary>
         [JsonPropertyName("min_buffer_size")]
         public int MinBufferSize { get; set; }
 
+        /// <summary>
+        /// 所有响应中最大的缓冲区大小
+        /// </summary>
         [JsonPropertyName("max_buffer_size")]
         public int MaxBufferSize { get; set; }
     }

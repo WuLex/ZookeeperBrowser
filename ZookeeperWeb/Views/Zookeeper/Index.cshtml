@@ -18,11 +18,27 @@
     }
 
     /*layui-table 表格内容允许换行*/
-
     .layui-table-cell {
         height: auto;
         text-overflow: inherit;
         white-space: normal;
+    }
+
+    div.left {
+        text-align: left;
+        float: left;
+        height: 600px;
+        width: 250px;
+    }
+
+    ul.ztree {
+        margin-top: 10px;
+        border: 1px solid #009688;
+        background: #ffffff;
+        width: 60%;
+        height: 80%;
+        overflow-y: scroll;
+        overflow-x: auto;
     }
 </style>
 <link href="~/lib/zTreev3/css/metroStyle/metroStyle.css" rel="stylesheet"/>
@@ -34,7 +50,6 @@
 </div>
 <div class="layui-container">
     <div class="layui-row layui-col-space30">
-        margin-top
         <div class="layui-col-lg12 layui-col-md12 layui-header" style="text-align: center; margin-top: 30px;">
             <h1>Zookeeper简单管理工具</h1>
         </div>
@@ -51,7 +66,7 @@
                 </div>*@
 
             @* ztree用法*@
-            <div class="" style="height: 500px">
+            <div class="left">
                 <ul id="zookeepertree" class="ztree"></ul>
             </div>
             @* ztree用法*@
@@ -79,14 +94,11 @@
 
             </form>
 
-
             <blockquote class="layui-elem-quote" style="margin-top: 20px;">
                 状态信息表格
             </blockquote>
             <table id="zktable" lay-filter="tabledemo">
-
             </table>
-
         </div>
     </div>
     <hr/>

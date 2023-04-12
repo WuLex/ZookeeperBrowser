@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AllDto.Common.Auth.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -7,19 +9,13 @@ using ZookeeperBrowser.Services;
 
 namespace ZookeeperBrowser.Controllers
 {
+    [Authorize]
     public class CommandsController : Controller
     {
-
         public readonly IZookeeperService _zookeeperService;
         private readonly IConfiguration _config;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
-
-
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public CommandsController(IZookeeperService zookeeperService, IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration, IHttpClientFactory httpClientFactory)
@@ -28,6 +24,16 @@ namespace ZookeeperBrowser.Controllers
             _zookeeperService = zookeeperService;
             _httpContextAccessor = httpContextAccessor;
             _httpClient = httpClientFactory.CreateClient("myHttpClient");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Index()
+        {
+            ViewBag.AccountName = _httpContextAccessor.HttpContext.User.FindFirst(nameof(ClaimsName.AccountName)).Value;
+            return View();
         }
 
         //[HttpGet]
@@ -74,15 +80,63 @@ namespace ZookeeperBrowser.Controllers
             }
         }
 
-        //[HttpGet("configuration")]
-        //public async IActionResult GetConfiguration()
-        //{
-        //    //byte[] data =await _httpClient.GetAsync("/commands/configuration");
-        //    //string result = System.Text.Encoding.UTF8.GetString(data);
-        //    //ConfigurationData configurationData = JsonConvert.DeserializeObject<ConfigurationData>(result);
-        //    //return Ok(configurationData);
-        //}
-
+        [HttpGet("/Commands/configuration")]
+        public async Task<IActionResult> GetConfiguration()
+        {
+            var requestUrl = "/commands/configuration";
+            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            try
+            {
+                // 发送请求并获取响应
+                var response = await _httpClient.GetAsync(requestUrl);
+                // 如果响应成功，则将其转换为ZooKeeperConfiguration实例
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var configResult = JsonConvert.DeserializeObject<ZooKeeperConfiguration>(json);
+                    return Ok(configResult);
+                }
+                else
+                {
+                    Console.WriteLine($"请求失败：{response.StatusCode} - {response.ReasonPhrase}");
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"请求失败：{ex.Message}");
+                return BadRequest();
+            }
+        }
+      
+        [HttpGet("/Commands/stats")]
+        public async Task<IActionResult> GetStatsAsync()
+        {
+            var requestUrl = "/commands/stats";
+            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            try
+            {
+                // 发送请求并获取响应
+                var response = await _httpClient.GetAsync(requestUrl);
+                // 如果响应成功，则将其转换为ZookeeperStats实例
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var configResult = JsonConvert.DeserializeObject<ZookeeperStats>(json);
+                    return Ok(configResult);
+                }
+                else
+                {
+                    Console.WriteLine($"请求失败：{response.StatusCode} - {response.ReasonPhrase}");
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"请求失败：{ex.Message}");
+                return BadRequest();
+            }
+        }
         //[HttpGet("server_stats")]
         //public IActionResult GetServerStats()
         //{
@@ -92,13 +146,5 @@ namespace ZookeeperBrowser.Controllers
         //    return Ok(serverStatsData);
         //}
 
-        //[HttpGet("stats")]
-        //public IActionResult GetStats()
-        //{
-        //    byte[] data = zkClient.GetData("/commands/stats");
-        //    string result = System.Text.Encoding.UTF8.GetString(data);
-        //    StatsData statsData = JsonConvert.DeserializeObject<StatsData>(result);
-        //    return Ok(statsData);
-        //}
     }
 }

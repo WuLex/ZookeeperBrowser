@@ -4,39 +4,6 @@ namespace ZookeeperBrowser.Models.Commands
 {
     public class MonitorCommandResult
     {
-        // ZooKeeper连接的数量
-        public int Connections { get; set; }
-        
-        // 发送的总数据量（字节）
-        public long Sent { get; set; }
-        // 接收的总数据量（字节）
-        public long Received { get; set; }
-        // 节点数
-        public long NodeCount { get; set; }
-       
-     
-       
-        // 日志文件大小
-        public string LogFileSize { get; set; }
-        // 最近一次请求的延迟（毫秒）
-        public int Latency { get; set; }
-        
-      
-        // 响应时间的最大值（毫秒）
-        public int MaxResponseTime { get; set; }
-        // 响应时间的最小值（毫秒）
-        public int MinResponseTime { get; set; }
-        // 响应时间的平均值（毫秒）
-        public int AvgResponseTime { get; set; }
-        // 超过fsync限制的次数
-        public int FsyncThresholdExceedCount { get; set; }
-        // follower的数量
-        public int Followers { get; set; }
-        // 已同步的follower的数量
-        public int SyncedFollowers { get; set; }
-        // 等待同步的follower的数量
-        public int PendingSyncs { get; set; }
-
         /// <summary>
         /// Zookeeper版本信息
         /// </summary>
@@ -61,11 +28,11 @@ namespace ZookeeperBrowser.Models.Commands
         [JsonProperty("num_alive_connections")]
         public int NumAliveConnections { get; set; }
 
-        /// <summary>
-        /// 平均延迟
-        /// </summary>
-        [JsonProperty("avg_latency")]
-        public double AverageLatency { get; set; }
+        ///// <summary>
+        ///// 平均延迟（毫秒）
+        ///// </summary>
+        //[JsonProperty("avg_latency")]
+        //public double AverageLatency { get; set; }
 
         /// <summary>
         /// 等待响应请求数
@@ -98,13 +65,13 @@ namespace ZookeeperBrowser.Models.Commands
         public int LastClientResponseSize { get; set; }
 
         /// <summary>
-        /// 发送数据包数
+        /// 发送数据包数（字节）
         /// </summary>
         [JsonProperty("packets_sent")]
         public int PacketsSent { get; set; }
 
         /// <summary>
-        /// 接收数据包数
+        /// 接收数据包数（字节）
         /// </summary>
         [JsonProperty("packets_received")]
         public int PacketsReceived { get; set; }
@@ -134,7 +101,7 @@ namespace ZookeeperBrowser.Models.Commands
         public int AuthFailedCount { get; set; }
 
         /// <summary>
-        /// 最小延迟
+        /// 最小延迟（毫秒）
         /// </summary>
         [JsonProperty("min_latency")]
         public int MinLatency { get; set; }
