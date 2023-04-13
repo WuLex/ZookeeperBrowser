@@ -17,6 +17,11 @@ namespace CoreAPI.Controllers
     {
         private readonly Lazy<IConfigService> ConfigService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="configService"></param>
         public ConfigController(ILogger<ControllerAbstract> logger, Lazy<IConfigService> configService) : base(logger)
         {
             ConfigService = configService;

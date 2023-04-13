@@ -9,13 +9,13 @@ namespace ZookeeperBrowser.Code
     public class ViewsHelper
     {
         /// <summary>
-        /// 获取学生照片访问地址
+        /// 获取员工照片访问地址
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static string GetStudentPhotosPath(string filename)
+        public static string GetEmployeePhotosPath(string filename)
         {
-            var photosPathroot = ""; //Path.Combine(AppSetting.Setting.ApiUrl, "Upload", "StudentPhotos");
+            var photosPathroot = ""; //Path.Combine(AppSetting.Setting.ApiUrl, "Upload", "EmployeePhotos");
             return Path.Combine(photosPathroot, filename);
         }
     }

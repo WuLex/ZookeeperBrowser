@@ -10,9 +10,9 @@ namespace AllDto.Profiles
     {
         public AutoMapperProfiles()
         {
-            //CreateMap<StudentInfo, StudentInfoDTO>()
+            //CreateMap<EmployeeInfo, EmployeeInfoDTO>()
             //    .ForMember(d => d.DepartName, opt => opt.MapFrom(i => i.Depart.DepartName));
-            //CreateMap<StudentInfoDTO, StudentInfo>();
+            //CreateMap<EmployeeInfoDTO, EmployeeInfo>();
 
             //CreateMap<Depart, DepartDTO>()
             //     .ForMember(d => d.GradeName, opt => opt.MapFrom(i => i.GradeDepart.DepartName));

@@ -14,29 +14,29 @@
     "Depart": [
       {
         "Id": 1,
-        "DepartName": "2020级",
+        "DepartName": "公司组织架构",
         "DeptType": 0
       },
       {
         "Id": 2,
-        "DepartName": ".net core 基础班",
+        "DepartName": "市场部",
         "DeptType": 1,
         "GradeId": 1
       },
       {
         "Id": 3,
-        "DepartName": ".net core 精英班",
+        "DepartName": "技术部",
         "DeptType": 1,
         "GradeId": 1
       },
       {
         "Id": 4,
-        "DepartName": "java EE 基础班",
+        "DepartName": "销售部",
         "DeptType": 1,
         "GradeId": 1
       }
     ],
-    "StudentInfo": [
+    "EmployeeInfo": [
       {
         "Id": 10001,
         "Name": "小安",

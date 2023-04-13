@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using WebApiClient;
 using WebApiClient.Attributes;
 using AllModel.MyOrm.Result;
-using AllDto;
 
 namespace ZookeeperBrowser.HttpApis
 {

@@ -102,7 +102,7 @@ namespace CoreAPI.Code.Filters
 
             foreach (var schema in context.SchemaRepository.Schemas)
             {
-                var type = schemaTypes.FirstOrDefault(m => m.Value.EqualsIgnoreCase(schema.Key)).Key;
+                var type = schemaTypes?.FirstOrDefault(m => m.Value.EqualsIgnoreCase(schema.Key)).Key;
                 if (type == null || type.IsEnum)
                     continue;
 

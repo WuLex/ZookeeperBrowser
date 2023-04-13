@@ -16,7 +16,6 @@ namespace AllModel.Code
             modelBuilder.Entity<ConfigEntity>().HasData(InitializationData.Initialization.ConfigEntity);
             modelBuilder.Entity<AccountEntity>().HasData(InitializationData.Initialization.AccountEntity);
             //modelBuilder.Entity<Depart>().HasData(InitializationData.Initialization.Depart);
-            //modelBuilder.Entity<StudentInfo>().HasData(InitializationData.Initialization.StudentInfo);
         }
     }
 }

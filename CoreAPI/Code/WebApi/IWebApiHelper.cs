@@ -12,14 +12,14 @@ namespace CoreAPI.Code.WebApi
     [JsonReturn]
     public interface IWebApiHelper : IHttpApi
     {
-        [HttpGet("api/StudentInfo")]
-        ITask<StudentInfoListResultModel> GetStudentInfoListAsync();
+        [HttpGet("api/EmployeeInfo")]
+        ITask<EmployeeInfoListResultModel> GetEmployeeInfoListAsync();
     }
 
     /// <summary>
     /// 接口返回模型
     /// </summary>
-    public class StudentInfoListResultModel : IResultModel
+    public class EmployeeInfoListResultModel : IResultModel
     {
         public bool Success { get; set; }
 

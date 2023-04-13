@@ -55,7 +55,7 @@ namespace CoreAPI.Services.IService
         /// <summary>
         /// 修改数据-批量
         /// </summary>
-        /// <param name="entitys">DTO视图模型</param>
+        /// <param name="models">DTO视图模型</param>
         /// <returns></returns>
         Task<IResultModel> UpdateAsync(IEnumerable<TEntityDTO> models);
 

@@ -1,8 +1,5 @@
 ﻿using AllDto.Common.CommonToolsCore.Attributes;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AllDto.Common.Auth.Jwt
 {

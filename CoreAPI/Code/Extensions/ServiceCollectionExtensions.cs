@@ -1,28 +1,18 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+﻿using AllDto.Common.Cache.MemoryCache;
+using AllDto.Common.CommonToolsCore.Extensions;
+using AllDto.Profiles;
+using AllModel.Code;
+using AllModel.MyOrm;
 using CoreAPI.Code.Filters;
 using CoreAPI.Code.Middleware;
 using CoreAPI.Code.WebApi;
-using CoreAPI.Config;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using WebApiClient;
-using AllDto.Profiles;
 using CoreAPI.Common.Auth.Jwt;
-using AllModel.Code;
-using AllModel.MyOrm;
-using AllDto.Common.Cache.MemoryCache;
-using AllDto.Common.CommonToolsCore.Extensions;
+using CoreAPI.Config;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Models;
+using WebApiClient;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -56,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
             //添加CORS
             services.AddCors(BasicSetting.Setting);
 
-            //添加ORM
+            //添加ORM,访问SqlServer数据库,也可以配置支持Mysql
             services.AddORM(BasicSetting.Setting);
 
             //注册懒加载，与Autofac冲突，使用懒加载禁用Autofac注入方式。
@@ -122,7 +112,9 @@ namespace Microsoft.Extensions.DependencyInjection
                         Description = $"{BasicSetting.Setting.AssemblyName} HTTP API " + version,
                         Contact = new OpenApiContact
                         {
-                            Name = "灵风幻火", Email = "**********@qq.com", Url = new Uri("https://www.cnblogs.com/Wulex/")
+                            Name = "灵风幻火",
+                            Email = "**********@qq.com",
+                            Url = new Uri("https://www.cnblogs.com/Wulex/")
                         },
                         //License = new OpenApiLicense { Name = BasicSetting.Setting.AssemblyName + " 官方文档", Url = new Uri("https://www.cnblogs.com/Wulex/") }
                     });

@@ -17,6 +17,14 @@ namespace CoreAPI.Services.Service
 {
     public class AccountService : BaseService<AccountEntity, AccountDTO, Guid>, IAccountService, IDependency
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="unitOfWork"></param>
+        /// <param name="logger"></param>
+        /// <param name="loginInfo"></param>
+        /// <param name="_repository"></param>
         public AccountService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<AccountService> logger,
             Lazy<ILoginInfo> loginInfo,
             Lazy<IRepository<AccountEntity>> _repository) : base(mapper, unitOfWork, logger, loginInfo, _repository)

@@ -19,6 +19,16 @@ namespace CoreAPI.Services.Service
     {
         private readonly Lazy<IRepository<AccountEntity>> repAccount;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="unitOfWork"></param>
+        /// <param name="logger"></param>
+        /// <param name="cacheHandler"></param>
+        /// <param name="_repository"></param>
+        /// <param name="loginInfo"></param>
+        /// <param name="repAccount"></param>
         public AuthInfoService(Lazy<IMapper> mapper, IUnitOfWork unitOfWork, ILogger<AuthInfoService> logger,
             Lazy<ICacheHandler> cacheHandler,
             Lazy<IRepository<AuthInfoEntity>> _repository, Lazy<ILoginInfo> loginInfo,
